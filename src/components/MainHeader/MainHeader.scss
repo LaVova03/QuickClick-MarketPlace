@@ -1,7 +1,6 @@
 $main-color: #00380d;
 $btn-color: #00881e;
 $second-color: #cdffd8;
-$bar-color: #fff;
 
 .MainHeader__wrapp {
     display: flex;
@@ -32,7 +31,7 @@ $bar-color: #fff;
     height: 8px;
     border-radius: 10px;
     background: $second-color;
-    background-color: $bar-color;
+    background-color: $second-color;
     margin: 6px 0;
     transition: 0.4s;
 }
