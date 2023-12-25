@@ -1,6 +1,4 @@
 import './MainHeader.scss';
-import Heart from '../../assets/heart.png';
-import User from '../../assets/user.png';
 
 const MainHeader = () => {
     return (
@@ -22,8 +20,8 @@ const MainHeader = () => {
                 </button>
             </div>
             <div className='main__headre__right'>
-                <button><img src={Heart} alt="logo" /></button>
-                <button><img src={User} alt="logo" /></button>
+                <button id='main__header__heart'><div></div></button>
+                <button id='main__header__user'><div></div></button>
                 <button>Додати оголошення</button>
             </div>
         </div>

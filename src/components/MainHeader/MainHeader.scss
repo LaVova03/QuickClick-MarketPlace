@@ -108,7 +108,7 @@ $second-color: #cdffd8;
             div {
                 width: 25px;
                 height: 25px;
-                background-image: url(../../assets/search.png);
+                background-image: url(../../assets/header/search.png);
                 margin-left: 5px;
             }
         }
@@ -120,7 +120,7 @@ $second-color: #cdffd8;
         background: $second-color;
         color: $btn-color;
         div {
-            background-image: url(../../assets/search-hover.png);
+            background-image: url(../../assets/header/search-hover.png);
         }
     }
 
@@ -128,7 +128,7 @@ $second-color: #cdffd8;
         background: $btn-color;
         color: $main-color;
         div {
-            background-image: url(../../assets/search-dark.png);
+            background-image: url(../../assets/header/search-dark.png);
         }
         outline: none;
     }
@@ -177,4 +177,44 @@ $second-color: #cdffd8;
     background: $btn-color;
     color: $main-color;
     outline: none;
+}
+
+#main__header__heart {
+    div {
+        height: 25px;
+        width: 25px;
+        background-image: url(../../assets/header/heart.png);
+    }
+}
+
+#main__header__heart:hover {
+    div {
+        background-image: url(../../assets/header/heart-hover.png);
+    }
+}
+
+#main__header__heart:active {
+    div {
+        background-image: url(../../assets/header/heart-active.png);
+    }
+}
+
+#main__header__user {
+    div {
+        height: 25px;
+        width: 25px;
+        background-image: url(../../assets/header/user.png);
+    }
+}
+
+#main__header__user:hover {
+    div {
+        background-image: url(../../assets/header/user-hover.png);
+    }
+}
+
+#main__header__user:active {
+    div {
+        background-image: url(../../assets/header/user-hover.png);
+    }
 }
