@@ -24,7 +24,7 @@ const MainHeader = () => {
             <div className='main__headre__right'>
                 <button><img src={Heart} alt="logo" /></button>
                 <button><img src={User} alt="logo" /></button>
-                <button>Додати оголошенняы</button>
+                <button>Додати оголошення</button>
             </div>
         </div>
     )
