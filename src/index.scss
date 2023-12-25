@@ -3,3 +3,33 @@ body {
   margin: 0;
   padding: 0;
 }
+
+@font-face {
+  font-family: "Montserrat Bold";
+  src: local("Montserrat Bold"), url(./fonts/Montserrat/Montserrat-Bold.ttf) format(opentype);
+}
+
+@font-face {
+  font-family: "Montserrat Regular";
+  src: local("Montserrat Regular"), url(./fonts/Montserrat/Montserrat-Regular.ttf) format(opentype);
+}
+
+@font-face {
+  font-family: "Montserrat Light";
+  src: local("Montserrat Light"), url(./fonts/Montserrat/Montserrat-Light.ttf) format(opentype);
+}
+
+@font-face {
+  font-family: "Montserrat Medium";
+  src: local("Montserrat Medium"), url(./fonts/Montserrat/Montserrat-Medium.ttf) format(opentype);
+}
+
+@font-face {
+  font-family: "Comfortaa";
+  src: local("Comfortaa"), url(./fonts/Comfortaa/static/Comfortaa-Regular.ttf) format(opentype);
+}
+
+@font-face {
+  font-family: "Nunito Sans";
+  src: local("Nunito Sans"), url(./fonts/NunitoSans/NunitoSans-Regular.ttf) format(opentype);
+}

@@ -1,9 +1,10 @@
 import './Main.scss';
+import MainHeader from '../../components/MainHeader/MainHeader';
 
 function Main() {
   return (
     <div className="Main">
-      Main
+      <MainHeader />
     </div>
   );
 }
