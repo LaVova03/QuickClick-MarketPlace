@@ -1,3 +1,7 @@
+$background-color: #cdffd8;
+$font-color: #00881e;
+$main-color: #00380d;
+
 .MainSlider__wrap {
     position: relative;
     width: 52%;
@@ -67,7 +71,7 @@
     left: 11%;
     width: 72vh;
     span {
-        color: var(--Light, #cdffd8);
+        color: $background-color;
         font-family: Montserrat;
         font-size: 2vw;
         font-style: normal;
@@ -84,11 +88,11 @@
         align-items: center;
         border-radius: 40px;
         border: 0;
-        background: var(--Green-Normal, #00881e);
+        background: $font-color;
         flex-direction: column;
         justify-content: center;
         flex-shrink: 0;
-        color: var(--Light, #cdffd8);
+        color: $background-color;
         text-align: center;
         font-family: Montserrat;
         font-size: 18px;
@@ -98,11 +102,11 @@
     }
 
     button:hover {
-        color: var(--Dark-Green, #00380d);
+        color: $main-color;
     }
 
     button:active {
-        color: var(--Light, #cdffd8);
-        background: var(--Dark-Green, #00380d);
+        color: $background-color;
+        background: $main-color;
     }
 }
