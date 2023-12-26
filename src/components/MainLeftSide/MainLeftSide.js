@@ -1,18 +1,18 @@
 import './MainLeftSide.scss';
-import Car from '../../assets/leftSide/car.png';
-import Beauty from '../../assets/leftSide/beauty.png';
-import Coach from '../../assets/leftSide/coach.png';
-import Delivery from '../../assets/leftSide/delivery.png';
-import Dish from '../../assets/leftSide/dish.png';
-import Dog from '../../assets/leftSide/dog.png';
-import Flower from '../../assets/leftSide/flower.png';
-import Garden from '../../assets/leftSide/garden.png';
-import Job from '../../assets/leftSide/job.png';
-import Key from '../../assets/leftSide/key.png';
-import Rent from '../../assets/leftSide/rent.png';
-import Shirt from '../../assets/leftSide/shirt.png';
-import Techn from '../../assets/leftSide/techn.png';
-import Toy from '../../assets/leftSide/toy.png';
+import Car from '../../assets/mainLeftSide/car.png';
+import Beauty from '../../assets/mainLeftSide/beauty.png';
+import Coach from '../../assets/mainLeftSide/coach.png';
+import Delivery from '../../assets/mainLeftSide/delivery.png';
+import Dish from '../../assets/mainLeftSide/dish.png';
+import Dog from '../../assets/mainLeftSide/dog.png';
+import Flower from '../../assets/mainLeftSide/flower.png';
+import Garden from '../../assets/mainLeftSide/garden.png';
+import Job from '../../assets/mainLeftSide/job.png';
+import Key from '../../assets/mainLeftSide/key.png';
+import Rent from '../../assets/mainLeftSide/rent.png';
+import Shirt from '../../assets/mainLeftSide/shirt.png';
+import Techn from '../../assets/mainLeftSide/techn.png';
+import Toy from '../../assets/mainLeftSide/toy.png';
 
 const MainLeftSide = () => {
 
