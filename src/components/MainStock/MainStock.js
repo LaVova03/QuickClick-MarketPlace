@@ -17,14 +17,14 @@ const MainStock = () => {
         {
             img: Img2,
             chapter: 'Кресло мішок',
-            price: 'UAH 1,000',
-            priceRed: 'UAH 1,500',
+            price: '₴ 1,000',
+            priceRed: '₴ 1,500',
         },
         {
             img: Img3,
             chapter: 'Крісло-кровать',
-            price: 'UAH 15,000',
-            priceRed: 'UAH 16,000',
+            price: '₴ 15,000',
+            priceRed: '₴ 16,000',
         },
         {
             img: Img4,
@@ -35,8 +35,8 @@ const MainStock = () => {
         {
             img: Img5,
             chapter: 'Грецький горіх',
-            price: 'UAH 200',
-            priceRed: 'UAH 250',
+            price: '₴ 200',
+            priceRed: '₴ 250',
         },
     ]
 
