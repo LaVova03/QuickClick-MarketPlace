@@ -4,7 +4,7 @@ $main-color: #00380d;
 
 .MainSlider__wrap {
     position: relative;
-    width: 62.5%;
+    width: 70%;
     height: max-content;
     flex-shrink: 0;
     border-radius: 40px;
@@ -109,5 +109,41 @@ $main-color: #00380d;
     button:active {
         color: $background-color;
         background: $main-color;
+    }
+}
+
+@media screen and (max-width: 2350px) {
+    .MainSlider__wrap{
+        width: 69%;
+    }
+}
+
+@media screen and (max-width: 2100px) {
+    .MainSlider__wrap{
+        width: 68%;
+    }
+}
+
+@media screen and (max-width: 2000px) {
+    .MainSlider__wrap{
+        width: 67%;
+    }
+}
+
+@media screen and (max-width: 1800px) {
+    .MainSlider__wrap{
+        width: 65%;
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    .MainSlider__wrap{
+        width: 63.5%;
+    }
+}
+
+@media screen and (max-width: 1360px) {
+    .MainSlider__wrap{
+        width: 61.5%;
     }
 }
