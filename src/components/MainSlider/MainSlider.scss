@@ -17,6 +17,10 @@ $main-color: #00380d;
     }
 }
 
+.main__wrap__slider{
+position: relative;
+}
+
 #mainSlider__btn__left {
     background-image: url(../../assets/mainSlider/arrow-left.png);
     width: 56px;

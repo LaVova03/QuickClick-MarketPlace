@@ -6,6 +6,7 @@ import './MainSlider.scss';
 import FirstSlide from '../../assets/mainSlider/Rectangle1.png';
 import SecondSlide from '../../assets/mainSlider/Rectangle2.png';
 import ThirdSlide from '../../assets/mainSlider/Rectangle3.png';
+import MainStock from '../MainStock/MainStock';
 
 const MainSlider = () => {
     const sliderRef = useRef(null);
@@ -32,31 +33,34 @@ const MainSlider = () => {
 
     return (
         <div className="MainSlider__wrap">
-            <Slider ref={sliderRef} {...settings}>
-                <div className='main__first__slide'>
-                    <img src={FirstSlide} alt="Slide 1" />
-                    <div className='mainSlider__divOnSlider'>
-                        <span>Щастя для малечі</span><br />
-                        <button>Дивитися умови</button>
+            <div className='main__wrap__slider'>
+                <Slider ref={sliderRef} {...settings}>
+                    <div className='main__first__slide'>
+                        <img src={FirstSlide} alt="Slide 1" />
+                        <div className='mainSlider__divOnSlider'>
+                            <span>Щастя для малечі</span><br />
+                            <button>Дивитися умови</button>
+                        </div>
                     </div>
-                </div>
-                <div className='main__second__slide'>
-                    <img src={SecondSlide} alt="Slide 2" />
-                    <div className='mainSlider__divOnSlider'>
-                        <span>Виграйте машину на<br />новорічні свята</span><br />
-                        <button>Дивитися умови</button>
+                    <div className='main__second__slide'>
+                        <img src={SecondSlide} alt="Slide 2" />
+                        <div className='mainSlider__divOnSlider'>
+                            <span>Виграйте машину на<br />новорічні свята</span><br />
+                            <button>Дивитися умови</button>
+                        </div>
                     </div>
-                </div>
-                <div className='main__third__slide'>
-                    <img src={ThirdSlide} alt="Slide 3" />
-                    <div className='mainSlider__divOnSlider'>
-                        <span>Придбайте новорічні<br />товари за приємними<br />знижками</span><br />
-                        <button>Купити</button>
+                    <div className='main__third__slide'>
+                        <img src={ThirdSlide} alt="Slide 3" />
+                        <div className='mainSlider__divOnSlider'>
+                            <span>Придбайте новорічні<br />товари за приємними<br />знижками</span><br />
+                            <button>Купити</button>
+                        </div>
                     </div>
-                </div>
-            </Slider>
-            <button id='mainSlider__btn__left' onClick={handlePrevSlide}></button>
-            <button id='mainSlider__btn__right' onClick={handleNextSlide}></button>
+                </Slider>
+                <button id='mainSlider__btn__left' onClick={handlePrevSlide}></button>
+                <button id='mainSlider__btn__right' onClick={handleNextSlide}></button>
+            </div>
+            <MainStock />
         </div>
     );
 };
