@@ -7,6 +7,7 @@ import FirstSlide from '../../assets/mainSlider/Rectangle1.png';
 import SecondSlide from '../../assets/mainSlider/Rectangle2.png';
 import ThirdSlide from '../../assets/mainSlider/Rectangle3.png';
 import MainStock from '../MainStock/MainStock';
+import MainRecommendations from '../MainRecommendations/MainRecommendations';
 
 const MainSlider = () => {
     const sliderRef = useRef(null);
@@ -61,6 +62,7 @@ const MainSlider = () => {
                 <button id='mainSlider__btn__right' onClick={handleNextSlide}></button>
             </div>
             <MainStock />
+            <MainRecommendations />
         </div>
     );
 };
