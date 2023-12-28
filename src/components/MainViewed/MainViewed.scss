@@ -3,10 +3,10 @@ $text-color: #ff5858;
 $font-color: #00a224;
 $hover-color: #06611a;
 
-.MainRecommendations__wrap {
+.MainViewed__wrap {
     width: 100%;
     margin-top: 50px;
-    div{
+    div {
         display: flex;
         flex-wrap: wrap;
     }
@@ -69,13 +69,13 @@ $hover-color: #06611a;
     }
 }
 
-.main__recommendations__prices {
+.main__viewed__prices {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-#main__recommendations__span1 {
+#main__viewed__span1 {
     color: $hover-color;
     font-family: Montserrat Bolt;
     font-size: 20px;
@@ -84,7 +84,7 @@ $hover-color: #06611a;
     line-height: 140%;
 }
 
-#main__recommendations__span2 {
+#main__viewed__span2 {
     color: $font-color;
     font-family: Montserrat;
     font-size: 14px;
@@ -93,7 +93,7 @@ $hover-color: #06611a;
     line-height: 140%;
 }
 
-#main__recommendations__span3 {
+#main__viewed__span3 {
     color: $text-color;
     font-family: Montserrat;
     font-size: 14px;

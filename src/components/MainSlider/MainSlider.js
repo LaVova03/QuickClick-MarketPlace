@@ -8,6 +8,7 @@ import SecondSlide from '../../assets/mainSlider/Rectangle2.png';
 import ThirdSlide from '../../assets/mainSlider/Rectangle3.png';
 import MainStock from '../MainStock/MainStock';
 import MainRecommendations from '../MainRecommendations/MainRecommendations';
+import MainViewed from '../../components/MainViewed/MainViewed';
 
 const MainSlider = () => {
     const sliderRef = useRef(null);
@@ -63,6 +64,7 @@ const MainSlider = () => {
             </div>
             <MainStock />
             <MainRecommendations />
+            <MainViewed />
         </div>
     );
 };
