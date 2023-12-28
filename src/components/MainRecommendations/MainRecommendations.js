@@ -13,61 +13,51 @@ const MainRecommendations = () => {
             img: Img1,
             chapter: 'Opel Zefira',
             price: '$ 13,000',
-            priceRed: '$ 15, 000',
         },
         {
             img: Img2,
             chapter: 'Кресло мішок',
             price: '₴ 1,000',
-            priceRed: '₴ 1,500',
         },
         {
             img: Img3,
             chapter: 'Крісло-кровать',
             price: '₴ 15,000',
-            priceRed: '₴ 16,000',
         },
         {
             img: Img4,
             chapter: 'Квартира Поділ',
             price: '$ 113,000',
-            priceRed: '$ 115, 000',
         },
         {
             img: Img5,
             chapter: 'Грецький горіх',
             price: '₴ 200',
-            priceRed: '₴ 250',
         },
         {
             img: Img1,
             chapter: 'Opel Zefira',
             price: '$ 13,000',
-            priceRed: '$ 15, 000',
         },
         {
             img: Img2,
             chapter: 'Кресло мішок',
             price: '₴ 1,000',
-            priceRed: '₴ 1,500',
         },
         {
             img: Img3,
             chapter: 'Крісло-кровать',
             price: '₴ 15,000',
-            priceRed: '₴ 16,000',
         },
         {
             img: Img4,
             chapter: 'Квартира Поділ',
             price: '$ 113,000',
-            priceRed: '$ 115, 000',
         },
         {
             img: Img5,
             chapter: 'Грецький горіх',
             price: '₴ 200',
-            priceRed: '₴ 250',
         },
     ];
 
@@ -87,7 +77,6 @@ const MainRecommendations = () => {
                         </li>
                         <li className='main__recommendations__prices'>
                             <div id='main__recommendations__span2'>{el.price}</div>
-                            <div id='main__recommendations__span3'>{el.priceRed}</div>
                         </li>
                         <button>Дивитися</button>
                     </ul>

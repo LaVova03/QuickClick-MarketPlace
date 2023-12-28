@@ -1,5 +1,4 @@
 $background-color: #cdffd8;
-$text-color: #ff5858;
 $font-color: #00a224;
 $hover-color: #06611a;
 
@@ -91,15 +90,4 @@ $hover-color: #06611a;
     font-style: normal;
     font-weight: 600;
     line-height: 140%;
-}
-
-#main__viewed__span3 {
-    color: $text-color;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 140%;
-    text-decoration-line: line-through;
-    -moz-text-decoration-line: line-through;
 }
