@@ -1,8 +1,8 @@
-import './MainFoter.scss';
+import './MainFooter.scss';
 
-const MainFoter = () => {
+const MainFooter = () => {
     return (
-        <div className='MainFoter__wrap'>
+        <div className='MainFooter__wrap'>
             <div className='main__footer__logo'>
                 <span className='main__footer__word'>Q</span>uick<span className='main__footer__word'>C</span>lick<span className='main__footer__word'>_</span>
             </div>
@@ -40,4 +40,4 @@ const MainFoter = () => {
     )
 }
 
-export default MainFoter;
+export default MainFooter;
