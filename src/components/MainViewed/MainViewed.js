@@ -1,10 +1,10 @@
 import './MainViewed.scss';
 import React from 'react';
-import Img1 from '../../assets/MainCards/car.png';
-import Img2 from '../../assets/MainCards/armchair.png';
-import Img3 from '../../assets/MainCards/sofa.png';
-import Img4 from '../../assets/MainCards/flat.png';
-import Img5 from '../../assets/MainCards/nut.png';
+import Img1 from '../../assets/mainCards/car.png';
+import Img2 from '../../assets/mainCards/armchair.png';
+import Img3 from '../../assets/mainCards/sofa.png';
+import Img4 from '../../assets/mainCards/flat.png';
+import Img5 from '../../assets/mainCards/nut.png';
 
 const MainViewed = () => {
 

@@ -1,0 +1,200 @@
+$btn-color: #00881e;
+$second-color: #cdffd8;
+$btn-hover: #00a224;
+$background-color: #001004;
+
+.MainFoter__wrap {
+    clear: left;
+    display: flex;
+    height: 21vw;
+    padding: 0px 135px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px 8px 0px 0px;
+    background: $background-color;
+    justify-content: space-between;
+}
+
+.main__footer__logo {
+    display: block;
+    width: 170px;
+    height: 2.5vw;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    color: $btn-color;
+    font-family: Montserrat;
+    font-size: 2vw;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    align-items: center;
+    .main__footer__word {
+        color: $second-color;
+        font-family: Montserrat;
+        font-size: 2vw;
+        font-style: normal;
+        font-weight: 800;
+        line-height: normal;
+    }
+}
+
+.main__footer__center {
+    display: flex;
+    justify-content: space-between;
+    display: flex;
+    width: max-content;
+    align-items: center;
+    gap: 80px;
+    flex-shrink: 0;
+    color: $second-color;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    ul {
+        padding: 0;
+        li {
+            list-style: none;
+            width: max-content;
+            line-height: 1.5;
+            font-weight: 500;
+            button {
+                font-weight: 500;
+                border: 0;
+                background-color: inherit;
+                cursor: pointer;
+                color: $second-color;
+                font-family: Montserrat;
+                font-size: 20px;
+                font-style: normal;
+                line-height: normal;
+            }
+            button:hover {
+                color: $btn-hover;
+            }
+
+            button:active {
+                color: $btn-hover;
+                filter: blur(1px);
+            }
+        }
+    }
+}
+
+.main__footer__center ul:nth-of-type(2) {
+    li:first-child {
+        margin-left: 6px;
+    }
+}
+
+.main__footer__right {
+    ul {
+        width: 12vw;
+        padding: 0;
+        position: relative;
+        font-weight: 500;
+        height: 16vw;
+        margin: 30px 0 0 0;
+        li {
+            list-style: none;
+            color: $second-color;
+            text-align: center;
+            font-family: Montserrat;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            div {
+                line-height: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+}
+
+.main__footer__right ul li:first-child,
+.main__footer__center ul li:first-child {
+    color: $second-color;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    line-height: 2.5;
+}
+
+.main__footer__right ul li:nth-of-type(1) {
+    position: absolute;
+    top: 0;
+}
+
+.main__footer__right ul li:nth-of-type(2) {
+    position: absolute;
+    bottom: 0;
+}
+
+.main__footer__ut {
+    background-image: url(../../assets/mainFooter/utube.png);
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 19px;
+    background-color: inherit;
+    border: 0;
+    cursor: pointer;
+}
+
+.main__footer__ut:hover {
+    background-image: url(../../assets/mainFooter/ut-hover.png);
+    background-repeat: no-repeat;
+}
+
+.main__footer__ut:active {
+    background-image: url(../../assets/mainFooter/ut-click.png);
+    background-repeat: no-repeat;
+}
+
+.main__footer__fb {
+    background-image: url(../../assets/mainFooter/FB.png);
+    background-repeat: no-repeat;
+    width: 14px;
+    height: 23px;
+    background-color: inherit;
+    border: 0;
+    cursor: pointer;
+    margin: 0 32px;
+}
+
+.main__footer__fb:hover {
+    background-image: url(../../assets/mainFooter/FB-hover.png);
+    background-repeat: no-repeat;
+}
+
+.main__footer__fb:active {
+    background-image: url(../../assets/mainFooter/FB-click.png);
+    background-repeat: no-repeat;
+}
+
+.main__footer__inst {
+    background-image: url(../../assets/mainFooter/Inst.png);
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 23px;
+    background-color: inherit;
+    border: 0;
+    cursor: pointer;
+}
+
+.main__footer__inst:hover {
+    background-image: url(../../assets/mainFooter/Inst-hover.png);
+    background-repeat: no-repeat;
+}
+
+.main__footer__inst:active {
+    background-image: url(../../assets/mainFooter/Inst-click.png);
+    background-repeat: no-repeat;
+}

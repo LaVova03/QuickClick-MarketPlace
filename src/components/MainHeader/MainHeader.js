@@ -1,14 +1,22 @@
 import './MainHeader.scss';
+import React, { useState } from 'react';
 
 const MainHeader = () => {
+
+    const [isBurger, setIsBurger] = useState(false);
+
+    const handleBurgerClick = () => {
+        setIsBurger(prevState => !prevState);
+    };
+
     return (
         <div className='MainHeader__wrapp'>
             <div className='main__header__wrapleft'>
-                <div className="burger-icon" id="burger-icon">
+                <button onClick={handleBurgerClick} className={`burger-icon${isBurger ? 'active' : ''}`}>
                     <div className="bar"></div>
                     <div className="bar"></div>
                     <div className="bar"></div>
-                </div>
+                </button>
                 <div className='main__headre__greentext'>
                     <span className='main__header__word'>Q</span>uick<span className='main__header__word'>C</span>lick<span className='main__header__word'>_</span>
                 </div>

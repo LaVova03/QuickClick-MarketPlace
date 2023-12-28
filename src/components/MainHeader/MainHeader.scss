@@ -1,6 +1,7 @@
 $main-color: #00380d;
 $btn-color: #00881e;
 $second-color: #cdffd8;
+$bar-hover-color: #00a224;
 
 .MainHeader__wrapp {
     display: flex;
@@ -24,6 +25,32 @@ $second-color: #cdffd8;
     display: block;
     flex-direction: column;
     cursor: pointer;
+    background-color: inherit;
+    border: 0;
+}
+.burger-iconactive{
+    background: none;
+    border: 0;
+}
+
+.burger-iconactive .bar:nth-child(1) {
+    transform: rotate(-45deg) translate(-10px, 10px);
+    -webkit-transform: rotate(-45deg) translate(-10px, 10px);
+    -moz-transform: rotate(-45deg) translate(-10px, 10px);
+    -ms-transform: rotate(-45deg) translate(-10px, 10px);
+    -o-transform: rotate(-45deg) translate(-10px, 10px);
+}
+
+.burger-iconactive .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-iconactive .bar:nth-child(3) {
+    transform: rotate(45deg) translate(-10px, -10px);
+    -webkit-transform: rotate(45deg) translate(-10px, -10px);
+    -moz-transform: rotate(45deg) translate(-10px, -10px);
+    -ms-transform: rotate(45deg) translate(-10px, -10px);
+    -o-transform: rotate(45deg) translate(-10px, -10px);
 }
 
 .bar {
@@ -31,9 +58,20 @@ $second-color: #cdffd8;
     height: 8px;
     border-radius: 10px;
     background: $second-color;
-    background-color: $second-color;
     margin: 6px 0;
     transition: 0.4s;
+}
+
+.burger-icon:hover {
+    div {
+        background: $bar-hover-color;
+    }
+}
+
+.burger-icon:active {
+    div {
+        background: $bar-hover-color;
+    }
 }
 
 .main__headre__greentext {
