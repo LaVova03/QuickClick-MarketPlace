@@ -64,7 +64,7 @@ const MainViewed = () => {
     const randomItems = arr.sort(() => 0.5 - Math.random()).slice(0, 10);
 
     return (
-        <div className='MainViewed__wrap'>
+        <div className='main__viewed__wrap'>
             <label>Переглянуті товари</label><br />
             <div>
                 {randomItems.map((el, i) => (

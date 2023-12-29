@@ -76,7 +76,7 @@ const MainLeftSide = () => {
     ]
 
     return (
-        <div className='MainLeftSide__wrap'>
+        <div className='main__leftside__wrap'>
             <div className='main__leftside__border'>
                 {arr.map((el, i) => {
                     return (

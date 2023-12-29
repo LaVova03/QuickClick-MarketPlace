@@ -44,7 +44,7 @@ const MainStock = () => {
     const randomItems = arr.sort(() => 0.5 - Math.random()).slice(0, 5);
 
     return (
-        <div className='MainStock__wrap'>
+        <div className='main__stock__wrap'>
             <label>Ціну знижено</label><br />
             <div>
                 {randomItems.map((el, i) => (

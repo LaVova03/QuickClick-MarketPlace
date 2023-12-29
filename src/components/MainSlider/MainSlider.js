@@ -34,33 +34,33 @@ const MainSlider = () => {
     };
 
     return (
-        <div className="MainSlider__wrap">
+        <div className="main__slider__wrap">
             <div className='main__wrap__slider'>
                 <Slider ref={sliderRef} {...settings}>
                     <div className='main__first__slide'>
-                        <img src={FirstSlide} alt="Slide 1" />
-                        <div className='mainSlider__divOnSlider'>
+                        <img src={FirstSlide} alt="slide 1" />
+                        <div className='mainslider__div__onslider'>
                             <span>Щастя для малечі</span><br />
                             <button>Дивитися умови</button>
                         </div>
                     </div>
                     <div className='main__second__slide'>
-                        <img src={SecondSlide} alt="Slide 2" />
-                        <div className='mainSlider__divOnSlider'>
+                        <img src={SecondSlide} alt="slide 2" />
+                        <div className='mainslider__div__onslider'>
                             <span>Виграйте машину на<br />новорічні свята</span><br />
                             <button>Дивитися умови</button>
                         </div>
                     </div>
                     <div className='main__third__slide'>
-                        <img src={ThirdSlide} alt="Slide 3" />
-                        <div className='mainSlider__divOnSlider'>
+                        <img src={ThirdSlide} alt="slide 3" />
+                        <div className='mainslider__div__onslider'>
                             <span>Придбайте новорічні<br />товари за приємними<br />знижками</span><br />
                             <button>Купити</button>
                         </div>
                     </div>
                 </Slider>
-                <button id='mainSlider__btn__left' onClick={handlePrevSlide}></button>
-                <button id='mainSlider__btn__right' onClick={handleNextSlide}></button>
+                <button id='mainslider__btn__left' onClick={handlePrevSlide}></button>
+                <button id='mainslider__btn__right' onClick={handleNextSlide}></button>
             </div>
             <MainStock />
             <MainRecommendations />

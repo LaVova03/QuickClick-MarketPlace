@@ -41,8 +41,8 @@ const MainRightSide = () => {
     ]
 
     return (
-        <div className='MainRightSide__wrap'>
-            <div className='main__rigrtSide__card'>
+        <div className='main__rightside__wrap'>
+            <div className='main__rigrtside__card'>
                 {arr.map((el, i) => (
                     <ul key={i}>
                         {Object.keys(el).map((item, j) => (

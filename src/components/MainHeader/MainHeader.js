@@ -10,7 +10,7 @@ const MainHeader = () => {
     };
 
     return (
-        <div className='MainHeader__wrapp'>
+        <div className='main__header__wrap'>
             <div className='main__header__wrapleft'>
                 <button onClick={handleBurgerClick} className={`burger-icon${isBurger ? 'active' : ''}`}>
                     <div className="bar"></div>

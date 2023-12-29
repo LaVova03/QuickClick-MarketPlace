@@ -64,7 +64,7 @@ const MainRecommendations = () => {
     const randomItems = arr.sort(() => 0.5 - Math.random()).slice(0, 10);
 
     return (
-        <div className='MainRecommendations__wrap'>
+        <div className='main__recommendations__wrap'>
             <label>Рекомендації</label><br />
             <div>
                 {randomItems.map((el, i) => (

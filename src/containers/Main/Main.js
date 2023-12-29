@@ -7,7 +7,7 @@ import MainFooter from '../../components/MainFooter/MainFooter';
 
 function Main() {
   return (
-    <div className="Main">
+    <div className="main">
       <MainHeader />
       <MainLeftSide />
       <MainSlider />

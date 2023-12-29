@@ -4,7 +4,7 @@ $text-color: #000;
 $font-color: #00881e;
 $hover-color: #00380d;
 
-.MainRightSide__wrap {
+.main__rightside__wrap {
     display: flex;
     width: 16vw;
     height: max-content;
@@ -17,7 +17,7 @@ $hover-color: #00380d;
     }
 }
 
-.main__rigrtSide__card {
+.main__rigrtside__card {
     display: block;
     margin-top: 20px;
     ul {

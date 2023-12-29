@@ -2,7 +2,7 @@ $background-color: #cdffd8;
 $font-color: #00881e;
 $main-color: #00380d;
 
-.MainSlider__wrap {
+.main__slider__wrap {
     position: relative;
     width: 63%;
     height: max-content;
@@ -21,7 +21,7 @@ $main-color: #00380d;
 position: relative;
 }
 
-#mainSlider__btn__left {
+#mainslider__btn__left {
     background-image: url(../../assets/mainSlider/arrow-left.png);
     width: 56px;
     height: 56px;
@@ -34,15 +34,15 @@ position: relative;
     left: 24px;
 }
 
-#mainSlider__btn__left:hover {
+#mainslider__btn__left:hover {
     background-image: url(../../assets/mainSlider/left-hover.png);
 }
 
-#mainSlider__btn__left:active {
+#mainslider__btn__left:active {
     background-image: url(../../assets/mainSlider/left-active.png);
 }
 
-#mainSlider__btn__right {
+#mainslider__btn__right {
     background-image: url(../../assets/mainSlider/arrow-right.png);
     width: 56px;
     height: 56px;
@@ -55,11 +55,11 @@ position: relative;
     right: 24px;
 }
 
-#mainSlider__btn__right:hover {
+#mainslider__btn__right:hover {
     background-image: url(../../assets/mainSlider/right-hover.png);
 }
 
-#mainSlider__btn__right:active {
+#mainslider__btn__right:active {
     background-image: url(../../assets/mainSlider/right-active.png);
 }
 
@@ -69,7 +69,7 @@ position: relative;
     position: relative;
 }
 
-.mainSlider__divOnSlider {
+.mainslider__div__onslider {
     display: block;
     position: absolute;
     bottom: 15%;
@@ -117,7 +117,7 @@ position: relative;
 }
 
 @media screen and (max-width: 1800px) {
-    .MainSlider__wrap {
+    .main__slider__wrap {
         width: 61.5%;
     }
 }
