@@ -1,6 +1,6 @@
 import './MainViewed.scss';
 import React from 'react';
-import Img1 from '../../assets/mainCards/car.png';
+import Img1 from '../../assets/mainCards/newcar.png';
 import Img2 from '../../assets/mainCards/armchair.png';
 import Img3 from '../../assets/mainCards/sofa.png';
 import Img4 from '../../assets/mainCards/flat.png';
