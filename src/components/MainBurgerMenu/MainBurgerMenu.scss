@@ -1,0 +1,42 @@
+$background-color: #06611a;
+$text-color: #cdffd8;
+$text-hover-color: #00a224;
+
+.main__burgermenu__wrap {
+    display: inline-flex;
+    position: absolute;
+    top: 9vw;
+    padding: 2vw;
+    height: 15vw;
+    width: 16vw;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    border-radius: 8px;
+    background: $background-color;
+    ul {
+        padding: 0;
+        li {
+            list-style: none;
+            line-height: 2.5;
+            button {
+                color: $text-color;
+                font-family: Montserrat;
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                border: 0;
+                background: none;
+                cursor: pointer;
+                text-align: left;
+            }
+            button:hover {
+                color: $text-hover-color;
+            }
+            button:active {
+                filter: blur(1px);
+            }
+        }
+    }
+}

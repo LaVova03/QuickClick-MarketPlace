@@ -1,18 +1,27 @@
 import './MainHeader.scss';
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { setBurgerMenu } from '../../redux/Main/actions';
 
 const MainHeader = () => {
 
-    const [isBurger, setIsBurger] = useState(false);
+    const isFlagSet = useSelector(state => state.myReducer?.isFlagSet);
 
-    const handleBurgerClick = () => {
-        setIsBurger(prevState => !prevState);
+    const dispatch = useDispatch();
+
+    const navigate = useNavigate();
+
+    const handleButtonClick = () => {
+        dispatch(setBurgerMenu());
     };
+
+    const handleNavigate = () => navigate("/login");
 
     return (
         <div className='main__header__wrap'>
             <div className='main__header__wrapleft'>
-                <button onClick={handleBurgerClick} className={`burger-icon${isBurger ? 'active' : ''}`}>
+                <button onClick={handleButtonClick} className={`burger-icon${isFlagSet ? 'active' : ''}`}>
                     <div className="bar"></div>
                     <div className="bar"></div>
                     <div className="bar"></div>
@@ -29,7 +38,7 @@ const MainHeader = () => {
             </div>
             <div className='main__headre__right'>
                 <button id='main__header__heart'><div></div></button>
-                <button id='main__header__user'><div></div></button>
+                <button id='main__header__user' onClick={handleNavigate}><div></div></button>
                 <button>Додати оголошення</button>
             </div>
         </div>
