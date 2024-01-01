@@ -28,13 +28,13 @@ const MainFooter = () => {
                 <ul>
                     <li>Наші акаунти:
                         <div>
-                            <button className='main__footer__ut'/>
-                            <button className='main__footer__fb'/>
-                            <button className='main__footer__inst'/>
+                            <button className='main__footer__ut' />
+                            <button className='main__footer__fb' />
+                            <button className='main__footer__inst' />
                         </div>
                     </li>
-                    <li>© 2023 QuickClick Усі права захищені</li>
-                </ul>
+                </ul><br /><br /><br /><br /><br /><br /><br />
+                <div className='main__footer__lable'>© 2023 QuickClick Усі права<br />захищені</div>
             </div>
         </div>
     )

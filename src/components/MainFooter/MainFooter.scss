@@ -6,8 +6,8 @@ $background-color: #001004;
 .main__footer__wrap {
     clear: left;
     display: flex;
-    height: 21vw;
-    padding: 0px 135px;
+    height: max-content;
+    padding: 30px 135px;
     justify-content: space-between;
     align-items: center;
     border-radius: 8px 8px 0px 0px;
@@ -56,6 +56,7 @@ $background-color: #001004;
     line-height: normal;
     ul {
         padding: 0;
+        margin: 0;
         li {
             list-style: none;
             width: max-content;
@@ -91,13 +92,14 @@ $background-color: #001004;
 }
 
 .main__footer__right {
+    position: relative;
     ul {
         font-weight: 500;
-        height: 17vw;
-        margin: 25px 0 0;
+        height: max-content;
         padding: 0;
         position: relative;
         width: 12vw;
+        margin: 0;
         li {
             list-style: none;
             color: $second-color;
@@ -128,14 +130,23 @@ $background-color: #001004;
     line-height: 2.5;
 }
 
-.main__footer__right ul li:nth-of-type(1) {
+.main__footer__lable {
     position: absolute;
-    top: 0;
-}
-
-.main__footer__right ul li:nth-of-type(2) {
-    position: absolute;
-    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 93%;
+    width: 100%;
+    color: $second-color;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    -webkit-transition: 50;
+    -moz-transition: 50;
+    -ms-transition: 50;
+    -o-transition: 50;
 }
 
 .main__footer__ut {

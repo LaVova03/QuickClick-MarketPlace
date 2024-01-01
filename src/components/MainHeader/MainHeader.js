@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setBurgerMenu } from '../../redux/Main/actions';
+import MainBurgerMenu from '../../components/MainBurgerMenu/MainBurgerMenu';
 
 const MainHeader = () => {
 
@@ -41,6 +42,7 @@ const MainHeader = () => {
                 <button id='main__header__user' onClick={handleNavigate}><div></div></button>
                 <button>Додати оголошення</button>
             </div>
+            {isFlagSet ? <MainBurgerMenu /> : null}
         </div>
     )
 }
