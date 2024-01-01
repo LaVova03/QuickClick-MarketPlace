@@ -1,10 +1,10 @@
 import './MainRecommendations.scss';
 import React from 'react';
-import Img1 from '../../assets/mainCards/newcar.png';
-import Img2 from '../../assets/mainCards/armchair.png';
-import Img3 from '../../assets/mainCards/sofa.png';
-import Img4 from '../../assets/mainCards/flat.png';
-import Img5 from '../../assets/mainCards/nut.png';
+import Img1 from '../../assets/main__сards/newcar.png';
+import Img2 from '../../assets/main__сards/armchair.png';
+import Img3 from '../../assets/main__сards/sofa.png';
+import Img4 from '../../assets/main__сards/flat.png';
+import Img5 from '../../assets/main__сards/nut.png';
 
 const MainRecommendations = () => {
 
