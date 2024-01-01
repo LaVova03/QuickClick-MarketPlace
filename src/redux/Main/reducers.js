@@ -7,7 +7,6 @@ const initialState = {
 const myReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_BURGER_MENU:
-            console.log(initialState.isFlagSet);
             return {
                 ...state,
                 isFlagSet: !state.isFlagSet,
