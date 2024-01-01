@@ -92,12 +92,12 @@ $background-color: #001004;
 
 .main__footer__right {
     ul {
-        width: 12vw;
+        font-weight: 500;
+        height: 17vw;
+        margin: 25px 0 0;
         padding: 0;
         position: relative;
-        font-weight: 500;
-        height: 16vw;
-        margin: 30px 0 0 0;
+        width: 12vw;
         li {
             list-style: none;
             color: $second-color;
@@ -121,7 +121,7 @@ $background-color: #001004;
 .main__footer__center ul li:first-child {
     color: $second-color;
     font-family: Montserrat;
-    font-size: 24px;
+    font-size: 1.6vw;
     font-style: normal;
     font-weight: 700;
     line-height: normal;

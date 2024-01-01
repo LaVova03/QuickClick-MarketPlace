@@ -5,9 +5,9 @@ $text-hover-color: #00a224;
 .main__burgermenu__wrap {
     display: inline-flex;
     position: absolute;
-    top: 9vw;
+    top: 23%;
     padding: 2vw;
-    height: 15vw;
+    height: auto;
     width: 16vw;
     flex-direction: column;
     align-items: flex-start;
@@ -16,13 +16,16 @@ $text-hover-color: #00a224;
     background: $background-color;
     ul {
         padding: 0;
+        padding: 0;
+        margin: 0;
+        height: max-content;
         li {
             list-style: none;
             line-height: 2.5;
             button {
                 color: $text-color;
                 font-family: Montserrat;
-                font-size: 20px;
+                font-size: 1.3vw;
                 font-style: normal;
                 font-weight: 600;
                 line-height: normal;
