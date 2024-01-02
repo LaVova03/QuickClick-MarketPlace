@@ -1,19 +1,212 @@
+$backgroud-color: rgba(205, 255, 216, 0.2);
+$backgroud-form-color: #06611a;
+$backgroud-form-btn: #00a224;
+$hover-color: #cdffd8;
+$visited-color: #b4b4b4;
+
 .login__form__wrap {
     display: flex;
     align-items: center;
-    height: 600px;
+    height: 100vh;
     flex-shrink: 0;
-    background: rgba(205, 255, 216, 0.2);
-    filter: blur(5px);
+    background: $backgroud-color;
     justify-content: center;
-    -webkit-filter: blur(5px);
     form {
-        width: 400px;
-        height: 500px;
+        position: relative;
+        display: block;
+        align-items: center;
+        text-align: center;
+        width: 500px;
+        height: 90%;
         flex-shrink: 0;
         border-radius: 40px;
-        background: var(--Dark-Green, #06611a);
-        filter: inherit;
-        -webkit-filter: inherit;
+        background: $backgroud-form-color;
+        span {
+            color: $backgroud-form-btn;
+            text-align: center;
+            font-family: Montserrat;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 120%;
+        }
+        .login__btn__wrap {
+            display: flex;
+            width: 70%;
+            justify-content: space-between;
+            margin: 0 auto;
+            button {
+                display: flex;
+                width: 48%;
+                height: 40px;
+                padding: 19px 26px 19px 27px;
+                justify-content: center;
+                align-items: center;
+                border-radius: 40px;
+                background: $backgroud-form-btn;
+                border: 0;
+                margin: 12px 0 24px;
+                color: $hover-color;
+                text-align: center;
+                font-family: Montserrat;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: 120%;
+                cursor: pointer;
+            }
+        }
+
+        .login__btn__wrap button:hover {
+            background: $visited-color;
+            color: $backgroud-form-color;
+        }
+
+        .login__btn__wrap button:active {
+            background: $hover-color;
+            color: $backgroud-form-btn;
+        }
+
+        .login__btn__wrap button:visited {
+            background: $backgroud-form-btn;
+            color: $backgroud-form-color;
+        }
+
+        input {
+            display: flex;
+            width: 60%;
+            height: 35px;
+            padding: 0 5%;
+            margin: 0 auto 6px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            border-radius: 40px;
+            border: 1px solid $hover-color;
+        }
+    }
 }
+
+.login__btn__google,
+.login__btn__inst,
+.login__btn__facebook {
+    display: flex;
+    width: 70%;
+    height: 40px;
+    margin: 0px auto 20px;
+    padding: 0 40px;
+    align-items: center;
+    gap: 8px;
+    border-radius: 40px;
+    border: 0;
+    background: $backgroud-form-btn;
+    color: $hover-color;
+    text-align: left;
+    font-family: Montserrat;
+    font-size: 16px;
+    white-space: nowrap;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    cursor: pointer;
+}
+
+.login__summit:hover,
+.login__btn__google:hover,
+.login__btn__inst:hover,
+.login__btn__facebook:hover {
+    background: $hover-color;
+    color: $backgroud-form-btn;
+}
+
+.login__summit:active,
+.login__btn__google:active,
+.login__btn__inst:active,
+.login__btn__facebook:active {
+    color: $backgroud-form-color;
+    background: $backgroud-form-btn;
+}
+
+.login__summit:visited,
+.login__btn__google:visited,
+.login__btn__inst:visited,
+.login__btn__facebook:visited {
+    color: $backgroud-form-color;
+    background: $visited-color;
+}
+
+.login__google,
+.login__inst,
+.login__facebook {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    background: $hover-color;
+}
+
+.login__btn__back {
+    position: relative;
+    left: -40%;
+    margin: 24px 24px 0px;
+    border: 0;
+    background-image: url(../../assets/login__page/btn-left.png);
+    background-size: contain;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    background-color: inherit;
+    cursor: pointer;
+}
+
+.login__btn__back:hover {
+    background-image: url(../../assets/login__page/left-hover.png);
+}
+
+.login__btn__back:active {
+    background-image: url(../../assets/login__page/left-active.png);
+}
+
+.login__summit {
+    display: flex;
+    width: 70%;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    gap: 8px;
+    border-radius: 40px;
+    border: 0;
+    background: $backgroud-form-btn;
+    color: $hover-color;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    cursor: pointer;
+}
+
+.login__forgot__pasword {
+    color: $backgroud-form-btn;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+    margin: 0 0 24px;
+    border: 0;
+    background-color: inherit;
+    position: relative;
+    left: -21%;
+    cursor: pointer;
+}
+
+.login__forgot__pasword:hover {
+    color: $hover-color;
+}
+
+.login__forgot__pasword:active {
+    filter: blur(0.6px);
+    -webkit-filter: blur(0.6px);
 }
