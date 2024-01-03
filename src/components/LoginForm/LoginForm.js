@@ -1,5 +1,5 @@
 import './LoginForm.scss';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from "react-router-dom";
 
@@ -19,10 +19,6 @@ const LoginForm = () => {
             alert(JSON.stringify(values, null, 2));
         },
     });
-
-    useEffect(() => {
-        console.log(formik.values.checkbox)
-    }, [formik.values.checkbox])
 
     const handleNavigate = () => navigate("/");
 
