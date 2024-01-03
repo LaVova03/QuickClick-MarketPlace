@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setBurgerMenu } from '../../redux/Main/actions';
 import MainBurgerMenu from '../../components/MainBurgerMenu/MainBurgerMenu';
+import Logo from '../../assets/mainHeader/logo.png';
 
 const MainHeader = () => {
 
@@ -28,7 +29,7 @@ const MainHeader = () => {
                     <div className="bar"></div>
                 </button>
                 <div className='main__headre__greentext'>
-                    <span className='main__header__word'>Q</span>uick<span className='main__header__word'>C</span>lick<span className='main__header__word'>_</span>
+                    <img src={Logo} alt="logo" />
                 </div>
             </div>
             <div className='main__headre__center'>

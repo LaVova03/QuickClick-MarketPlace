@@ -1,9 +1,11 @@
 import './LoginForm.scss';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+
+    const [registration, setRegistration] = useState(false);
 
     const navigate = useNavigate();
 
@@ -11,16 +13,31 @@ const LoginForm = () => {
         initialValues: {
             email: '',
             password: '',
+            checkbox: false,
         },
         onSubmit: values => {
             alert(JSON.stringify(values, null, 2));
         },
     });
 
+    useEffect(() => {
+        console.log(formik.values.checkbox)
+    }, [formik.values.checkbox])
+
     const handleNavigate = () => navigate("/");
 
     const HandleClick = (e) => {
         e.preventDefault();
+    }
+
+    const showRegistration = (e) => {
+        e.preventDefault();
+        setRegistration(true);
+    }
+
+    const showEnterence = (e) => {
+        e.preventDefault();
+        setRegistration(false);
     }
 
     return (
@@ -32,8 +49,8 @@ const LoginForm = () => {
                 <button onClick={HandleClick} className='login__btn__facebook'><div className='login__facebook' /> Продовжити з Facebook</button>
                 <span>або</span><br />
                 <div className='login__btn__wrap'>
-                    <button onClick={HandleClick}>Зареєструватися</button>
-                    <button onClick={HandleClick}>Увійти</button>
+                    <button onClick={showRegistration}>Зареєструватися</button>
+                    <button onClick={showEnterence}>Увійти</button>
                 </div>
                 <input
                     id="email"
@@ -42,6 +59,7 @@ const LoginForm = () => {
                     onChange={formik.handleChange}
                     value={formik.values.email}
                     placeholder='Електронна пошта чи телефон'
+                    autoComplete="email"
                 /><br />
                 <input
                     id="password"
@@ -50,15 +68,27 @@ const LoginForm = () => {
                     onChange={formik.handleChange}
                     value={formik.values.password}
                     placeholder='Пароль*'
+                    autoComplete="password"
                 /><br />
-                <button
-                    className='login__forgot__pasword'
-                    onClick={HandleClick}>Забули пароль?
-                </button>
+                {!registration ?
+                    <button
+                        className='login__forgot__pasword'
+                        onClick={HandleClick}>Забули пароль?
+                    </button> :
+                    <div className='login__checkbox'>
+                        <input
+                            id="checkbox"
+                            name="checkbox"
+                            type="checkbox"
+                            checked={formik.values.checkbox}
+                            onChange={formik.handleChange}
+                        />
+                        Створюючи профіль на QuickQlick, ви погоджуєтеся з умовами використання
+                    </div>}
                 <button
                     type="submit"
                     className='login__summit'>
-                    Увійти
+                    {registration ? 'Створити' : 'Увійти'}
                 </button>
             </form>
         </div >

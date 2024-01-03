@@ -29,7 +29,7 @@ $bar-hover-color: #00a224;
     background-color: inherit;
     border: 0;
 }
-.burger-iconactive{
+.burger-iconactive {
     background: none;
     border: 0;
 }
@@ -76,11 +76,11 @@ $bar-hover-color: #00a224;
 }
 
 .main__headre__greentext {
-    display: block;
+    display: flex;
     width: 170px;
     height: 2.5vw;
     align-items: center;
-    margin-left: 35px;
+    margin-left: 3em;
     flex-direction: column;
     justify-content: center;
     flex-shrink: 0;
@@ -91,13 +91,8 @@ $bar-hover-color: #00a224;
     font-weight: 800;
     line-height: normal;
     align-items: center;
-    .main__header__word {
-        color: $second-color;
-        font-family: Montserrat;
-        font-size: 2vw;
-        font-style: normal;
-        font-weight: 800;
-        line-height: normal;
+    img {
+        width: 9em;
     }
 }
 

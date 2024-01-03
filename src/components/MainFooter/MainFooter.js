@@ -1,10 +1,11 @@
 import './MainFooter.scss';
+import Logo from '../../assets/mainFooter/logo.png';
 
 const MainFooter = () => {
     return (
         <div className='main__footer__wrap'>
             <div className='main__footer__logo'>
-                <span className='main__footer__word'>Q</span>uick<span className='main__footer__word'>C</span>lick<span className='main__footer__word'>_</span>
+                <img src={Logo} alt="logo" />
             </div>
             <div className='main__footer__center'>
                 <ul>

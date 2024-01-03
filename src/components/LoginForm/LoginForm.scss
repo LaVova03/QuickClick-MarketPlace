@@ -16,7 +16,7 @@ $visited-color: #b4b4b4;
         display: block;
         align-items: center;
         text-align: center;
-        width: 32em;
+        width: 31em;
         height: 37em;
         flex-shrink: 0;
         border-radius: 40px;
@@ -209,4 +209,31 @@ $visited-color: #b4b4b4;
 .login__forgot__pasword:active {
     filter: blur(0.6px);
     -webkit-filter: blur(0.6px);
+}
+
+.login__checkbox {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    width: 70%;
+    margin: 0 auto 24px;
+    color: var(--Green-Normal, #00a224);
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+    #checkbox {
+        width: 26px;
+        height: 26px;
+        flex-shrink: 0;
+        border-radius: 8px;
+        border: 2px solid var(--Green-Normal, #00a224);
+        display: flex;
+        height: 39px;
+        flex-direction: column;
+        justify-content: center;
+        flex-shrink: 0;
+        margin: 0 16px 2px 0;
+    }
 }
