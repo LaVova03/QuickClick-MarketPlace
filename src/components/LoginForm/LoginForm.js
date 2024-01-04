@@ -65,7 +65,7 @@ const LoginForm = () => {
                             value={values.password}
                             placeholder='Пароль*'
                             autoComplete="password"
-                        /><br />
+                        />
                         {!registration ?
                             <button
                                 className='login__forgot__pasword'
