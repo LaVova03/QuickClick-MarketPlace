@@ -112,6 +112,9 @@ $bar-hover-color: #00a224;
         line-height: normal;
         border-radius: 40px;
         border: 2px solid $btn-color;
+        &:focus {
+            outline: none;
+        }
     }
     button {
         position: relative;

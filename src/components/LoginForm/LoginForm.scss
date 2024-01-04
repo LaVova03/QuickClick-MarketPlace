@@ -17,7 +17,8 @@ $visited-color: #b4b4b4;
         align-items: center;
         text-align: center;
         width: 31em;
-        height: 37em;
+        height: auto;
+        padding: 40px 0;
         flex-shrink: 0;
         border-radius: 40px;
         background: $backgroud-form-color;
@@ -74,8 +75,8 @@ $visited-color: #b4b4b4;
 
         input {
             display: flex;
-            width: 60%;
-            height: 35px;
+            width: 70%;
+            height: 40px;
             padding: 0 5%;
             margin: 0 auto 6px;
             flex-direction: column;
@@ -83,6 +84,16 @@ $visited-color: #b4b4b4;
             gap: 10px;
             border-radius: 40px;
             border: 1px solid $hover-color;
+            background-color: $backgroud-form-color;
+            color: $visited-color;
+            font-family: Montserrat;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 140%;
+            &:focus {
+                outline: none;
+            }
         }
     }
 }
@@ -147,7 +158,7 @@ $visited-color: #b4b4b4;
 .login__btn__back {
     position: relative;
     left: -40%;
-    margin: 24px 24px 0px;
+    margin: 0 24px 0;
     border: 0;
     background-image: url(../../assets/login__page/btn-left.png);
     background-size: contain;
@@ -217,7 +228,7 @@ $visited-color: #b4b4b4;
     text-align: left;
     width: 70%;
     margin: 0 auto 24px;
-    color: var(--Green-Normal, #00a224);
+    color: $backgroud-form-btn;
     font-family: Montserrat;
     font-size: 12px;
     font-style: normal;
@@ -228,7 +239,7 @@ $visited-color: #b4b4b4;
         height: 26px;
         flex-shrink: 0;
         border-radius: 8px;
-        border: 2px solid var(--Green-Normal, #00a224);
+        border: 2px solid $backgroud-form-btn;
         display: flex;
         height: 39px;
         flex-direction: column;
@@ -238,3 +249,50 @@ $visited-color: #b4b4b4;
     }
 }
 
+.form-check-input:checked {
+    border-radius: 8px !important;
+    border: 2px solid $backgroud-form-btn !important;
+    background-color: $backgroud-form-color !important;
+    width: 36px;
+    height: 36px;
+    margin-right: 16px !important;
+    flex-shrink: 0;
+    -webkit-border-radius: 8px !important;
+    -moz-border-radius: 8px !important;
+    -ms-border-radius: 8px !important;
+    -o-border-radius: 8px !important;
+}
+
+.form-check-input {
+    border-radius: 8px !important;
+    border: 2px solid $backgroud-form-btn !important;
+    background-color: $backgroud-form-color !important;
+    width: 37px !important;
+    height: 37px !important;
+    margin-right: 16px !important;
+    flex-shrink: 0;
+    -webkit-border-radius: 8px !important;
+    -moz-border-radius: 8px !important;
+    -ms-border-radius: 8px !important;
+    -o-border-radius: 8px !important;
+}
+
+.form-check-input:hover {
+    border-color: $hover-color !important;
+}
+
+.form-check-input:active {
+    background-image: url(../../assets/login__page/check-half.png) !important;
+}
+
+.form-check-input:visited {
+    background-image: url(../../assets/login__page/check.png) !important;
+}
+
+.form-check-input:focus {
+    box-shadow: none !important;
+}
+
+.form-label {
+    margin-bottom: 0 !important;
+}
