@@ -34,7 +34,7 @@ const MainFooter = () => {
                             <button className='main__footer__inst' />
                         </div>
                     </li>
-                </ul><br /><br /><br /><br /><br /><br /><br />
+                </ul><br /><br /><br /><br /><br />
                 <div className='main__footer__lable'>© 2023 QuickClick Усі права<br />захищені</div>
             </div>
         </div>

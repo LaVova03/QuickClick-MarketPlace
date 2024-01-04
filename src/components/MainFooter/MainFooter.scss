@@ -9,16 +9,15 @@ $background-color: #001004;
     height: max-content;
     padding: 30px 135px;
     justify-content: space-between;
-    align-items: center;
+    align-items: top;
     border-radius: 8px 8px 0px 0px;
     background: $background-color;
     justify-content: space-between;
 }
 
 .main__footer__logo {
-    display: block;
+    display: flex;
     width: 170px;
-    height: 2.5vw;
     align-items: center;
     flex-direction: column;
     justify-content: center;
@@ -40,7 +39,7 @@ $background-color: #001004;
     justify-content: space-between;
     display: flex;
     width: max-content;
-    align-items: center;
+    align-items: top;
     gap: 80px;
     flex-shrink: 0;
     color: $second-color;
