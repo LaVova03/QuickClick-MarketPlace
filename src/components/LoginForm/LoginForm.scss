@@ -18,7 +18,7 @@ $visited-color: #b4b4b4;
         text-align: center;
         width: 31em;
         height: auto;
-        padding: 2vw 0;
+        padding: 3vw 0;
         flex-shrink: 0;
         border-radius: 40px;
         background: $backgroud-form-color;
@@ -76,7 +76,7 @@ $visited-color: #b4b4b4;
 
         input {
             display: flex;
-            width: 70%;
+            width: 100%;
             height: 40px;
             padding: 0 5%;
             margin: 0 auto 0;
@@ -86,7 +86,7 @@ $visited-color: #b4b4b4;
             border-radius: 40px;
             border: 1px solid $hover-color;
             background-color: $backgroud-form-color;
-            color: $visited-color;
+            color: $hover-color;
             font-family: Montserrat;
             font-size: 16px;
             font-style: normal;
@@ -103,6 +103,7 @@ $visited-color: #b4b4b4;
 .login__btn__inst,
 .login__btn__facebook {
     display: flex;
+    justify-content: center;
     width: 70%;
     height: 40px;
     margin: 0px auto 20px;
@@ -113,7 +114,6 @@ $visited-color: #b4b4b4;
     border: 0;
     background: $backgroud-form-btn;
     color: $hover-color;
-    text-align: left;
     font-family: Montserrat;
     font-size: 16px;
     white-space: nowrap;
@@ -228,7 +228,7 @@ $visited-color: #b4b4b4;
     align-items: center;
     text-align: left;
     width: 70%;
-    margin: 8px auto 8px;
+    margin: 12px auto 12px;
     color: $backgroud-form-btn;
     font-family: Montserrat;
     font-size: 12px;
@@ -268,32 +268,72 @@ $visited-color: #b4b4b4;
     border-radius: 8px !important;
     border: 2px solid $backgroud-form-btn !important;
     background-color: $backgroud-form-color !important;
-    width: 37px !important;
-    height: 37px !important;
+    background-size: 25px 25px;
+    width: 25px !important;
+    height: 25px !important;
     margin-right: 16px !important;
     flex-shrink: 0;
     -webkit-border-radius: 8px !important;
     -moz-border-radius: 8px !important;
     -ms-border-radius: 8px !important;
     -o-border-radius: 8px !important;
-}
-
-.form-check-input:hover {
-    border-color: $hover-color !important;
-}
-
-.form-check-input:active {
-    background-image: url(../../assets/login__page/check-half.png) !important;
-}
-
-.form-check-input:visited {
-    background-image: url(../../assets/login__page/check.png) !important;
-}
-
-.form-check-input:focus {
-    box-shadow: none !important;
+    &:hover {
+        border-color: $hover-color !important;
+        width: 25px !important;
+        height: 25px !important;
+        border: 0;
+    }
+    &:active {
+        background-image: url(../../assets/login__page/check-half.png) !important;
+    }
+    &:checked {
+        background-image: url(../../assets/login__page/check.png) !important;
+    }
+    &:focus {
+        box-shadow: none !important;
+    }
+    transition: background-image 0.4s ease;
+    -webkit-transition: background-image 0.4s ease;
+    -moz-transition: background-image 0.4s ease;
+    -ms-transition: background-image 0.4s ease;
+    -o-transition: background-image 0.4s ease;
 }
 
 .form-label {
     margin-bottom: 0 !important;
+}
+
+.login__wrap__email,
+.login__wrap__password {
+    width: 70%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.login__eye__close {
+    position: absolute;
+    background-image: url(../../assets/login__page/close-eye.png);
+    background-size: 20px 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2em;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border: 0;
+    background-color: inherit;
+}
+
+.login__eye__open {
+    position: absolute;
+    background-image: url(../../assets/login__page/open-eye.png);
+    background-size: 20px 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2em;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border: 0;
+    background-color: inherit;
 }
