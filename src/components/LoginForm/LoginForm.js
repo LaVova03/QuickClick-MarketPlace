@@ -1,5 +1,5 @@
 import './LoginForm.scss';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { Form as BootstrapForm } from 'react-bootstrap';
@@ -9,6 +9,11 @@ const LoginForm = () => {
     const [registration, setRegistration] = useState(false);
     const [isEye, setIsEye] = useState(false);
     const [emptyFields, setEmptyFields] = useState([]);
+    const [resRegex, setResRegex] = useState(true);
+
+    useEffect(() => {
+        console.log(resRegex)
+    }, [resRegex])
 
     const navigate = useNavigate();
 
@@ -43,16 +48,26 @@ const LoginForm = () => {
                     checkbox: false,
                 }}
                 onSubmit={(values, { resetForm }) => {
+
                     const passwordRegex = /^[a-zA-Z!@#$%^&*()_+{}|:"<>?[\],.';~`]+$/;
+
+                    for (let key in values) {
+                        if (key === 'password') {
+                            let reg = passwordRegex.test(values[key]);
+                            if (!reg) {
+                                setResRegex(false);
+                            }
+                        }
+                    }
 
                     const emptyFieldsArray = Object.entries(values)
                         .filter(([key, value]) => (key === 'email' ||
-                            (key === 'password' && !passwordRegex.test(value))) && !value)
+                            (key === 'password')) && !value)
                         .map(([key]) => key);
 
                     setEmptyFields(emptyFieldsArray);
 
-                    if (emptyFieldsArray.length === 0) {
+                    if (emptyFieldsArray.length === 0 && resRegex) {
                         if (registration) {
                             alert(JSON.stringify(values, null, 2));
                         } else {
@@ -61,6 +76,7 @@ const LoginForm = () => {
                         }
 
                         resetForm();
+                        setResRegex(true);
                     }
                 }}
             >
@@ -99,23 +115,30 @@ const LoginForm = () => {
                                 type="email"
                                 id="email"
                                 name="email"
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    handleChange(e);
+                                    setEmptyFields((prevFields) => prevFields.filter(field => field !== 'email'));
+                                }}
                                 value={values.email}
                                 placeholder='Електронна пошта чи телефон'
                                 autoComplete="email"
                                 style={{ border: emptyFields.includes('email') ? '2px solid red' : '' }}
                             />
+
                         </div><br />
                         <div className='login__wrap__password'>
                             <Field
                                 type={!isEye ? "password" : "text"}
                                 id="password"
                                 name="password"
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    handleChange(e);
+                                    setEmptyFields((prevFields) => prevFields.filter(field => field !== 'password'));
+                                }}
                                 value={values.password}
                                 placeholder='Пароль*'
                                 autoComplete="password"
-                                style={{ border: emptyFields.includes('password') ? '2px solid red' : '' }}
+                                style={{ border: emptyFields.includes('password') || !resRegex ? '2px solid red' : '' }}
                             />
                             <button
                                 type='button'
@@ -136,7 +159,7 @@ const LoginForm = () => {
                                         checked={values.checkbox}
                                         onChange={handleChange}
                                     />
-                                    <BootstrapForm.Label className="ml-2">
+                                    <BootstrapForm.Label className="ml-2" style={{ pointerEvents: 'none' }}>
                                         Створюючи профіль на QuickQlick, ви погоджуєтеся з умовами використання
                                     </BootstrapForm.Label>
                                     <ErrorMessage name="checkbox" component="div" />
@@ -150,7 +173,7 @@ const LoginForm = () => {
                     </Form>
                 )}
             </Formik>
-        </div>
+        </div >
     )
 }
 

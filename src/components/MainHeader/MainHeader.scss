@@ -4,15 +4,19 @@ $second-color: #cdffd8;
 $bar-hover-color: #00a224;
 
 .main__header__wrap {
-    display: flex;
-    position: relative;
-    height: 138px;
-    padding: 0 3vw;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
     border-radius: 0px 0px 8px 8px;
     background: $main-color;
+    display: flex;
+    justify-content: center;
+    .main__header__position {
+        display: flex;
+        width: 94%;
+        position: relative;
+        height: 138px;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+    }
 }
 
 .main__header__wrapleft {
@@ -98,7 +102,7 @@ $bar-hover-color: #00a224;
 
 .main__headre__center {
     display: flex;
-    width: 51%;
+    width: 47%;
     height: 60px;
     flex-shrink: 0;
     margin-left: 0;
@@ -174,7 +178,7 @@ $bar-hover-color: #00a224;
 
 .main__headre__right {
     position: relative;
-    right: 1em;
+    right: 2em;
     display: flex;
     justify-content: space-between;
 }
@@ -184,13 +188,13 @@ $bar-hover-color: #00a224;
     background-color: transparent;
     border: 0;
     cursor: pointer;
-    margin: 0 1vw 0 0;
+    margin: 0 3px;
 }
 
 .main__headre__right button:nth-of-type(3) {
     cursor: pointer;
     display: flex;
-    padding: 28px 2em;
+    padding: 28px 1.5em;
     justify-content: center;
     align-items: center;
     white-space: nowrap;
@@ -254,5 +258,51 @@ $bar-hover-color: #00a224;
 #main__header__user:active {
     div {
         background-image: url(../../assets/mainHeader/user-hover.png);
+    }
+}
+
+.main__wrap__lang {
+    align-items: center;
+    display: flex;
+    width: 75px;
+    margin-right: 8px;
+    .main__lang__uk {
+        background-image: url(../../assets/mainHeader/ukr.png);
+        background-repeat: no-repeat;
+        background-size: 38px 26px;
+        display: flex;
+        width: 38px;
+        height: 26px;
+        flex-shrink: 0;
+        border-radius: 4px;
+        cursor: pointer;
+        border: 0;
+        margin: 0;
+    }
+    .main__lang__eng {
+        background-image: url(../../assets/mainHeader/eng.png);
+        background-repeat: no-repeat;
+        background-size: 38px 26px;
+        display: flex;
+        width: 38px;
+        height: 26px;
+        flex-shrink: 0;
+        border-radius: 4px;
+        cursor: pointer;
+        border: 0;
+        margin: 0;
+    }
+    label {
+        color: var(--Light, #cdffd8);
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 0%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 0 0 3px;
     }
 }

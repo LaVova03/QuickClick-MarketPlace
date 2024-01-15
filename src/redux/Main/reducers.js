@@ -1,7 +1,9 @@
 import { SET_BURGER_MENU } from './actionTypes';
+import { SET_LANGUAGE } from './actionTypes';
 
 const initialState = {
     isFlagSet: false,
+    isLanguage: true,
 };
 
 const myReducer = (state = initialState, action) => {
@@ -11,6 +13,11 @@ const myReducer = (state = initialState, action) => {
                 ...state,
                 isFlagSet: !state.isFlagSet,
             };
+        case SET_LANGUAGE:
+            return {
+                ...state,
+                isLanguage: !state.isLanguage,
+            }
         default:
             return state;
     }
