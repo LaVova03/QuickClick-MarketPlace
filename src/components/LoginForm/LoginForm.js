@@ -105,7 +105,7 @@ const LoginForm = () => {
                             <div className='login__facebook' />
                             Продовжити з Facebook
                         </button>
-                        <span>або</span><br />
+                        <span>або</span>
                         <div className='login__btn__wrap'>
                             <button onClick={showRegistration}>Зареєструватися</button>
                             <button onClick={showEnterence}>Увійти</button>
@@ -125,7 +125,7 @@ const LoginForm = () => {
                                 style={{ border: emptyFields.includes('email') ? '2px solid red' : '' }}
                             />
 
-                        </div><br />
+                        </div>
                         <div className='login__wrap__password'>
                             <Field
                                 type={!isEye ? "password" : "text"}
