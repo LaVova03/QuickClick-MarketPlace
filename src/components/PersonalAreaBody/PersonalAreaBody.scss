@@ -1,0 +1,53 @@
+.PersonalAreaBody__wrap {
+    display: block;
+    padding: 40px 135px;
+    align-items: flex-start;
+    align-self: stretch;
+    label {
+        width: 338px;
+        height: 54px;
+        color: #000;
+        font-family: Montserrat Medium;
+        font-size: 36px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 160%;
+        margin: 0 0 24px 0;
+    }
+    ul {
+        padding: 0;
+        li {
+            width: 20em;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: Montserrat Medium;
+            justify-content: space-between;
+            margin: 0 0 12px 0;
+            label {
+                display: flex;
+                align-items: center;
+                color: var(--Dark-deep, #001004);
+                font-family: Montserrat;
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 160%;
+                width: 0;
+                height: 0;
+                margin: 0;
+            }
+            .personal__bnt__plus {
+                background-color: inherit;
+                width: 24px;
+                height: 24px;
+                border: 0;
+                margin: 0;
+                padding: 0;
+                align-items: center;
+                cursor: pointer;
+            }
+        }
+    }
+}

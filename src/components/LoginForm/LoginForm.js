@@ -1,5 +1,5 @@
 import './LoginForm.scss';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { Form as BootstrapForm } from 'react-bootstrap';
@@ -10,10 +10,6 @@ const LoginForm = () => {
     const [isEye, setIsEye] = useState(false);
     const [emptyFields, setEmptyFields] = useState([]);
     const [resRegex, setResRegex] = useState(true);
-
-    useEffect(() => {
-        console.log(resRegex)
-    }, [resRegex])
 
     const navigate = useNavigate();
 
@@ -73,8 +69,10 @@ const LoginForm = () => {
                         } else {
                             const combinedValues = { email: values.email, password: values.password };
                             alert(JSON.stringify(combinedValues, null, 2));
+                            console.log('Setting token to localStorage');
+                            localStorage.setItem("token", "gffsdfvcb1fsfdsfgf");
+                            navigate("/personal_area");
                         }
-
                         resetForm();
                         setResRegex(true);
                     }
