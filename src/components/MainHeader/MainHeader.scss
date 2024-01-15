@@ -8,6 +8,7 @@ $bar-hover-color: #00a224;
     background: $main-color;
     display: flex;
     justify-content: center;
+    position: relative;
     .main__header__position {
         display: flex;
         width: 94%;
