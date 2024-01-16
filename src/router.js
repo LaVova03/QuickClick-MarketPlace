@@ -1,11 +1,12 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
 import Main from './containers/Main/Main';
 import Login from './containers/Login/Login';
 import PrivateRoute from "./privateRoute";
 import PersonalArea from './containers/PersonalArea/PersonalArea';
 
 const AppRouter = () => (
-    <BrowserRouter>
+    <Router>
         <Routes>
             <Route path="/" element={<Main />} />
 
@@ -19,7 +20,7 @@ const AppRouter = () => (
 
             <Route path="*" element={<div>404 | Page is not found !</div>} />
         </Routes>
-    </BrowserRouter>
+    </Router>
 );
 
 export default AppRouter;

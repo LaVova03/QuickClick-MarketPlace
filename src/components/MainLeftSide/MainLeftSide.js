@@ -1,4 +1,5 @@
 import './MainLeftSide.scss';
+import React from 'react';
 import Car from '../../assets/mainLeftSide/car.png';
 import Beauty from '../../assets/mainLeftSide/beauty.png';
 import Coach from '../../assets/mainLeftSide/coach.png';

@@ -1,4 +1,5 @@
 import './Main.scss';
+import React from 'react';
 import MainHeader from '../../components/MainHeader/MainHeader';
 import MainLeftSide from '../../components/MainLeftSide/MainLeftSide';
 import MainSlider from '../../components/MainSlider/MainSlider';

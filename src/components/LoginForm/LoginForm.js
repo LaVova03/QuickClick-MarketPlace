@@ -35,6 +35,11 @@ const LoginForm = () => {
         });
     };
 
+    const checkPasswordRegex = (password) => {
+        const passwordRegex = /^[0-9a-zA-Z=!@#$%^&*()_+{}|:"<>?[\],.';~`\\/-]+$/;
+        return passwordRegex.test(password);
+    };
+
     return (
         <div className='login__form__wrap'>
             <Formik
@@ -45,17 +50,6 @@ const LoginForm = () => {
                 }}
                 onSubmit={(values, { resetForm }) => {
 
-                    const passwordRegex = /^[a-zA-Z!@#$%^&*()_+{}|:"<>?[\],.';~`]+$/;
-
-                    for (let key in values) {
-                        if (key === 'password') {
-                            let reg = passwordRegex.test(values[key]);
-                            if (!reg) {
-                                setResRegex(false);
-                            }
-                        }
-                    }
-
                     const emptyFieldsArray = Object.entries(values)
                         .filter(([key, value]) => (key === 'email' ||
                             (key === 'password')) && !value)
@@ -63,13 +57,10 @@ const LoginForm = () => {
 
                     setEmptyFields(emptyFieldsArray);
 
-                    if (emptyFieldsArray.length === 0 && resRegex) {
+                    if (emptyFieldsArray.length === 0 && checkPasswordRegex(values.password)) {
                         if (registration) {
                             alert(JSON.stringify(values, null, 2));
                         } else {
-                            const combinedValues = { email: values.email, password: values.password };
-                            alert(JSON.stringify(combinedValues, null, 2));
-                            console.log('Setting token to localStorage');
                             localStorage.setItem("token", "gffsdfvcb1fsfdsfgf");
                             navigate("/personal_area");
                         }
@@ -132,6 +123,7 @@ const LoginForm = () => {
                                 onChange={(e) => {
                                     handleChange(e);
                                     setEmptyFields((prevFields) => prevFields.filter(field => field !== 'password'));
+                                    setResRegex(checkPasswordRegex(e.target.value));
                                 }}
                                 value={values.password}
                                 placeholder='Пароль*'

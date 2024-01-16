@@ -1,4 +1,5 @@
 import './MainRightSide.scss';
+import React from 'react';
 import Img1 from '../../assets/mainRightSide/image 2.png';
 import Img2 from '../../assets/mainRightSide/image 2 (1).png';
 import Img3 from '../../assets/mainRightSide/image 2 (2).png';

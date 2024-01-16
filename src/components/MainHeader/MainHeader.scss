@@ -280,6 +280,16 @@ $bar-hover-color: #00a224;
         border: 0;
         margin: 0;
     }
+    &:hover {
+        label {
+            color: var(--Green-Normal, #00a224);
+        }
+    }
+    &:active {
+        label {
+            color: var(--Dark-Green, #06611a);
+        }
+    }
     .main__lang__eng {
         background-image: url(../../assets/mainHeader/eng.png);
         background-repeat: no-repeat;
@@ -292,6 +302,16 @@ $bar-hover-color: #00a224;
         cursor: pointer;
         border: 0;
         margin: 0;
+    }
+    &:hover {
+        label {
+            color: var(--Green-Normal, #00a224);
+        }
+    }
+    &:active {
+        label {
+            color: var(--Dark-Green, #06611a);
+        }
     }
     label {
         color: var(--Light, #cdffd8);

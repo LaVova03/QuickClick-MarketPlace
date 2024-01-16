@@ -1,4 +1,5 @@
 import './MainBurgerMenu.scss';
+import React from 'react';
 
 const MainBurgerMenu = () => {
     return (

@@ -1,4 +1,5 @@
 import './PersonalArea.scss';
+import React from 'react';
 import Head from '../../components/MainHeader/MainHeader';
 import Footer from '../../components/MainFooter/MainFooter';
 import PersonalAreaBody from '../../components/PersonalAreaBody/PersonalAreaBody';

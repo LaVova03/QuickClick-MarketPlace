@@ -1,5 +1,6 @@
 import './MainFooter.scss';
 import Logo from '../../assets/mainFooter/logo.png';
+import React from 'react';
 
 const MainFooter = () => {
     return (
