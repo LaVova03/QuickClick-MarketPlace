@@ -1,3 +1,5 @@
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './LoginForm.scss';
 import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -9,7 +11,24 @@ const LoginForm = () => {
     const [registration, setRegistration] = useState(false);
     const [isEye, setIsEye] = useState(false);
     const [emptyFields, setEmptyFields] = useState([]);
-    const [resRegex, setResRegex] = useState(true);
+    const [resRegex, setResRegex] = useState(
+        {
+            email: true,
+            password: true,
+        }
+    );
+    const [isLogin, setIsLogin] = useState(
+        {
+            phone: false,
+            email: false,
+        }
+    )
+
+    const notifyError = (message) => {
+        toast.error(message, {
+            position: 'top-right'
+        });
+    };
 
     const navigate = useNavigate();
 
@@ -36,8 +55,42 @@ const LoginForm = () => {
     };
 
     const checkPasswordRegex = (password) => {
-        const passwordRegex = /^[0-9a-zA-Z=!@#$%^&*()_+{}|:"<>?[\],.';~`\\/-]+$/;
+        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+{}|:"<>?[\],.';~`\\/-]+$/;
         return passwordRegex.test(password);
+    };
+
+    const checkLoginRegex = (email) => {
+        const phoneRegex = /\+{1}\d{12}/.test(email);
+        const emailRegex = email.includes('@');
+        if (phoneRegex) {
+            return phoneRegex
+        }
+        if (emailRegex) {
+            return emailRegex
+        }
+    };
+
+    const validateLogin = (login) => {
+        const isEmail = /^[a-zA-Z=!@#$%^&*()_{}+|:"<>?[\],.';~`\\/-]+$/.test(login);
+        const isPhone = /\+{1}\d+/.test(login);
+        if (isEmail) {
+            setIsLogin(prevState => ({
+                ...prevState,
+                phone: false,
+                email: true,
+            }))
+        } else if (isPhone) {
+            setIsLogin(prevState => ({
+                ...prevState,
+                email: false,
+                phone: true,
+            }))
+        } else {
+            setIsLogin({
+                phone: false,
+                email: false,
+            });
+        }
     };
 
     return (
@@ -57,7 +110,11 @@ const LoginForm = () => {
 
                     setEmptyFields(emptyFieldsArray);
 
-                    if (emptyFieldsArray.length === 0 && checkPasswordRegex(values.password)) {
+                    const resultPassword = checkPasswordRegex(values.password);
+                    const resultPhone = isLogin.phone ? checkLoginRegex(values.email) : false;
+                    const resultEmail = isLogin.email ? checkLoginRegex(values.email) : false;
+
+                    if (emptyFieldsArray.length === 0 && resultPassword && (isLogin.phone ? resultPhone : resultEmail)) {
                         if (registration) {
                             alert(JSON.stringify(values, null, 2));
                         } else {
@@ -65,7 +122,16 @@ const LoginForm = () => {
                             navigate("/personal_area");
                         }
                         resetForm();
-                        setResRegex(true);
+                        setResRegex((prevState) => ({ ...prevState, password: true, email: true }));
+                    }
+                    if (emptyFieldsArray.length > 0) {
+                        notifyError("Заповніть обов'язкові поля");
+                    } else if (isLogin.phone) {
+                        notifyError("Не вірний формат. Введіть телефон у форматі +380939119191");
+                    } else if (!resRegex) {
+                        notifyError("Не вірний формат паролю. Мають бути лише латинські літери, хоча б одна велика літера, та хоча б одна цифра.");
+                    } else if (isLogin.email) {
+                        notifyError("Не вірний формат. Email має бути у форматі angel@gmail.com")
                     }
                 }}
             >
@@ -101,17 +167,18 @@ const LoginForm = () => {
                         </div>
                         <div className='login__wrap__email'>
                             <Field
-                                type="email"
+                                type="text"
                                 id="email"
                                 name="email"
                                 onChange={(e) => {
                                     handleChange(e);
                                     setEmptyFields((prevFields) => prevFields.filter(field => field !== 'email'));
+                                    setResRegex((statePrev) => ({ ...statePrev, email: validateLogin(e.target.value) }));
                                 }}
                                 value={values.email}
                                 placeholder='Електронна пошта чи телефон'
                                 autoComplete="email"
-                                style={{ border: emptyFields.includes('email') ? '2px solid red' : '' }}
+                                style={{ border: emptyFields.includes('email') || !resRegex.email ? '2px solid red' : '' }}
                             />
 
                         </div>
@@ -123,12 +190,12 @@ const LoginForm = () => {
                                 onChange={(e) => {
                                     handleChange(e);
                                     setEmptyFields((prevFields) => prevFields.filter(field => field !== 'password'));
-                                    setResRegex(checkPasswordRegex(e.target.value));
+                                    setResRegex((statePrev) => ({ ...statePrev, password: checkPasswordRegex(e.target.value) }));
                                 }}
                                 value={values.password}
                                 placeholder='Пароль*'
                                 autoComplete="password"
-                                style={{ border: emptyFields.includes('password') || !resRegex ? '2px solid red' : '' }}
+                                style={{ border: emptyFields.includes('password') || !resRegex.password ? '2px solid red' : '' }}
                             />
                             <button
                                 type='button'
@@ -163,6 +230,7 @@ const LoginForm = () => {
                     </Form>
                 )}
             </Formik>
+            <ToastContainer />
         </div >
     )
 }
