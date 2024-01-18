@@ -2,6 +2,8 @@ $main-color: #00380d;
 $btn-color: #00881e;
 $second-color: #cdffd8;
 $bar-hover-color: #00a224;
+$label-color: #06611a;
+$lang-text-color: #cdffd8;
 
 .main__header__wrap {
     border-radius: 0px 0px 8px 8px;
@@ -282,12 +284,12 @@ $bar-hover-color: #00a224;
     }
     &:hover {
         label {
-            color: var(--Green-Normal, #00a224);
+            color: $bar-hover-color;
         }
     }
     &:active {
         label {
-            color: var(--Dark-Green, #06611a);
+            color: $label-color;
         }
     }
     .main__lang__eng {
@@ -305,16 +307,16 @@ $bar-hover-color: #00a224;
     }
     &:hover {
         label {
-            color: var(--Green-Normal, #00a224);
+            color: $bar-hover-color;
         }
     }
     &:active {
         label {
-            color: var(--Dark-Green, #06611a);
+            color: $label-color;
         }
     }
     label {
-        color: var(--Light, #cdffd8);
+        color: $lang-text-color;
         text-align: center;
         font-family: Montserrat;
         font-size: 12px;

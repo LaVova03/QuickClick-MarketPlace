@@ -58,8 +58,8 @@ const MainHeader = () => {
                     <button>Додати оголошення</button>
                 </div>
             </div>
-            {isFlagSet ? <MainBurgerMenu /> : null}
-        </div>
+            < MainBurgerMenu isFlagSet={isFlagSet} />
+        </div >
     )
 }
 

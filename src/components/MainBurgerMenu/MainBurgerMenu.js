@@ -1,9 +1,9 @@
 import './MainBurgerMenu.scss';
 import React from 'react';
 
-const MainBurgerMenu = () => {
+const MainBurgerMenu = ({ isFlagSet }) => {
     return (
-        <div className='main__burgermenu__wrap'>
+        <div className={!isFlagSet ? 'main__burgermenu__close' : 'main__burgermenu__wrap'}>
             <ul>
                 <li><button>Про нас</button></li>
                 <li><button>Контакти</button></li>

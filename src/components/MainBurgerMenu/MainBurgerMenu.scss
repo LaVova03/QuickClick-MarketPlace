@@ -2,12 +2,12 @@ $background-color: #06611a;
 $text-color: #cdffd8;
 $text-hover-color: #00a224;
 
-.main__burgermenu__wrap {
+.main__burgermenu__wrap,
+.main__burgermenu__close {
     display: inline-flex;
     position: absolute;
     z-index: 1;
     top: 100%;
-    left: 0;
     padding: 2vw;
     height: auto;
     width: 20vw;
@@ -16,6 +16,13 @@ $text-hover-color: #00a224;
     gap: 16px;
     border-radius: 8px;
     background: $background-color;
+    left: 0;
+    opacity: 1;
+    &.main__burgermenu__close {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     ul {
         padding: 0;
         padding: 0;
