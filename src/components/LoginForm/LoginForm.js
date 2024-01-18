@@ -55,14 +55,18 @@ const LoginForm = () => {
     };
 
     const checkPasswordRegex = (password) => {
-        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+{}|:"<>?[\],.';~`\\/-]+$/;
-        return passwordRegex.test(password);
+        if (password.length > 9) {
+            const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+{}|:"<>?[\],.';~`\\/-]+$/;
+            return passwordRegex.test(password);
+        } else {
+            return false;
+        }
     };
 
     const checkLoginRegex = (email) => {
         const phoneRegex = /\+{1}\d{12}/.test(email);
-        const emailRegex = email.includes('@');
-        if (phoneRegex) {
+        const emailRegex = /[A-Za-z_-]+@{1}[A-Za-z_-]+/.test(email);
+        if (phoneRegex && email.length === 13) {
             return phoneRegex
         }
         if (emailRegex) {
@@ -91,6 +95,7 @@ const LoginForm = () => {
                 email: false,
             });
         }
+        return isEmail || isPhone;
     };
 
     return (
@@ -113,6 +118,7 @@ const LoginForm = () => {
                     const resultPassword = checkPasswordRegex(values.password);
                     const resultPhone = isLogin.phone ? checkLoginRegex(values.email) : false;
                     const resultEmail = isLogin.email ? checkLoginRegex(values.email) : false;
+                    const resultIsLogin = validateLogin(values.email)
 
                     if (emptyFieldsArray.length === 0 && resultPassword && (isLogin.phone ? resultPhone : resultEmail)) {
                         if (registration) {
@@ -123,14 +129,15 @@ const LoginForm = () => {
                         }
                         resetForm();
                         setResRegex((prevState) => ({ ...prevState, password: true, email: true }));
+                        setEmptyFields([]);
                     }
                     if (emptyFieldsArray.length > 0) {
                         notifyError("Заповніть обов'язкові поля");
-                    } else if (isLogin.phone) {
+                    } else if (isLogin.phone && (!resultPhone || !resultIsLogin)) {
                         notifyError("Не вірний формат. Введіть телефон у форматі +380939119191");
-                    } else if (!resRegex) {
-                        notifyError("Не вірний формат паролю. Мають бути лише латинські літери, хоча б одна велика літера, та хоча б одна цифра.");
-                    } else if (isLogin.email) {
+                    } else if (!resultPassword) {
+                        notifyError("У пароля мають бути лише латинські літери, хоча б одна велика літера, та хоча б одна цифра, довжина не менше 10 символів");
+                    } else if (isLogin.email && (!resultEmail || !resultIsLogin)) {
                         notifyError("Не вірний формат. Email має бути у форматі angel@gmail.com")
                     }
                 }}
@@ -173,12 +180,13 @@ const LoginForm = () => {
                                 onChange={(e) => {
                                     handleChange(e);
                                     setEmptyFields((prevFields) => prevFields.filter(field => field !== 'email'));
-                                    setResRegex((statePrev) => ({ ...statePrev, email: validateLogin(e.target.value) }));
+                                    setResRegex((statePrev) => ({ ...statePrev, email: checkLoginRegex(e.target.value) }));
+                                    validateLogin(e.target.value)
                                 }}
                                 value={values.email}
-                                placeholder='Електронна пошта чи телефон'
+                                placeholder='Електронна пошта чи телефон*'
                                 autoComplete="email"
-                                style={{ border: emptyFields.includes('email') || !resRegex.email ? '2px solid red' : '' }}
+                                style={{ border: emptyFields.includes('email') || !resRegex.email ? '1px solid #FF5858' : '' }}
                             />
 
                         </div>
@@ -195,7 +203,7 @@ const LoginForm = () => {
                                 value={values.password}
                                 placeholder='Пароль*'
                                 autoComplete="password"
-                                style={{ border: emptyFields.includes('password') || !resRegex.password ? '2px solid red' : '' }}
+                                style={{ border: emptyFields.includes('password') || !resRegex.password ? '1px solid #FF5858' : '' }}
                             />
                             <button
                                 type='button'
@@ -224,7 +232,9 @@ const LoginForm = () => {
                             </div>}
                         <button
                             type="submit"
-                            className='login__summit'>
+                            className={registration && !values.checkbox ? 'login__sumbmit__disabled' : 'login__submit'}
+                            disabled={registration && !values.checkbox}
+                        >
                             {registration ? 'Створити' : 'Увійти'}
                         </button>
                     </Form>

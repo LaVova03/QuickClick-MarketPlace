@@ -1,3 +1,7 @@
+$text-color: #000;
+$deep-color: #001004;
+$open-text-color: #00a224;
+
 .PersonalAreaBody__wrap {
     display: block;
     padding: 40px 135px;
@@ -6,7 +10,7 @@
     label {
         width: 338px;
         height: 54px;
-        color: #000;
+        color: $text-color;
         font-family: Montserrat Medium;
         font-size: 36px;
         font-style: normal;
@@ -32,7 +36,7 @@
             .personal__color__black {
                 display: flex;
                 align-items: center;
-                color: var(--Dark-deep, #001004);
+                color: $deep-color;
                 font-family: Montserrat;
                 font-size: 24px;
                 font-style: normal;
@@ -46,7 +50,7 @@
             .personal__color__green {
                 display: flex;
                 align-items: center;
-                color: var(--Green-Normal, #00a224);
+                color: $open-text-color;
                 font-family: Montserrat;
                 font-size: 24px;
                 font-style: normal;
@@ -77,7 +81,7 @@
         right: 0;
         width: 1px;
         height: 100%;
-        background-color: #001004;
+        background-color: $deep-color;
     }
 }
 
@@ -86,7 +90,7 @@
 }
 
 .personal__colum__block {
-    color: var(--Dark-deep, #001004);
+    color: $deep-color;
     font-family: Montserrat;
     font-size: 18px;
     font-style: normal;
@@ -102,21 +106,24 @@
             padding: 0;
         }
     }
-    li:hover{
+    li:hover {
         transition: 0.1s;
         font-size: 20px;
         -webkit-transition: 0.1s;
         -moz-transition: 0.1s;
         -ms-transition: 0.1s;
         -o-transition: 0.1s;
-}
+    }
 
     &__none {
         display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
     }
 
     &__open {
         display: block;
+        opacity: 1;
         animation: slideIn 0.3s ease-in-out;
     }
 

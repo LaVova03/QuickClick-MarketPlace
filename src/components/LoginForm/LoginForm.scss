@@ -2,6 +2,8 @@ $backgroud-form-color: #06611a;
 $backgroud-form-btn: #00a224;
 $hover-color: #cdffd8;
 $visited-color: #b4b4b4;
+$disable-background: rgb(114, 114, 114);
+$disable-color: rgb(32, 28, 28);
 
 .login__form__wrap {
     display: flex;
@@ -122,7 +124,7 @@ $visited-color: #b4b4b4;
     cursor: pointer;
 }
 
-.login__summit:hover,
+.login__submit:hover,
 .login__btn__google:hover,
 .login__btn__inst:hover,
 .login__btn__facebook:hover {
@@ -130,7 +132,7 @@ $visited-color: #b4b4b4;
     color: $backgroud-form-btn;
 }
 
-.login__summit:active,
+.login__submit:active,
 .login__btn__google:active,
 .login__btn__inst:active,
 .login__btn__facebook:active {
@@ -138,7 +140,7 @@ $visited-color: #b4b4b4;
     background: $backgroud-form-btn;
 }
 
-.login__summit:visited,
+.login__submit:visited,
 .login__btn__google:visited,
 .login__btn__inst:visited,
 .login__btn__facebook:visited {
@@ -177,7 +179,7 @@ $visited-color: #b4b4b4;
     background-image: url(../../assets/login__page/left-active.png);
 }
 
-.login__summit {
+.login__submit {
     display: flex;
     width: 70%;
     height: 45px;
@@ -189,6 +191,27 @@ $visited-color: #b4b4b4;
     border: 0;
     background: $backgroud-form-btn;
     color: $hover-color;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    cursor: pointer;
+}
+
+.login__sumbmit__disabled {
+    display: flex;
+    width: 70%;
+    height: 45px;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    gap: 8px;
+    border-radius: 40px;
+    border: 0;
+    background: $disable-background;
+    color: $disable-color;
     text-align: center;
     font-family: Montserrat;
     font-size: 15px;
