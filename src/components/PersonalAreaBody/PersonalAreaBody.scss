@@ -85,18 +85,26 @@ $open-text-color: #00a224;
     }
 }
 
-.personal__colum__none {
-    display: none;
-}
-
+.personal__colum__none,
 .personal__colum__block {
     color: $deep-color;
     font-family: Montserrat;
+    position: relative;
     font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: 160%;
     padding: 0;
+    left: 0;
+    opacity: 1;
+    height: max-content;
+    overflow: hidden;
+     &.personal__colum__none {
+        transform: translateX(-100%);
+        opacity: 0;
+        height: 20px;
+    }
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     li {
         list-style: none;
         button {
