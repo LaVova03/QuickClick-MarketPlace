@@ -6,11 +6,14 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { Form as BootstrapForm } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import RepeatPasswordModal from '../RepeatPasswordModal/RepeatPasswordModal';
 
 const LoginForm = () => {
     const [registration, setRegistration] = useState(false);
     const [isEye, setIsEye] = useState(false);
     const [emptyFields, setEmptyFields] = useState([]);
+    const [isModalRepeatPassword, setModalRepeatPassword] = useState(false);
+    const [password, setPassword] = useState('');
     const [resRegex, setResRegex] = useState(
         {
             email: true,
@@ -98,6 +101,10 @@ const LoginForm = () => {
         return isEmail || isPhone;
     };
 
+    const closeModal = () => {
+        setModalRepeatPassword(false)
+    }
+
     return (
         <div className='login__form__wrap'>
             <Formik
@@ -108,6 +115,7 @@ const LoginForm = () => {
                 }}
                 onSubmit={(values, { resetForm }) => {
 
+                    setPassword(values.password);
                     const emptyFieldsArray = Object.entries(values)
                         .filter(([key, value]) => (key === 'email' ||
                             (key === 'password')) && !value)
@@ -122,7 +130,7 @@ const LoginForm = () => {
 
                     if (emptyFieldsArray.length === 0 && resultPassword && (isLogin.phone ? resultPhone : resultEmail)) {
                         if (registration) {
-                            alert(JSON.stringify(values, null, 2));
+                            setModalRepeatPassword(true);
                         } else {
                             localStorage.setItem("token", "gffsdfvcb1fsfdsfgf");
                             navigate("/personal_area");
@@ -241,6 +249,7 @@ const LoginForm = () => {
                 )}
             </Formik>
             <ToastContainer />
+            {isModalRepeatPassword ? <RepeatPasswordModal closeModal={closeModal} initialValue={password}/> : null}
         </div >
     )
 }

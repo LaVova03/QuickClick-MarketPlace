@@ -75,6 +75,7 @@ $disable-color: rgb(32, 28, 28);
             color: $backgroud-form-color;
         }
 
+        input:-webkit-autofill,
         input {
             display: flex;
             width: 100%;
@@ -93,6 +94,8 @@ $disable-color: rgb(32, 28, 28);
             font-style: normal;
             font-weight: 500;
             line-height: 140%;
+            -webkit-box-shadow: 0 0 0 30px $backgroud-form-color inset !important;
+            transition: background-color 5000s ease-in-out 0s;
             &:focus {
                 outline: none;
             }
