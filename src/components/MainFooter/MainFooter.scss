@@ -1,0 +1,205 @@
+$btn-color: #00881e;
+$second-color: #cdffd8;
+$btn-hover: #00a224;
+$background-color: #001004;
+
+.main__footer__wrap {
+    clear: left;
+    display: flex;
+    height: max-content;
+    padding: 30px 135px;
+    justify-content: space-between;
+    align-items: top;
+    border-radius: 8px 8px 0px 0px;
+    background: $background-color;
+    justify-content: space-between;
+}
+
+.main__footer__logo {
+    display: flex;
+    width: 170px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    color: $btn-color;
+    font-family: Montserrat;
+    font-size: 2vw;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    align-items: center;
+    img{
+        width: 9em;
+    }
+}
+
+.main__footer__center {
+    display: flex;
+    justify-content: space-between;
+    display: flex;
+    width: max-content;
+    align-items: top;
+    gap: 80px;
+    flex-shrink: 0;
+    color: $second-color;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    ul {
+        padding: 0;
+        margin: 0;
+        li {
+            list-style: none;
+            width: max-content;
+            line-height: 1.5;
+            font-weight: 500;
+            button {
+                font-weight: 500;
+                border: 0;
+                background-color: inherit;
+                cursor: pointer;
+                color: $second-color;
+                font-family: Montserrat;
+                font-size: 20px;
+                font-style: normal;
+                line-height: normal;
+            }
+            button:hover {
+                color: $btn-hover;
+            }
+
+            button:active {
+                color: $btn-hover;
+                filter: blur(1px);
+            }
+        }
+    }
+}
+
+.main__footer__center ul:nth-of-type(2) {
+    li:first-child {
+        margin-left: 6px;
+    }
+}
+
+.main__footer__right {
+    position: relative;
+    ul {
+        font-weight: 500;
+        height: max-content;
+        padding: 0;
+        position: relative;
+        width: 12vw;
+        margin: 0;
+        li {
+            list-style: none;
+            color: $second-color;
+            text-align: center;
+            font-family: Montserrat;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            div {
+                line-height: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+}
+
+.main__footer__right ul li:first-child,
+.main__footer__center ul li:first-child {
+    color: $second-color;
+    font-family: Montserrat;
+    font-size: 1.6vw;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    line-height: 2.5;
+}
+
+.main__footer__lable {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 93%;
+    width: max-content;
+    color: $second-color;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    -webkit-transition: 50;
+    -moz-transition: 50;
+    -ms-transition: 50;
+    -o-transition: 50;
+}
+
+.main__footer__ut {
+    background-image: url(../../assets/mainFooter/utube.png);
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 19px;
+    background-color: inherit;
+    border: 0;
+    cursor: pointer;
+}
+
+.main__footer__ut:hover {
+    background-image: url(../../assets/mainFooter/ut-hover.png);
+    background-repeat: no-repeat;
+}
+
+.main__footer__ut:active {
+    background-image: url(../../assets/mainFooter/ut-click.png);
+    background-repeat: no-repeat;
+}
+
+.main__footer__fb {
+    background-image: url(../../assets/mainFooter/FB.png);
+    background-repeat: no-repeat;
+    width: 14px;
+    height: 23px;
+    background-color: inherit;
+    border: 0;
+    cursor: pointer;
+    margin: 0 32px;
+}
+
+.main__footer__fb:hover {
+    background-image: url(../../assets/mainFooter/FB-hover.png);
+    background-repeat: no-repeat;
+}
+
+.main__footer__fb:active {
+    background-image: url(../../assets/mainFooter/FB-click.png);
+    background-repeat: no-repeat;
+}
+
+.main__footer__inst {
+    background-image: url(../../assets/mainFooter/Inst.png);
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 23px;
+    background-color: inherit;
+    border: 0;
+    cursor: pointer;
+}
+
+.main__footer__inst:hover {
+    background-image: url(../../assets/mainFooter/Inst-hover.png);
+    background-repeat: no-repeat;
+}
+
+.main__footer__inst:active {
+    background-image: url(../../assets/mainFooter/Inst-click.png);
+    background-repeat: no-repeat;
+}

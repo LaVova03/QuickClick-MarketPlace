@@ -1,0 +1,93 @@
+$background-color: #cdffd8;
+$font-color: #00a224;
+$hover-color: #06611a;
+
+.main__recommendations__wrap {
+    width: 100%;
+    margin-top: 50px;
+    div{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    label {
+        color: $font-color;
+        font-family: Montserrat Bolt;
+        font-size: 36px;
+        font-style: normal;
+        font-weight: 800;
+        line-height: 120%;
+        width: 100%;
+        text-align: left;
+    }
+    div {
+        display: flex;
+        justify-content: space-between;
+        ul {
+            display: flex;
+            height: max-content;
+            width: 11vw;
+            height: 20vw;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 0;
+            margin: 50px 0 0 0;
+            li {
+                list-style: none;
+            }
+            button {
+                display: flex;
+                width: 100%;
+                height: 50px;
+                padding: 19px 26px 19px 27px;
+                justify-content: center;
+                align-items: center;
+                flex-shrink: 0;
+                border-radius: 40px;
+                border: 0;
+                cursor: pointer;
+                background: $font-color;
+                color: $background-color;
+                text-align: center;
+                font-family: Montserrat;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: 120%;
+            }
+
+            button:hover {
+                color: $hover-color;
+            }
+
+            button:active {
+                color: $background-color;
+                background: $hover-color;
+            }
+        }
+    }
+}
+
+.main__recommendations__prices {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#main__recommendations__span1 {
+    color: $hover-color;
+    font-family: Montserrat Bolt;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 140%;
+}
+
+#main__recommendations__span2 {
+    color: $font-color;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%;
+}

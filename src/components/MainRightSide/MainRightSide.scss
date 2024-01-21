@@ -1,0 +1,75 @@
+$background-color: #cdffd8;
+$background-1-color: rgba(205, 255, 216, 0.5);
+$text-color: #000;
+$font-color: #00881e;
+$hover-color: #00380d;
+
+.main__rightside__wrap {
+    display: flex;
+    width: 17vw;
+    height: max-content;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    gap: 8px;
+    li {
+        list-style: none;
+    }
+}
+
+.main__rigrtside__card {
+    display: block;
+    margin-top: 20px;
+    ul {
+        display: flex;
+        width: 100%;
+        height: 112px;
+        padding: 0 12px;
+        align-items: center;
+        gap: 8px;
+        border-radius: 20px;
+        background: $background-1-color;
+        li {
+            img {
+                border-radius: 20px;
+                background: $background-1-color;
+            }
+            span {
+                color: $text-color;
+                font-family: Montserrat;
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 120%;
+                button {
+                    display: flex;
+                    width: 96px;
+                    height: 36px;
+                    padding: 16px;
+                    margin-top: 2px;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    gap: 8px;
+                    flex-shrink: 0;
+                    border-radius: 24px;
+                    border: 0;
+                    background: $font-color;
+                    color: $background-color;
+                    font-family: Montserrat;
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                }
+                button:hover {
+                    color: $hover-color;
+                }
+                button:active {
+                    color: $background-color;
+                    background: $hover-color;
+                }
+            }
+        }
+    }
+}
