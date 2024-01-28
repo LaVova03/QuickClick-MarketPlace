@@ -4,6 +4,7 @@ import Main from './containers/Main/Main';
 import Login from './containers/Login/Login';
 import PrivateRoute from "./privateRoute";
 import PersonalArea from './containers/PersonalArea/PersonalArea';
+import AddCard from './components/AddCard/AddCard';
 
 const AppRouter = () => (
     <Router>
@@ -12,6 +13,7 @@ const AppRouter = () => (
 
             <Route >
                 <Route path="/login" element={<Login />} />
+                <Route path="/add_card" element={<AddCard />} />
             </Route>
 
             <Route element={<PrivateRoute />}>

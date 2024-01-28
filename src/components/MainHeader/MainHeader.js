@@ -25,6 +25,8 @@ const MainHeader = () => {
 
     const handleNavigate = () => navigate("/login");
 
+    const setAddCard = () => navigate("/add_card");
+
     return (
         <div className='main__header__wrap'>
             <div className='main__header__position'>
@@ -55,7 +57,7 @@ const MainHeader = () => {
                         </button>
                         <label>{isLanguage ? 'UK' : 'ENG'}</label>
                     </div>
-                    <button>Додати оголошення</button>
+                    <button onClick={setAddCard}>Додати оголошення</button>
                 </div>
             </div>
             < MainBurgerMenu isFlagSet={isFlagSet} />
