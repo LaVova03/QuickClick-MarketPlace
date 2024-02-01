@@ -1,18 +1,18 @@
 import './AddCardBody.scss';
-import React, { useState } from 'react';
+import React from 'react';
 
 const AddCardBody = () => {
 
-    const [isNewCard, setNewCard] = useState(
-        {
-            productName: '',
-            category: '',
-            discription: '',
-            photo: [],
-            location: '',
-            phone: '',
-        }
-    )
+    // const [isNewCard, setNewCard] = useState(
+    //     {
+    //         productName: '',
+    //         category: '',
+    //         discription: '',
+    //         photo: [],
+    //         location: '',
+    //         phone: '',
+    //     }
+    // )
 
     return (
         <div className='AddCardBody__wrap'>
