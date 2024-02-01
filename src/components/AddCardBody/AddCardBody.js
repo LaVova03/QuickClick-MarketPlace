@@ -1,18 +1,32 @@
 import './AddCardBody.scss';
-import React from 'react';
+import React, { useState, useRef } from 'react';
 
 const AddCardBody = () => {
 
-    // const [isNewCard, setNewCard] = useState(
-    //     {
-    //         productName: '',
-    //         category: '',
-    //         discription: '',
-    //         photo: [],
-    //         location: '',
-    //         phone: '',
-    //     }
-    // )
+    const fileInputRef = useRef(null);
+    const [isNewCard, setNewCard] = useState(
+        {
+            productName: '',
+            category: '',
+            discription: '',
+            photo: [],
+            location: '',
+            phone: '',
+        }
+    );
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        console.log('Выбранный файл:', file);
+        setNewCard(prevState => ({
+            ...prevState,
+            photo: [...prevState.photo, file]
+        }))
+    };
+
+    const handleButtonClick = () => {
+        fileInputRef.current.click();
+    };
 
     return (
         <div className='AddCardBody__wrap'>
@@ -27,28 +41,100 @@ const AddCardBody = () => {
                 <label >Додати фото*</label><br />
                 <ul>
                     <li>
-                        <button />
+                        <div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                            />
+                            <button onClick={handleButtonClick} />
+                        </div>
                     </li>
                     <li>
-                        <button />
+                        <div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                            />
+                            <button onClick={handleButtonClick} />
+                        </div>
                     </li>
                     <li>
-                        <button />
+                        <div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                            />
+                            <button onClick={handleButtonClick} />
+                        </div>
                     </li>
                     <li>
-                        <button />
+                        <div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                            />
+                            <button onClick={handleButtonClick} />
+                        </div>
                     </li>
                     <li>
-                        <button />
+                        <div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                            />
+                            <button onClick={handleButtonClick} />
+                        </div>
                     </li>
                     <li>
-                        <button />
+                        <div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                            />
+                            <button onClick={handleButtonClick} />
+                        </div>
                     </li>
                     <li>
-                        <button />
+                        <div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                            />
+                            <button onClick={handleButtonClick} />
+                        </div>
                     </li>
                     <li>
-                        <button />
+                        <div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                            />
+                            <button onClick={handleButtonClick} />
+                        </div>
                     </li>
                 </ul>
             </div>
