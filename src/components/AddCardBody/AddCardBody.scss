@@ -1,0 +1,165 @@
+$backgroud-form-color: #06611a;
+$backgroud-form-btn: #00a224;
+$li-color: #cdffd8;
+$placeholder-color: #b4b4b4;
+$text-color: #001004;
+
+.AddCardBody__wrap {
+    display: flex;
+    .add__left__side {
+        display: block;
+        width: 22vw;
+        margin-left: 8vh;
+        margin-top: 8vh;
+        margin-bottom: 8vh;
+        textarea {
+            display: flex;
+            width: 100%;
+            padding: 5% 5%;
+            margin: 0 auto 0;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            border-radius: 40px;
+            border: 1px solid $backgroud-form-btn;
+            font-family: Montserrat;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 140%;
+            outline: none;
+        }
+        textarea:hover {
+            border: 2px solid $li-color;
+        }
+
+        textarea:focus {
+            border: 2px solid $li-color;
+        }
+    }
+}
+
+.add__input {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    padding: 0 5%;
+    margin: 0 auto 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 40px;
+    border: 1px solid $backgroud-form-btn;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+    outline: none;
+}
+
+.add__input:hover {
+    border: 2px solid $li-color;
+}
+
+.add__input:focus {
+    border: 2px solid $li-color;
+}
+
+label {
+    color: $placeholder-color;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 22.4px */
+}
+
+.add__left__side > div {
+    color: text-color;
+    font-family: Montserrat;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%;
+    margin: 0 0 24px 0;
+    width: max-content;
+}
+
+.add__center__side {
+    width: max-content;
+    display: block;
+    margin: 21vh 10vh;
+    ul {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        padding: 0;
+        margin: 0;
+        li {
+            display: flex;
+            width: 128px;
+            height: 128px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            background: $li-color;
+            margin: 0 4px 4px 0;
+            button {
+                width: 24px;
+                height: 24px;
+                background-image: url(../../assets/add__card/camera.png);
+                background-size: 24px 24px;
+                background-color: inherit;
+                background-repeat: no-repeat;
+                border: 0;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+textarea::placeholder,
+.add__input::placeholder {
+    color: $placeholder-color;
+}
+
+.add__right__side {
+    display: block;
+    width: 22vw;
+    margin-right: 8vh;
+    margin-top: 21vh;
+    margin-bottom: 8vh;
+    button {
+        display: flex;
+        width: 224px;
+        height: 64px;
+        padding: 19px 26px 19px 27px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border: 0;
+        cursor: pointer;
+        border-radius: 40px;
+        background: $backgroud-form-btn;
+        color: $li-color;
+        font-family: Montserrat;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        position: relative;
+        bottom: -125px;
+        right: -77px;
+    }
+    button:hover {
+        background: $li-color;
+        color: $backgroud-form-btn;
+    }
+    button:active {
+        background: $backgroud-form-btn;
+        color: $backgroud-form-color;
+    }
+}

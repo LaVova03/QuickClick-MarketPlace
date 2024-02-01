@@ -1,12 +1,14 @@
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './LoginForm.scss';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { Form as BootstrapForm } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RepeatPasswordModal from '../RepeatPasswordModal/RepeatPasswordModal';
+import { useSelector, useDispatch } from 'react-redux';
+import { setAddCard } from '../../redux/Main/actions';
 
 const LoginForm = () => {
     const [registration, setRegistration] = useState(false);
@@ -27,6 +29,17 @@ const LoginForm = () => {
         }
     )
 
+    const isAddCard = useSelector(state => state.myReducer?.isAddModal);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+
+        if (isAddCard) {
+            notifyError('Для створення оголошення потрібно зареєструватися');
+        }
+
+    }, [isAddCard, dispatch]);
+
     const notifyError = (message) => {
         toast.error(message, {
             position: 'top-right'
@@ -35,7 +48,13 @@ const LoginForm = () => {
 
     const navigate = useNavigate();
 
-    const handleNavigate = () => navigate("/");
+    const handleNavigate = () => {
+        if (isAddCard) {
+            dispatch(setAddCard());
+            console.log(isAddCard)
+        }
+        navigate("/");
+    }
 
     const HandleClick = (e) => {
         e.preventDefault();
@@ -132,12 +151,16 @@ const LoginForm = () => {
                         if (registration) {
                             setModalRepeatPassword(true);
                         } else {
-                            localStorage.setItem("token", "gffsdfvcb1fsfdsfgf");
+                            sessionStorage.setItem("token", "gffsdfvcb1fsfdsfgf");
                             navigate("/personal_area");
                         }
                         resetForm();
                         setResRegex((prevState) => ({ ...prevState, password: true, email: true }));
                         setEmptyFields([]);
+                        if (isAddCard) {
+                            dispatch(setAddCard());
+                            console.log(isAddCard)
+                        }
                     }
                     if (emptyFieldsArray.length > 0) {
                         notifyError("Заповніть обов'язкові поля");
@@ -249,7 +272,7 @@ const LoginForm = () => {
                 )}
             </Formik>
             <ToastContainer />
-            {isModalRepeatPassword ? <RepeatPasswordModal closeModal={closeModal} initialValue={password}/> : null}
+            {isModalRepeatPassword ? <RepeatPasswordModal closeModal={closeModal} initialValue={password} /> : null}
         </div >
     )
 }

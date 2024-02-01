@@ -4,7 +4,7 @@ import Main from './containers/Main/Main';
 import Login from './containers/Login/Login';
 import PrivateRoute from "./privateRoute";
 import PersonalArea from './containers/PersonalArea/PersonalArea';
-import AddCard from './components/AddCard/AddCard';
+import AddCard from './containers/AddCard/AddCard';
 
 const AppRouter = () => (
     <Router>

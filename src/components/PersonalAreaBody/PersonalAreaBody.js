@@ -2,7 +2,7 @@ import './PersonalAreaBody.scss';
 import React, { useState } from 'react';
 import Plus from '../../assets/personal__area/Plus.png';
 import Minus from '../../assets/personal__area/Minus.png';
-import CanvasWaveAnimation from '../CanvasWaveAnimation/CanvasWaveAnimation';
+import Msg from '../../assets/personal__area/msg.png';
 
 const PersonalAreaBody = () => {
 
@@ -24,7 +24,13 @@ const PersonalAreaBody = () => {
 
     return (
         <div className='PersonalAreaBody__wrap'>
-            <label>Оголошення</label><br />
+            <div>
+                <label>Оголошення</label>
+                <div>
+                    <button>Створити</button>
+                </div>
+                <br />
+            </div>
             <ul className='personal__main__ul'>
                 <li>
                     <label className={!isList.isOpen1 ? 'personal__color__black' : 'personal__color__green'}>Оголошення
@@ -83,7 +89,7 @@ const PersonalAreaBody = () => {
                 </li>
             </ul>
             <div className='personal__center__img'>
-                <CanvasWaveAnimation />
+                <img src={Msg} alt="logo" />
             </div>
         </div>
     )

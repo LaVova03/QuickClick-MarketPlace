@@ -1,8 +1,9 @@
+import 'react-toastify/dist/ReactToastify.css';
 import './MainHeader.scss';
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setBurgerMenu, setLanguage } from '../../redux/Main/actions';
+import { setBurgerMenu, setLanguage, setAddCard } from '../../redux/Main/actions';
 import MainBurgerMenu from '../../components/MainBurgerMenu/MainBurgerMenu';
 import Logo from '../../assets/mainHeader/logo.png';
 
@@ -25,7 +26,14 @@ const MainHeader = () => {
 
     const handleNavigate = () => navigate("/login");
 
-    const setAddCard = () => navigate("/add_card");
+    const searchToken = () => {
+        if (sessionStorage.getItem('token')) {
+            navigate("/add_card");
+        } else {
+            dispatch(setAddCard());
+            navigate("/login");
+        }
+    }
 
     return (
         <div className='main__header__wrap'>
@@ -57,7 +65,7 @@ const MainHeader = () => {
                         </button>
                         <label>{isLanguage ? 'UK' : 'ENG'}</label>
                     </div>
-                    <button onClick={setAddCard}>Додати оголошення</button>
+                    <button onClick={searchToken}>Додати оголошення</button>
                 </div>
             </div>
             < MainBurgerMenu isFlagSet={isFlagSet} />
