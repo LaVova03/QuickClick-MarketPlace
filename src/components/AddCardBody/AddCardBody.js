@@ -3,7 +3,17 @@ import React, { useState, useRef } from 'react';
 
 const AddCardBody = () => {
 
-    const fileInputRef = useRef(null);
+    const fileInputRefs = {
+        one: useRef(null),
+        two: useRef(null),
+        three: useRef(null),
+        four: useRef(null),
+        five: useRef(null),
+        six: useRef(null),
+        seven: useRef(null),
+        eight: useRef(null),
+    };
+
     const [isNewCard, setNewCard] = useState(
         {
             productName: '',
@@ -24,7 +34,7 @@ const AddCardBody = () => {
         }))
     };
 
-    const handleButtonClick = () => {
+    const handleButtonClick = (fileInputRef) => {
         fileInputRef.current.click();
     };
 
@@ -42,98 +52,138 @@ const AddCardBody = () => {
                 <ul>
                     <li>
                         <div>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                ref={fileInputRef}
-                                onChange={handleFileChange}
-                            />
-                            <button onClick={handleButtonClick} />
+                            {isNewCard.photo[0] ?
+                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[0])} alt="logo" /> :
+                                <>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                        ref={fileInputRefs.one}
+                                        onChange={(e) => handleFileChange(e, 0)}
+                                    />
+                                    <button onClick={() => handleButtonClick(fileInputRefs.one)} />
+                                </>
+                            }
                         </div>
                     </li>
                     <li>
                         <div>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                ref={fileInputRef}
-                                onChange={handleFileChange}
-                            />
-                            <button onClick={handleButtonClick} />
+                            {isNewCard.photo[1] ?
+                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[1])} alt="logo" /> :
+                                <>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                        ref={fileInputRefs.two}
+                                        onChange={(e) => handleFileChange(e, 1)}
+                                    />
+                                    <button onClick={() => handleButtonClick(fileInputRefs.two)} />
+                                </>
+                            }
                         </div>
                     </li>
                     <li>
                         <div>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                ref={fileInputRef}
-                                onChange={handleFileChange}
-                            />
-                            <button onClick={handleButtonClick} />
+                            {isNewCard.photo[2] ?
+                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[2])} alt="logo" /> :
+                                <>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                        ref={fileInputRefs.three}
+                                        onChange={(e) => handleFileChange(e, 2)}
+                                    />
+                                    <button onClick={() => handleButtonClick(fileInputRefs.three)} />
+                                </>
+                            }
                         </div>
                     </li>
                     <li>
                         <div>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                ref={fileInputRef}
-                                onChange={handleFileChange}
-                            />
-                            <button onClick={handleButtonClick} />
+                            {isNewCard.photo[3] ?
+                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[3])} alt="logo" /> :
+                                <>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                        ref={fileInputRefs.four}
+                                        onChange={(e) => handleFileChange(e, 3)}
+                                    />
+                                    <button onClick={() => handleButtonClick(fileInputRefs.four)} />
+                                </>
+                            }
                         </div>
                     </li>
                     <li>
                         <div>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                ref={fileInputRef}
-                                onChange={handleFileChange}
-                            />
-                            <button onClick={handleButtonClick} />
+                            {isNewCard.photo[4] ?
+                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[4])} alt="logo" /> :
+                                <>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                        ref={fileInputRefs.five}
+                                        onChange={(e) => handleFileChange(e, 4)}
+                                    />
+                                    <button onClick={() => handleButtonClick(fileInputRefs.five)} />
+                                </>
+                            }
                         </div>
                     </li>
                     <li>
                         <div>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                ref={fileInputRef}
-                                onChange={handleFileChange}
-                            />
-                            <button onClick={handleButtonClick} />
+                            {isNewCard.photo[5] ?
+                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[5])} alt="logo" /> :
+                                <>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                        ref={fileInputRefs.six}
+                                        onChange={(e) => handleFileChange(e, 5)}
+                                    />
+                                    <button onClick={() => handleButtonClick(fileInputRefs.six)} />
+                                </>
+                            }
                         </div>
                     </li>
                     <li>
                         <div>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                ref={fileInputRef}
-                                onChange={handleFileChange}
-                            />
-                            <button onClick={handleButtonClick} />
+                            {isNewCard.photo[6] ?
+                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[6])} alt="logo" /> :
+                                <>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                        ref={fileInputRefs.seven}
+                                        onChange={(e) => handleFileChange(e, 6)}
+                                    />
+                                    <button onClick={() => handleButtonClick(fileInputRefs.seven)} />
+                                </>
+                            }
                         </div>
                     </li>
                     <li>
                         <div>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                ref={fileInputRef}
-                                onChange={handleFileChange}
-                            />
-                            <button onClick={handleButtonClick} />
+                            {isNewCard.photo[7] ?
+                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[7])} alt="logo" /> :
+                                <>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        style={{ display: 'none' }}
+                                        ref={fileInputRefs.eight}
+                                        onChange={(e) => handleFileChange(e, 7)}
+                                    />
+                                    <button onClick={() => handleButtonClick(fileInputRefs.eight)} />
+                                </>
+                            }
                         </div>
                     </li>
                 </ul>
@@ -143,6 +193,8 @@ const AddCardBody = () => {
                 <input className='add__input' type="text" placeholder=' Адреса відправки' /><br />
                 <label >Ваші контактні дані*</label><br />
                 <input className='add__input' type="t" placeholder=' Ваш номер телефону' /><br />
+                <label >Ціна товару*</label><br />
+                <input className='add__input' type="t" placeholder=' Ціна' /><br />
                 <button>Опублікувати</button>
             </div>
         </div>
