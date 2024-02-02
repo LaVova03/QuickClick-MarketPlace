@@ -1,5 +1,6 @@
 import './AddCardBody.scss';
 import React, { useState, useRef } from 'react';
+import Categorys from '../MainLeftSide/MainLeftSide';
 
 const AddCardBody = () => {
 
@@ -14,6 +15,7 @@ const AddCardBody = () => {
         eight: useRef(null),
     };
 
+    const [isCategory, setIsCategory] = useState(false)
     const [isNewCard, setNewCard] = useState(
         {
             productName: '',
@@ -38,17 +40,38 @@ const AddCardBody = () => {
         fileInputRef.current.click();
     };
 
+    const showCategorys = () => {
+        setIsCategory((prevState) => !prevState);
+    };
+
     return (
         <div className='AddCardBody__wrap'>
             <div className='add__left__side'>
                 <div >Створити оголошення</div>
                 <label >Заповніть основні дані про товар*</label><br />
-                <input className='add__input' type="text" placeholder=' Назва товару' /><br />
-                <input className='add__input' type="t" placeholder=' Оберіть категорію' /><br />
+                <input
+                    className='add__input'
+                    type="text"
+                    placeholder=' Назва товару'
+                />
+                <br />
+                <input
+                    className='add__input'
+                    type="text"
+                    placeholder=' Оберіть категорію'
+                    onClick={showCategorys}
+                    onBlur={showCategorys}
+                />
+                <br />
                 <textarea cols="50" rows="8" placeholder=' Додайте опис' />
             </div>
             <div className='add__center__side'>
                 <label >Додати фото*</label><br />
+                {isCategory ?
+                    <div className='add__categorys'>
+                        <Categorys isCategory />
+                    </div> : null
+                }
                 <ul>
                     <li>
                         <div>

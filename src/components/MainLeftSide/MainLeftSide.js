@@ -15,7 +15,7 @@ import Shirt from '../../assets/mainLeftSide/shirt.png';
 import Techn from '../../assets/mainLeftSide/techn.png';
 import Toy from '../../assets/mainLeftSide/toy.png';
 
-const MainLeftSide = () => {
+const MainLeftSide = ({ isCategory }) => {
 
     const arr = [
         {
@@ -77,8 +77,8 @@ const MainLeftSide = () => {
     ]
 
     return (
-        <div className='main__leftside__wrap'>
-            <div className='main__leftside__border'>
+        <div className={isCategory ? 'add__categorys__wrap' : 'main__leftside__wrap'}>
+            <div className={isCategory ? 'add__categorys__card' : 'main__leftside__border'}>
                 {arr.map((el, i) => {
                     return (
                         <ul key={i}>
