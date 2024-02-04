@@ -8,7 +8,7 @@ import { Form as BootstrapForm } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RepeatPasswordModal from '../RepeatPasswordModal/RepeatPasswordModal';
 import { useSelector, useDispatch } from 'react-redux';
-import { setAddCard } from '../../redux/Main/actions';
+import { setAddCard, showButtonExit } from '../../redux/Main/actions';
 
 const LoginForm = () => {
     const [registration, setRegistration] = useState(false);
@@ -30,6 +30,7 @@ const LoginForm = () => {
     )
 
     const isAddCard = useSelector(state => state.myReducer?.isAddModal);
+    const isShowExit = useSelector(state => state.myReducer?.isShowExit);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -51,7 +52,6 @@ const LoginForm = () => {
     const handleNavigate = () => {
         if (isAddCard) {
             dispatch(setAddCard());
-            console.log(isAddCard)
         }
         navigate("/");
     }
@@ -124,6 +124,12 @@ const LoginForm = () => {
         setModalRepeatPassword(false)
     }
 
+    const deleteToken = (e) => {
+        e.preventDefault()
+        sessionStorage.removeItem("token");
+        dispatch(showButtonExit());
+    }
+
     return (
         <div className='login__form__wrap'>
             <Formik
@@ -152,6 +158,7 @@ const LoginForm = () => {
                             setModalRepeatPassword(true);
                         } else {
                             sessionStorage.setItem("token", "gffsdfvcb1fsfdsfgf");
+                            dispatch(showButtonExit());
                             navigate("/personal_area");
                         }
                         resetForm();
@@ -159,7 +166,6 @@ const LoginForm = () => {
                         setEmptyFields([]);
                         if (isAddCard) {
                             dispatch(setAddCard());
-                            console.log(isAddCard)
                         }
                     }
                     if (emptyFieldsArray.length > 0) {
@@ -201,7 +207,7 @@ const LoginForm = () => {
                         <span>або</span>
                         <div className='login__btn__wrap'>
                             <button onClick={showRegistration}>Зареєструватися</button>
-                            <button onClick={showEnterence}>Увійти</button>
+                            <button onClick={isShowExit ? deleteToken : showEnterence}>{isShowExit ? 'Вийти' : 'Увійти'}</button>
                         </div>
                         <div className='login__wrap__email'>
                             <Field

@@ -35,6 +35,10 @@ const MainHeader = () => {
         }
     }
 
+    const setMainPage = () => {
+        navigate("/");
+    }
+
     return (
         <div className='main__header__wrap'>
             <div className='main__header__position'>
@@ -45,7 +49,9 @@ const MainHeader = () => {
                         <div className="bar"></div>
                     </button>
                     <div className='main__headre__greentext'>
-                        <img src={Logo} alt="logo" />
+                        <button onClick={setMainPage}>
+                            <img src={Logo} alt="logo" />
+                        </button>
                     </div>
                 </div>
                 <div className='main__headre__center'>

@@ -1,11 +1,10 @@
-import { SET_BURGER_MENU } from './actionTypes';
-import { SET_LANGUAGE } from './actionTypes';
-import { SET_MODAL_ADD_CARD } from './actionTypes';
+import { SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, SHOW_BUTTON_EXIT } from './actionTypes';
 
 const initialState = {
     isFlagSet: false,
     isLanguage: true,
     isAddModal: false,
+    isShowExit: false,
 };
 
 const myReducer = (state = initialState, action) => {
@@ -24,6 +23,11 @@ const myReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isAddModal: !state.isAddModal,
+            };
+        case SHOW_BUTTON_EXIT:
+            return {
+                ...state,
+                isShowExit: !state.isShowExit,
             };
         default:
             return state;
