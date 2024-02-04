@@ -6,12 +6,13 @@ $text-color: #001004;
 
 .AddCardBody__wrap {
     display: flex;
+    justify-content: space-between;
     .add__left__side {
         display: block;
         width: 22vw;
         margin-left: 8vh;
-        margin-top: 8vh;
         margin-bottom: 8vh;
+        margin-top: 45px;
         textarea {
             display: flex;
             width: 100%;
@@ -90,7 +91,7 @@ label {
     position: relative;
     width: max-content;
     display: block;
-    margin: 21vh 10vh;
+    margin-top: 120px;
 }
 .add__center__side > ul {
     display: grid;
@@ -129,10 +130,11 @@ textarea::placeholder,
 }
 
 .add__right__side {
+    position: relative;
     display: block;
     width: 22vw;
     margin-right: 8vh;
-    margin-top: 21vh;
+    margin-top: 120px;
     margin-bottom: 8vh;
     button {
         display: flex;
@@ -145,16 +147,16 @@ textarea::placeholder,
         border: 0;
         cursor: pointer;
         border-radius: 40px;
-        background: $backgroud-form-btn;
-        color: $li-color;
+        background: #00a224;
+        color: #cdffd8;
         font-family: Montserrat;
         font-size: 18px;
         font-style: normal;
         font-weight: 600;
         line-height: normal;
-        position: relative;
-        bottom: -37px;
-        right: -77px;
+        position: absolute;
+        bottom: 0px;
+        right: 0;
     }
     button:hover {
         background: $li-color;
@@ -179,6 +181,9 @@ textarea::placeholder,
     width: 100vh;
     height: max-content;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
 }
