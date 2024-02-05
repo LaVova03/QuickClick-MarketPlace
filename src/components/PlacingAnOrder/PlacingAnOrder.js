@@ -2,7 +2,7 @@ import './PlacingAnOrder.scss';
 import { useState } from 'react';
 import { API_URL, API_KEY } from '../../constants/Constants';
 
-const PlacingAnOrder = () => {
+const PlacingAnOrder = ({ setisAdress }) => {
 
     const [region, setRegion] = useState([])
     const [itemRegion, setItemRegion] = useState([])
@@ -99,6 +99,7 @@ const PlacingAnOrder = () => {
     return (
         <div>
             <div className='grid'>
+                <button onClick={() => setisAdress(false)}></button>
                 <div className='wrap'>
                     <div id='header-placing'>Адреса</div>
                     <div className='parents-placing'>
@@ -132,6 +133,11 @@ const PlacingAnOrder = () => {
                                     </option>
                                 ))}
                             </select>
+                        </div>
+                        <br />
+                        <div>
+                            <br />
+                            <button id='adress__modal__btn' onClick={() => setisAdress(false)}>Підтвердити</button>
                         </div>
                     </div>
                 </div>

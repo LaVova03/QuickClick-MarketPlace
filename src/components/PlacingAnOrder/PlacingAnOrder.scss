@@ -4,7 +4,7 @@
     display: flex;
     width: 600px;
     height: 400px;
-    padding: 40px;
+    padding: 0px 40px 40px 80px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -18,6 +18,22 @@
     -o-transform: translateX(-35px);
 }
 
+.grid > button {
+    position: relative;
+    top: -20px;
+    right: -230px;
+    width: 20px;
+    height: 20px;
+    background-image: url(../../assets/addAdress/xx.png);
+    background-size: 40px;
+    background-position: center;
+    cursor: pointer;
+    border: 0;
+    background-color: inherit;
+    margin: 0;
+    padding: 0;
+}
+
 .parents-placing {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -27,7 +43,7 @@
 }
 
 .select {
-    width: 210px;
+    width: 217px;
 }
 
 #header-placing {
@@ -45,4 +61,10 @@
 }
 .wrap {
     padding: 5px;
+}
+
+#adress__modal__btn {
+    cursor: pointer;
+    border: 0;
+    width: 217px;
 }

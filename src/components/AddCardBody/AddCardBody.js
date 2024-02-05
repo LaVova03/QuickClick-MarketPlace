@@ -129,7 +129,7 @@ const AddCardBody = () => {
                 <div className={isCategory ? 'add__categorys' : 'add__categorys__none'}>
                     <Categorys isCategory={isCategory} />
                 </div>
-                {isAdress ? <PlacingAnOrder /> : null}
+                {isAdress ? <PlacingAnOrder setisAdress={setisAdress} /> : null}
                 <ul>
                     <li>
                         <div>
