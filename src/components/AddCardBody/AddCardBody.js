@@ -2,6 +2,7 @@ import './AddCardBody.scss';
 import React, { useState, useRef, useEffect } from 'react';
 import Categorys from '../MainLeftSide/MainLeftSide';
 import { useSelector } from 'react-redux';
+import PlacingAnOrder from '../PlacingAnOrder/PlacingAnOrder';
 
 const AddCardBody = () => {
 
@@ -17,6 +18,7 @@ const AddCardBody = () => {
     };
 
     const [isCategory, setIsCategory] = useState(false);
+    const [isAdress, setisAdress] = useState(false);
     const [isNewCard, setNewCard] = useState(
         {
             productName: '',
@@ -69,6 +71,10 @@ const AddCardBody = () => {
     const showCategorys = () => {
         setIsCategory(true);
     };
+
+    const showAdress = () => {
+        setisAdress(true)
+    }
 
     const addCard = () => {
         setNewCard({
@@ -123,6 +129,7 @@ const AddCardBody = () => {
                 <div className={isCategory ? 'add__categorys' : 'add__categorys__none'}>
                     <Categorys isCategory={isCategory} />
                 </div>
+                {isAdress ? <PlacingAnOrder /> : null}
                 <ul>
                     <li>
                         <div>
@@ -269,9 +276,7 @@ const AddCardBody = () => {
                     type="text"
                     placeholder='Адреса відправки'
                     value={isNewCard.location || ''}
-                    onChange={(e) => {
-                        setNewCard({ ...isNewCard, location: e.target.value });
-                    }}
+                    onClick={showAdress}
                 />
                 <br />
                 <label >Ваші контактні дані*</label><br />
