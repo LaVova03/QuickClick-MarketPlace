@@ -25,6 +25,7 @@ const AddCardBody = () => {
             photo: [],
             location: '',
             phone: '',
+            price: '',
         }
     );
 
@@ -69,6 +70,18 @@ const AddCardBody = () => {
         setIsCategory(true);
     };
 
+    const addCard = () => {
+        setNewCard({
+            productName: '',
+            category: '',
+            discription: '',
+            photo: [],
+            location: '',
+            phone: '',
+            price: '',
+        });
+    }
+
     return (
         <div className='AddCardBody__wrap'>
             <div className='add__left__side'>
@@ -78,20 +91,32 @@ const AddCardBody = () => {
                     className='add__input'
                     type="text"
                     placeholder='Назва товару'
+                    value={isNewCard.productName || ''}
+                    onChange={(e) => {
+                        setNewCard({ ...isNewCard, productName: e.target.value });
+                    }}
                 />
                 <br />
                 <input
                     className='add__input'
                     type="text"
                     placeholder='Оберіть категорію'
-                    value={isNewCard.category}
+                    value={isNewCard.category || ''}
                     onClick={showCategorys}
                     onChange={(e) => {
                         setNewCard({ ...isNewCard, category: e.target.value });
                     }}
                 />
                 <br />
-                <textarea cols="50" rows="8" placeholder='Додайте опис' />
+                <textarea
+                    cols="50"
+                    rows="8"
+                    placeholder='Додайте опис'
+                    value={isNewCard.discription || ''}
+                    onChange={(e) => {
+                        setNewCard({ ...isNewCard, discription: e.target.value });
+                    }}
+                />
             </div>
             <div className='add__center__side'>
                 <label >Додати фото*</label><br />
@@ -243,6 +268,10 @@ const AddCardBody = () => {
                     className='add__input'
                     type="text"
                     placeholder='Адреса відправки'
+                    value={isNewCard.location || ''}
+                    onChange={(e) => {
+                        setNewCard({ ...isNewCard, location: e.target.value });
+                    }}
                 />
                 <br />
                 <label >Ваші контактні дані*</label><br />
@@ -250,6 +279,10 @@ const AddCardBody = () => {
                     className='add__input'
                     type="t"
                     placeholder='Ваш номер телефону'
+                    value={isNewCard.phone || ''}
+                    onChange={(e) => {
+                        setNewCard({ ...isNewCard, phone: e.target.value });
+                    }}
                 />
                 <br />
                 <label >Ціна товару*</label><br />
@@ -257,8 +290,12 @@ const AddCardBody = () => {
                     className='add__input'
                     type="t"
                     placeholder='Ціна'
+                    value={isNewCard.price || ''}
+                    onChange={(e) => {
+                        setNewCard({ ...isNewCard, price: e.target.value });
+                    }}
                 /><br />
-                <button>Опублікувати</button>
+                <button onClick={addCard}>Опублікувати</button>
             </div>
         </div>
     )

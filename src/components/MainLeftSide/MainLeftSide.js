@@ -19,17 +19,10 @@ import { addCategory } from '../../redux/Main/actions';
 
 const MainLeftSide = ({ isCategory }) => {
 
-    const [isAsincCategory, setAsincCategory] = useState(false);
+    const [isOnFormPage, setIsOnFormPage] = useState(false);
 
     useEffect(() => {
-        if (!isCategory) {
-            setTimeout(() => {
-                setAsincCategory(false)
-            }, 1000);
-        }
-        if (isCategory) {
-            setAsincCategory(true)
-        }
+        setIsOnFormPage(window.location.pathname === '/add_card');
     }, [isCategory])
 
     const dispatch = useDispatch();
@@ -98,8 +91,8 @@ const MainLeftSide = ({ isCategory }) => {
     ]
 
     return (
-        <div className={isAsincCategory ? 'add__categorys__wrap' : 'main__leftside__wrap'}>
-            <div className={isAsincCategory ? 'add__categorys__card' : 'main__leftside__border'}>
+        <div className={isOnFormPage ? 'add__categorys__wrap' : 'main__leftside__wrap'}>
+            <div className={isOnFormPage ? 'add__categorys__card' : 'main__leftside__border'}>
                 {arr.map((el, i) => {
                     return (
                         <ul key={i}>

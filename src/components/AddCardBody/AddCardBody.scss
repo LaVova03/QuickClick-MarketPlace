@@ -205,6 +205,7 @@ textarea::placeholder,
 .add__categorys__none {
     z-index: -1;
     transform: translateX(-35px);
+    height: 400px;
 }
 
 .add__categorys.active {
