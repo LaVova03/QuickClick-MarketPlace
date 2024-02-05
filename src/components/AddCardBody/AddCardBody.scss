@@ -16,7 +16,7 @@ $text-color: #001004;
         textarea {
             display: flex;
             width: 100%;
-            padding: 5% 5%;
+            padding: 15px;
             margin: 0 auto 0;
             flex-direction: column;
             align-items: flex-start;
@@ -44,7 +44,7 @@ $text-color: #001004;
     display: flex;
     width: 100%;
     height: 40px;
-    padding: 0 5%;
+    padding: 0 15px;
     margin: 0 auto 0;
     flex-direction: column;
     align-items: flex-start;
@@ -88,10 +88,15 @@ label {
 }
 
 .add__center__side {
+    transform: translateX(0);
     position: relative;
-    width: 600px;
+    width: max-content;
     display: block;
     margin-top: 120px;
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
 }
 .add__center__side > ul {
     display: grid;
@@ -175,15 +180,34 @@ textarea::placeholder,
     object-position: center;
 }
 
-.add__categorys {
+.add__categorys,
+.add__categorys__none {
     position: absolute;
-    z-index: 1;
     width: 100vh;
     height: max-content;
     top: -20px;
-    transform: translateX(0);
-    -webkit-transform: translateX(0);
-    -moz-transform: translateX(0);
-    -ms-transform: translateX(0);
-    -o-transform: translateX(0);
+    opacity: 0; /* Изначально блок прозрачен */
+    visibility: hidden; /* Скрываем блок */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Добавляем плавность появления с продолжительностью 0.3 секунды и эффектом ease */
+}
+
+.add__categorys {
+    z-index: 1;
+    opacity: 1;
+    transform: translateX(-35px);
+    -webkit-transform: translateX();
+    -moz-transform: translateX();
+    -ms-transform: translateX();
+    -o-transform: translateX();
+    visibility: visible;
+}
+
+.add__categorys__none {
+    z-index: -1;
+    transform: translateX(-35px);
+}
+
+.add__categorys.active {
+    opacity: 1; /* Делаем блок непрозрачным при активном состоянии */
+    visibility: visible; /* Показываем блок при активном состоянии */
 }

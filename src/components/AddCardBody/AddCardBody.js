@@ -1,6 +1,7 @@
 import './AddCardBody.scss';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Categorys from '../MainLeftSide/MainLeftSide';
+import { useSelector } from 'react-redux';
 
 const AddCardBody = () => {
 
@@ -15,7 +16,7 @@ const AddCardBody = () => {
         eight: useRef(null),
     };
 
-    const [isCategory, setIsCategory] = useState(false)
+    const [isCategory, setIsCategory] = useState(false);
     const [isNewCard, setNewCard] = useState(
         {
             productName: '',
@@ -26,6 +27,30 @@ const AddCardBody = () => {
             phone: '',
         }
     );
+
+    const isCategoryRedux = useSelector(state => state.myReducer?.isCategoryRedux);
+
+    useEffect(() => {
+        setNewCard((prevState) => ({
+            ...prevState,
+            category: isCategoryRedux,
+        }));
+        setIsCategory(false);
+    }, [isCategoryRedux]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (!event.target.closest('.add__input')) {
+                setIsCategory(false);
+            }
+        };
+
+        document.body.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.body.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -41,7 +66,7 @@ const AddCardBody = () => {
     };
 
     const showCategorys = () => {
-        setIsCategory((prevState) => !prevState);
+        setIsCategory(true);
     };
 
     return (
@@ -52,26 +77,27 @@ const AddCardBody = () => {
                 <input
                     className='add__input'
                     type="text"
-                    placeholder=' Назва товару'
+                    placeholder='Назва товару'
                 />
                 <br />
                 <input
                     className='add__input'
                     type="text"
-                    placeholder=' Оберіть категорію'
+                    placeholder='Оберіть категорію'
+                    value={isNewCard.category}
                     onClick={showCategorys}
-                    onBlur={showCategorys}
+                    onChange={(e) => {
+                        setNewCard({ ...isNewCard, category: e.target.value });
+                    }}
                 />
                 <br />
-                <textarea cols="50" rows="8" placeholder=' Додайте опис' />
+                <textarea cols="50" rows="8" placeholder='Додайте опис' />
             </div>
             <div className='add__center__side'>
                 <label >Додати фото*</label><br />
-                {isCategory ?
-                    <div className='add__categorys'>
-                        <Categorys isCategory />
-                    </div> : null
-                }
+                <div className={isCategory ? 'add__categorys' : 'add__categorys__none'}>
+                    <Categorys isCategory={isCategory} />
+                </div>
                 <ul>
                     <li>
                         <div>
@@ -213,11 +239,25 @@ const AddCardBody = () => {
             </div>
             <div className='add__right__side'>
                 <label >Місцезнаходження товару*</label><br />
-                <input className='add__input' type="text" placeholder=' Адреса відправки' /><br />
+                <input
+                    className='add__input'
+                    type="text"
+                    placeholder='Адреса відправки'
+                />
+                <br />
                 <label >Ваші контактні дані*</label><br />
-                <input className='add__input' type="t" placeholder=' Ваш номер телефону' /><br />
+                <input
+                    className='add__input'
+                    type="t"
+                    placeholder='Ваш номер телефону'
+                />
+                <br />
                 <label >Ціна товару*</label><br />
-                <input className='add__input' type="t" placeholder=' Ціна' /><br />
+                <input
+                    className='add__input'
+                    type="t"
+                    placeholder='Ціна'
+                /><br />
                 <button>Опублікувати</button>
             </div>
         </div>

@@ -1,10 +1,11 @@
-import { SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, SHOW_BUTTON_EXIT } from './actionTypes';
+import { SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, SHOW_BUTTON_EXIT, ADD_CATEGORY_CARD } from './actionTypes';
 
 const initialState = {
     isFlagSet: false,
     isLanguage: true,
     isAddModal: false,
     isShowExit: false,
+    isCategoryRedux: '',
 };
 
 const myReducer = (state = initialState, action) => {
@@ -28,6 +29,11 @@ const myReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isShowExit: !state.isShowExit,
+            };
+        case ADD_CATEGORY_CARD:
+            return {
+                ...state,
+                isCategoryRedux: action.payload,
             };
         default:
             return state;

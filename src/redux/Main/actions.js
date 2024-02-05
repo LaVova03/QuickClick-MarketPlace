@@ -1,4 +1,4 @@
-import { SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, SHOW_BUTTON_EXIT } from './actionTypes';
+import { SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, SHOW_BUTTON_EXIT, ADD_CATEGORY_CARD } from './actionTypes';
 
 export const setBurgerMenu = () => ({
     type: SET_BURGER_MENU,
@@ -15,3 +15,8 @@ export const setAddCard = () => ({
 export const showButtonExit = () => ({
     type: SHOW_BUTTON_EXIT,
 });
+
+export const addCategory = (isCategoryRedux) => ({
+    type: ADD_CATEGORY_CARD,
+    payload: isCategoryRedux,
+})
