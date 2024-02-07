@@ -203,7 +203,13 @@ label {
     }
 }
 
-textarea::placeholder,
+.add__textarea__discription__empty::placeholder,
+.add__textarea__discription::placeholder,
+.add__input__name__empty::placeholder,
+.add__input__category__empty::placeholder,
+.add__input__adress__empty::placeholder,
+.add__input__phone__empty::placeholder,
+.add__input__price__empty::placeholder,
 .add__input__name::placeholder,
 .add__input__category::placeholder,
 .add__input__adress::placeholder,
