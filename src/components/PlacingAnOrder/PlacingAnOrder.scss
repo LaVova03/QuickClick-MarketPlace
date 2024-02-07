@@ -1,6 +1,6 @@
 .grid {
     position: absolute;
-    top: -15px;
+    top: 0;
     display: flex;
     width: 600px;
     height: 400px;
@@ -11,27 +11,6 @@
     gap: 10px;
     border-radius: 40px;
     background: var(--Green-Normal, #00a224);
-    transform: translateX(-35px);
-    -webkit-transform: translateX(-35px);
-    -moz-transform: translateX(-35px);
-    -ms-transform: translateX(-35px);
-    -o-transform: translateX(-35px);
-}
-
-.grid > button {
-    position: relative;
-    top: -20px;
-    right: -230px;
-    width: 20px;
-    height: 20px;
-    background-image: url(../../assets/addAdress/xx.png);
-    background-size: 40px;
-    background-position: center;
-    cursor: pointer;
-    border: 0;
-    background-color: inherit;
-    margin: 0;
-    padding: 0;
 }
 
 .parents-placing {

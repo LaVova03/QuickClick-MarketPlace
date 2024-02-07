@@ -2,13 +2,13 @@ import './PlacingAnOrder.scss';
 import { useState } from 'react';
 import { API_URL, API_KEY } from '../../constants/Constants';
 
-const PlacingAnOrder = ({ setisAdress }) => {
+const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
 
-    const [region, setRegion] = useState([])
-    const [itemRegion, setItemRegion] = useState([])
-    const [city, setCity] = useState([])
-    const [itemCity, setItemCity] = useState([])
-    const [novaPoshta, setNovaPoshta] = useState([])
+    const [region, setRegion] = useState([]);
+    const [itemRegion, setItemRegion] = useState([]);
+    const [city, setCity] = useState([]);
+    const [itemCity, setItemCity] = useState([]);
+    const [novaPoshta, setNovaPoshta] = useState([]);
 
     const sendRequestRegion = async () => {
         try {
@@ -88,18 +88,53 @@ const PlacingAnOrder = ({ setisAdress }) => {
 
     const handleChangeRegion = (event) => {
         const newValue = event.target.value;
+        const description = event.target.options[event.target.selectedIndex].text;
         setItemRegion(newValue);
+        setNewCard((prevState) => ({
+            ...prevState,
+            location: {
+                ...prevState.location,
+                region: `${description}, `,
+            },
+        }))
     };
 
     const handleChangeCity = (event) => {
         const newValue = event.target.value;
+        const description = event.target.options[event.target.selectedIndex].text;
         setItemCity(newValue);
+        setNewCard((prevState) => ({
+            ...prevState,
+            location: {
+                ...prevState.location,
+                city: `${description}, `,
+            },
+        }))
     };
+
+    const handleChangeAddress = (event) => {
+        const description = event.target.options[event.target.selectedIndex].text;
+        setNewCard((prevState) => ({
+            ...prevState,
+            location: {
+                ...prevState.location,
+                postAddress: `${description}, `,
+            },
+        }))
+    };
+
+    const setDateAddress = () => {
+        setIsAddress(false)
+        setRegion([]);
+        setItemRegion([]);
+        setCity([]);
+        setItemCity([]);
+        setNovaPoshta([]);
+    }
 
     return (
         <div>
             <div className='grid'>
-                <button onClick={() => setisAdress(false)}></button>
                 <div className='wrap'>
                     <div id='header-placing'>Адреса</div>
                     <div className='parents-placing'>
@@ -125,7 +160,7 @@ const PlacingAnOrder = ({ setisAdress }) => {
                                     </option>
                                 ))}
                             </select>
-                            <br /><br /><select name="select" defaultChecked='#NP' className='select' onClick={sendRequestNovaPoshta}>
+                            <br /><br /><select name="select" defaultChecked='#NP' className='select' onClick={sendRequestNovaPoshta} onChange={handleChangeAddress}>
                                 <option value="">Отделение НП</option>
                                 {novaPoshta.map((item) => (
                                     <option key={item.Ref} value={item.Ref}>
@@ -137,7 +172,7 @@ const PlacingAnOrder = ({ setisAdress }) => {
                         <br />
                         <div>
                             <br />
-                            <button id='adress__modal__btn' onClick={() => setisAdress(false)}>Підтвердити</button>
+                            <button id='adress__modal__btn' onClick={setDateAddress}>Підтвердити</button>
                         </div>
                     </div>
                 </div>
