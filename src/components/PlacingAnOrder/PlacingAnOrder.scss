@@ -1,3 +1,6 @@
+$background-color: #00a224;
+$header-color: rgb(233, 233, 233);
+
 .grid {
     position: absolute;
     top: 0;
@@ -10,7 +13,7 @@
     align-items: center;
     gap: 10px;
     border-radius: 40px;
-    background: var(--Green-Normal, #00a224);
+    background: $background-color;
 }
 
 .parents-placing {
@@ -27,17 +30,10 @@
 
 #header-placing {
     height: 30px;
-    background-color: rgb(233, 233, 233);
+    background-color: $header-color;
     padding: 4px 0 0 10px;
 }
 
-.google-map {
-    position: absolute;
-    width: 660px;
-    right: 25px;
-    top: 305px;
-    border: 2px solid rgb(0, 204, 255);
-}
 .wrap {
     padding: 5px;
 }

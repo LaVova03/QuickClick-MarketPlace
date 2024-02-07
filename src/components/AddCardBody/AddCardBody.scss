@@ -3,6 +3,7 @@ $backgroud-form-btn: #00a224;
 $li-color: #cdffd8;
 $placeholder-color: #b4b4b4;
 $text-color: #001004;
+$border-error-color: red;
 
 .AddCardBody__wrap {
     display: flex;
@@ -39,7 +40,7 @@ $text-color: #001004;
             align-items: flex-start;
             gap: 10px;
             border-radius: 40px;
-            border: 1px solid red;
+            border: 1px solid $border-error-color;
             font-family: Montserrat;
             font-size: 16px;
             font-style: normal;
@@ -94,7 +95,7 @@ $text-color: #001004;
     align-items: flex-start;
     gap: 10px;
     border-radius: 40px;
-    border: 1px solid red;
+    border: 1px solid $border-error-color;
     font-family: Montserrat;
     font-size: 16px;
     font-style: normal;
@@ -188,7 +189,7 @@ label {
         align-items: center;
         border-radius: 20px;
         background: $li-color;
-        border: 1px solid red;
+        border: 1px solid $border-error-color;
         margin: 0 4px 4px 0;
         button {
             width: 24px;
@@ -236,8 +237,8 @@ label {
         border: 0;
         cursor: pointer;
         border-radius: 40px;
-        background: #00a224;
-        color: #cdffd8;
+        background: $backgroud-form-btn;
+        color: $li-color;
         font-family: Montserrat;
         font-size: 18px;
         font-style: normal;
@@ -272,9 +273,9 @@ label {
     width: 100vh;
     height: max-content;
     top: -20px;
-    opacity: 0; /* Изначально блок прозрачен */
-    visibility: hidden; /* Скрываем блок */
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* Добавляем плавность появления с продолжительностью 0.3 секунды и эффектом ease */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .add__address,
@@ -298,6 +299,6 @@ label {
 
 .add__address.active,
 .add__categorys.active {
-    opacity: 1; /* Делаем блок непрозрачным при активном состоянии */
-    visibility: visible; /* Показываем блок при активном состоянии */
+    opacity: 1;
+    visibility: visible;
 }
