@@ -137,6 +137,7 @@ const LoginForm = () => {
                     email: '',
                     password: '',
                     checkbox: false,
+                    remember: false,
                 }}
                 onSubmit={(values, { resetForm }) => {
 
@@ -191,18 +192,6 @@ const LoginForm = () => {
                             className='login__btn__google'>
                             <div className='login__google' />
                             Продовжити з Gmail
-                        </button>
-                        <button
-                            onClick={HandleClick}
-                            className='login__btn__inst'>
-                            <div className='login__inst' />
-                            Продовжити з Instagram
-                        </button>
-                        <button
-                            onClick={HandleClick}
-                            className='login__btn__facebook'>
-                            <div className='login__facebook' />
-                            Продовжити з Facebook
                         </button>
                         <span>або</span>
                         <div className='login__btn__wrap'>
@@ -265,6 +254,18 @@ const LoginForm = () => {
                                         Створюючи профіль на QuickQlick, ви погоджуєтеся з умовами використання
                                     </BootstrapForm.Label>
                                     <ErrorMessage name="checkbox" component="div" />
+                                </BootstrapForm.Group>
+                                <BootstrapForm.Group controlId="formCheckboxRemember" className="d-flex align-items-center">
+                                    <BootstrapForm.Check
+                                        type="checkbox"
+                                        name="checkbox"
+                                        checked={values.checkbox}
+                                        onChange={handleChange}
+                                    />
+                                    <BootstrapForm.Label style={{ pointerEvents: 'none' }}>
+                                        Запам’ятати мене
+                                    </BootstrapForm.Label>
+                                    <ErrorMessage name="remember" component="div" />
                                 </BootstrapForm.Group>
                             </div>}
                         <button

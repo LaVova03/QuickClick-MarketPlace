@@ -103,9 +103,7 @@ $disable-color: rgb(32, 28, 28);
     }
 }
 
-.login__btn__google,
-.login__btn__inst,
-.login__btn__facebook {
+.login__btn__google{
     display: flex;
     justify-content: center;
     width: 70%;
@@ -128,32 +126,24 @@ $disable-color: rgb(32, 28, 28);
 }
 
 .login__submit:hover,
-.login__btn__google:hover,
-.login__btn__inst:hover,
-.login__btn__facebook:hover {
+.login__btn__google:hover{
     background: $hover-color;
     color: $backgroud-form-btn;
 }
 
 .login__submit:active,
-.login__btn__google:active,
-.login__btn__inst:active,
-.login__btn__facebook:active {
+.login__btn__google:active{
     color: $backgroud-form-color;
     background: $backgroud-form-btn;
 }
 
 .login__submit:visited,
-.login__btn__google:visited,
-.login__btn__inst:visited,
-.login__btn__facebook:visited {
+.login__btn__google:visited{
     color: $backgroud-form-color;
     background: $visited-color;
 }
 
-.login__google,
-.login__inst,
-.login__facebook {
+.login__google {
     width: 36px;
     height: 36px;
     flex-shrink: 0;
@@ -249,7 +239,7 @@ $disable-color: rgb(32, 28, 28);
 }
 
 .login__checkbox {
-    display: flex;
+    display: block;
     align-items: center;
     text-align: left;
     width: 70%;
@@ -397,55 +387,5 @@ $disable-color: rgb(32, 28, 28);
 .login__btn__google:active {
     .login__google {
         background-image: url(../../assets/login__page/IconsGmail.png);
-    }
-}
-
-.login__inst {
-    background-image: url(../../assets/login__page/IconsInst.png);
-    width: 22px;
-    height: 22px;
-    flex-shrink: 0;
-    display: flex;
-    background-size: 22px 22px;
-    background-repeat: no-repeat;
-    background-color: inherit;
-    align-items: center;
-    justify-content: center;
-}
-
-.login__btn__inst:hover {
-    .login__inst {
-        background-image: url(../../assets/login__page/InstOnhover.png);
-    }
-}
-
-.login__btn__inst:active {
-    .login__inst {
-        background-image: url(../../assets/login__page/IconsInst.png);
-    }
-}
-
-.login__facebook {
-    background-image: url(../../assets/login__page/IconsFB.png);
-    width: 18px;
-    height: 24px;
-    flex-shrink: 0;
-    display: flex;
-    background-size: 18px 24px;
-    background-repeat: no-repeat;
-    background-color: inherit;
-    align-items: center;
-    justify-content: center;
-}
-
-.login__btn__facebook:hover {
-    .login__facebook {
-        background-image: url(../../assets/login__page/FBOnhover.png);
-    }
-}
-
-.login__btn__facebook:active {
-    .login__facebook {
-        background-image: url(../../assets/login__page/IconsFB.png);
     }
 }

@@ -148,7 +148,6 @@ const AddCardBody = () => {
 
         setTimeout(() => {
             const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
-            console.log(allFieldsEmpty)
             if (allFieldsEmpty) {
                 console.log(productNameEmpty, allFieldsEmpty, isNewCard)
                 resetCard()
