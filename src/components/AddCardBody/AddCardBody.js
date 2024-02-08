@@ -37,13 +37,13 @@ const AddCardBody = () => {
 
     const [productNameEmpty, setProductNameEmpty] = useState(
         {
-            productName: false,
-            category: false,
-            discription: false,
-            photo: false,
-            location: false,
-            phone: false,
-            price: false,
+            productName: null,
+            category: null,
+            discription: null,
+            photo: null,
+            location: null,
+            phone: null,
+            price: null,
         }
     );
 
@@ -120,6 +120,11 @@ const AddCardBody = () => {
                     ...prevState,
                     [key]: true,
                 }))
+            } else {
+                setProductNameEmpty((prevState) => ({
+                    ...prevState,
+                    [key]: false,
+                }))
             }
         }
 
@@ -134,13 +139,21 @@ const AddCardBody = () => {
                 ...prevState,
                 location: true,
             }))
+        } else {
+            setProductNameEmpty((prevState) => ({
+                ...prevState,
+                location: false,
+            }))
         }
 
-        const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
-
-        if (allFieldsEmpty) {
-            resetCard()
-        }
+        setTimeout(() => {
+            const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
+            console.log(allFieldsEmpty)
+            if (allFieldsEmpty) {
+                console.log(productNameEmpty, allFieldsEmpty, isNewCard)
+                resetCard()
+            }
+        }, 0)
     }
 
     return (

@@ -326,6 +326,18 @@ $disable-color: rgb(32, 28, 28);
 
 .form-label {
     margin-bottom: 0 !important;
+    display: flex;
+    width: 320px;
+    height: 39px;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    color: $backgroud-form-btn;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
 }
 
 .login__wrap__email,
