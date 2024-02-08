@@ -87,7 +87,7 @@ const LoginForm = () => {
 
     const checkLoginRegex = (email) => {
         const phoneRegex = /\+{1}\d{12}/.test(email);
-        const emailRegex = /[A-Za-z_-]+@{1}[A-Za-z_-]+/.test(email);
+        const emailRegex = /[A-Za-z0-9_-]+@{1}[A-Za-z0-9_-]+/.test(email);
         if (phoneRegex && email.length === 13) {
             return phoneRegex
         }
@@ -97,7 +97,7 @@ const LoginForm = () => {
     };
 
     const validateLogin = (login) => {
-        const isEmail = /^[a-zA-Z=!@#$%^&*()_{}+|:"<>?[\],.';~`\\/-]+$/.test(login);
+        const isEmail = /^[a-zA-Z0-9=!@#$%^&*()_{}+|:"<>?[\],.';~`\\/-]+$/.test(login);
         const isPhone = /\+{1}\d+/.test(login);
         if (isEmail) {
             setIsLogin(prevState => ({
