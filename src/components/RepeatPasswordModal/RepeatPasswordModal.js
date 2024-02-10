@@ -12,6 +12,7 @@ const RepeatPasswordModal = ({ closeModal, initialValue }) => {
 
     const checkPassowrd = () => {
         if (isPassword === initialValue) {
+            sessionStorage.setItem("token", "gffsdfvcb1fsfdsfgf");
             navigate("/personal_area");
         } else {
             notifyError("Помилка, спробуйте ще раз")
