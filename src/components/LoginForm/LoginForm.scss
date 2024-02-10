@@ -94,7 +94,6 @@ $disable-color: rgb(32, 28, 28);
             font-style: normal;
             font-weight: 500;
             line-height: 140%;
-            -webkit-box-shadow: 0 0 0 30px $backgroud-form-color inset !important;
             transition: background-color 5000s ease-in-out 0s;
             &:focus {
                 outline: none;
@@ -103,7 +102,7 @@ $disable-color: rgb(32, 28, 28);
     }
 }
 
-.login__btn__google{
+.login__btn__google {
     display: flex;
     justify-content: center;
     width: 70%;
@@ -126,19 +125,19 @@ $disable-color: rgb(32, 28, 28);
 }
 
 .login__submit:hover,
-.login__btn__google:hover{
+.login__btn__google:hover {
     background: $hover-color;
     color: $backgroud-form-btn;
 }
 
 .login__submit:active,
-.login__btn__google:active{
+.login__btn__google:active {
     color: $backgroud-form-color;
     background: $backgroud-form-btn;
 }
 
 .login__submit:visited,
-.login__btn__google:visited{
+.login__btn__google:visited {
     color: $backgroud-form-color;
     background: $visited-color;
 }
@@ -214,7 +213,10 @@ $disable-color: rgb(32, 28, 28);
     cursor: pointer;
 }
 
+.login__lbl__remember,
 .login__forgot__pasword {
+    width: max-content;
+    height: 25px;
     color: $backgroud-form-btn;
     font-family: Montserrat;
     font-size: 15px;
@@ -225,8 +227,42 @@ $disable-color: rgb(32, 28, 28);
     border: 0;
     background-color: inherit;
     position: relative;
-    left: -21%;
+    left: 14%;
     cursor: pointer;
+    label {
+        font-family: Montserrat;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 140%;
+        display: flex;
+        width: 315px;
+        height: 39px;
+        justify-content: left;
+        color: $backgroud-form-btn;
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%;
+    }
+    #login__forgot__btn {
+        background-color: inherit;
+        border: 0;
+        cursor: pointer;
+        display: flex;
+        width: max-content;
+        height: 39px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: $backgroud-form-btn;
+        font-family: Montserrat;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%;
+    }
 }
 
 .login__forgot__pasword:hover {
@@ -236,6 +272,15 @@ $disable-color: rgb(32, 28, 28);
 .login__forgot__pasword:active {
     filter: blur(0.6px);
     -webkit-filter: blur(0.6px);
+}
+
+.login__lbl__remember {
+    font-size: 12px !important;
+    width: 315px !important;
+    justify-content: left;
+    display: flex;
+    margin-left: 4px;
+    align-items: center;
 }
 
 .login__checkbox {
@@ -250,84 +295,54 @@ $disable-color: rgb(32, 28, 28);
     font-style: normal;
     font-weight: 500;
     line-height: 120%;
-    #checkbox {
-        width: 26px;
-        height: 26px;
-        flex-shrink: 0;
-        border-radius: 8px;
-        border: 2px solid $backgroud-form-btn;
+    label {
         display: flex;
-        height: 39px;
-        flex-direction: column;
-        justify-content: center;
-        flex-shrink: 0;
-        margin: 0 16px 0 0;
+        color: $backgroud-form-btn;
+        font-family: Montserrat;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%;
+        align-items: center;
     }
 }
 
-.form-check-input:checked {
+.checkbox__checked,
+.checkbox {
+    background-color: inherit !important;
+    width: 26px !important;
+    height: 26px !important;
+    flex-shrink: 0 !important;
     border-radius: 8px !important;
     border: 2px solid $backgroud-form-btn !important;
-    background-color: $backgroud-form-color !important;
-    width: 36px;
-    height: 36px;
-    margin-right: 16px !important;
-    flex-shrink: 0;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    margin: 0 16px 0 0 !important;
     -webkit-border-radius: 8px !important;
     -moz-border-radius: 8px !important;
     -ms-border-radius: 8px !important;
     -o-border-radius: 8px !important;
 }
 
-.form-check-input {
-    border-radius: 8px !important;
-    border: 2px solid $backgroud-form-btn !important;
-    background-color: $backgroud-form-color !important;
-    background-size: 25px 25px;
-    width: 25px !important;
-    height: 25px !important;
-    margin-right: 16px !important;
-    flex-shrink: 0;
-    -webkit-border-radius: 8px !important;
-    -moz-border-radius: 8px !important;
-    -ms-border-radius: 8px !important;
-    -o-border-radius: 8px !important;
-    &:hover {
-        border-color: $hover-color !important;
-        width: 25px !important;
-        height: 25px !important;
-        border: 0;
-    }
-    &:active {
-        background-image: url(../../assets/login__page/check-half.png) !important;
-    }
-    &:checked {
-        background-image: url(../../assets/login__page/check.png) !important;
-    }
-    &:focus {
-        box-shadow: none !important;
-    }
-    transition: background-image 0.4s ease;
-    -webkit-transition: background-image 0.4s ease;
-    -moz-transition: background-image 0.4s ease;
-    -ms-transition: background-image 0.4s ease;
-    -o-transition: background-image 0.4s ease;
+.checkbox:hover {
+    border: 2px solid $hover-color !important;
 }
 
-.form-label {
-    margin-bottom: 0 !important;
-    display: flex;
-    width: 320px;
-    height: 39px;
-    flex-direction: column;
-    justify-content: center;
-    flex-shrink: 0;
-    color: $backgroud-form-btn;
-    font-family: Montserrat;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 120%;
+.checkbox:active {
+    background-image: url(../../assets/login__page/check-focus.png);
+    background-size: 26px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.checkbox__checked {
+    background-image: url(../../assets/login__page/check-active.png);
+    background-size: 26px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 2px solid $hover-color !important;
 }
 
 .login__wrap__email,

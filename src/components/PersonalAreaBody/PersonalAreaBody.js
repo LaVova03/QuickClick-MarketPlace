@@ -13,14 +13,55 @@ const PersonalAreaBody = () => {
             isOpen3: false,
             isOpen4: false,
         }
-    )
+    );
+
+    const [isPart, setPart] = useState({
+        one: false,
+        two: false,
+        three: false,
+        four: false,
+        five: false,
+        six: false,
+        seven: false,
+        eight: false,
+        nine: false,
+        ten: false,
+        eleven: false,
+    })
 
     const changeList = (key) => {
         setIsList((prev) => ({
             ...prev,
             [`isOpen${key}`]: !prev[`isOpen${key}`]
         }));
+
+        const containsTrue = Object.values(isList).every(value => value === false);
+        if (containsTrue) {
+            for (let key in isPart) {
+                if (isPart[key] === true) {
+                    setPart((prevState) => ({
+                        ...prevState,
+                        [key]: !prevState[key]
+                    }))
+                }
+            }
+        }
     };
+
+    const setCategory = (num) => {
+        for (let key in isPart) {
+            if (isPart[key] === true) {
+                setPart((prevState) => ({
+                    ...prevState,
+                    [key]: !prevState[key]
+                }))
+            }
+        }
+        setPart((prevState) => ({
+            ...prevState,
+            [num]: !prevState[num],
+        }))
+    }
 
     return (
         <div className='PersonalAreaBody__wrap'>
@@ -41,9 +82,24 @@ const PersonalAreaBody = () => {
                         </button>
                     </label>
                     <ul className={!isList.isOpen1 ? 'personal__colum__none' : 'personal__colum__block'}>
-                        <li><button>Активні</button></li>
-                        <li><button>Очікують публікації</button></li>
-                        <li><button>Відхилені</button></li>
+                        <li >
+                            <button
+                                onClick={() => setCategory('one')}
+                                className={`personal__part${isPart.one ? '__green' : ''}`}>Активні
+                            </button>
+                        </li>
+                        <li >
+                            <button
+                                onClick={() => setCategory('two')}
+                                className={`personal__part${isPart.two ? '__green' : ''}`}>Очікують публікації
+                            </button>
+                        </li>
+                        <li >
+                            <button
+                                onClick={() => setCategory('three')}
+                                className={`personal__part${isPart.three ? '__green' : ''}`}>Відхилені
+                            </button>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -55,9 +111,24 @@ const PersonalAreaBody = () => {
                         </button>
                     </label>
                     <ul className={!isList.isOpen2 ? 'personal__colum__none' : 'personal__colum__block'}>
-                        <li><button>Вхідні</button></li>
-                        <li><button>Вихідні</button></li>
-                        <li><button>Архів</button></li>
+                        <li >
+                            <button
+                                onClick={() => setCategory('four')}
+                                className={`personal__part${isPart.four ? '__green' : ''}`}>Вхідні
+                            </button>
+                        </li>
+                        <li  >
+                            <button
+                                onClick={() => setCategory('five')}
+                                className={`personal__part${isPart.five ? '__green' : ''}`}>Вихідні
+                            </button>
+                        </li>
+                        <li >
+                            <button
+                                onClick={() => setCategory('six')}
+                                className={`personal__part${isPart.six ? '__green' : ''}`}>Архів
+                            </button>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -69,9 +140,24 @@ const PersonalAreaBody = () => {
                         </button>
                     </label>
                     <ul className={!isList.isOpen3 ? 'personal__colum__none' : 'personal__colum__block'}>
-                        <li><button>Отримані платежі</button></li>
-                        <li><button>Вихідні платежі</button></li>
-                        <li><button>Повернення</button></li>
+                        <li >
+                            <button
+                                onClick={() => setCategory('seven')}
+                                className={`personal__part${isPart.seven ? '__green' : ''}`}>Отримані платежі
+                            </button>
+                        </li>
+                        <li >
+                            <button
+                                onClick={() => setCategory('eight')}
+                                className={`personal__part${isPart.eight ? '__green' : ''}`}>Вихідні платежі
+                            </button>
+                        </li>
+                        <li >
+                            <button
+                                onClick={() => setCategory('nine')}
+                                className={`personal__part${isPart.nine ? '__green' : ''}`}>Повернення
+                            </button>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -83,8 +169,18 @@ const PersonalAreaBody = () => {
                         </button>
                     </label>
                     <ul className={!isList.isOpen4 ? 'personal__colum__none' : 'personal__colum__block'}>
-                        <li><button>Відслідкувати</button></li>
-                        <li><button>Архів</button></li>
+                        <li >
+                            <button
+                                onClick={() => setCategory('ten')}
+                                className={`personal__part${isPart.ten ? '__green' : ''}`}>Відслідкувати
+                            </button>
+                        </li>
+                        <li >
+                            <button
+                                onClick={() => setCategory('eleven')}
+                                className={`personal__part${isPart.eleven ? '__green' : ''}`}>Архів
+                            </button>
+                        </li>
                     </ul>
                 </li>
             </ul>

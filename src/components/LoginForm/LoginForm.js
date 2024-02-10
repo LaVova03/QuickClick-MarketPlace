@@ -4,7 +4,6 @@ import './LoginForm.scss';
 import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { Form as BootstrapForm } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RepeatPasswordModal from '../RepeatPasswordModal/RepeatPasswordModal';
 import { useSelector, useDispatch } from 'react-redux';
@@ -136,7 +135,7 @@ const LoginForm = () => {
                 initialValues={{
                     email: '',
                     password: '',
-                    checkbox: false,
+                    agree: false,
                     remember: false,
                 }}
                 onSubmit={(values, { resetForm }) => {
@@ -180,7 +179,7 @@ const LoginForm = () => {
                     }
                 }}
             >
-                {({ handleSubmit, handleChange, values }) => (
+                {({ handleSubmit, handleChange, setFieldValue, values }) => (
                     <Form onSubmit={handleSubmit} className='login__formik'>
                         <button
                             className='login__btn__back'
@@ -238,40 +237,51 @@ const LoginForm = () => {
                             </button>
                         </div>
                         {!registration ?
-                            <button
-                                className='login__forgot__pasword'
-                                onClick={HandleClick}>Забули пароль?
-                            </button> :
+                            <div className='login__forgot__pasword'>
+                                <label>
+                                    <button
+                                        type="button"
+                                        name="agree"
+                                        id='login__forgot__btn'
+                                        onChange={(event) => {
+                                            handleChange(event)
+                                        }}
+                                    >
+                                        Забули пароль?
+                                    </button>
+                                </label>
+                            </div> :
                             <div className='login__checkbox'>
-                                <BootstrapForm.Group controlId="formCheckbox" className="d-flex align-items-center">
-                                    <BootstrapForm.Check
-                                        type="checkbox"
-                                        name="checkbox"
-                                        checked={values.checkbox}
-                                        onChange={handleChange}
-                                    />
-                                    <BootstrapForm.Label className="ml-2" style={{ pointerEvents: 'none' }}>
-                                        Створюючи профіль на QuickQlick, ви погоджуєтеся з умовами використання
-                                    </BootstrapForm.Label>
-                                    <ErrorMessage name="checkbox" component="div" />
-                                </BootstrapForm.Group>
-                                <BootstrapForm.Group controlId="formCheckboxRemember" className="d-flex align-items-center">
-                                    <BootstrapForm.Check
-                                        type="checkbox"
-                                        name="checkbox"
-                                        checked={values.checkbox}
-                                        onChange={handleChange}
-                                    />
-                                    <BootstrapForm.Label style={{ pointerEvents: 'none' }}>
-                                        Запам’ятати мене
-                                    </BootstrapForm.Label>
-                                    <ErrorMessage name="remember" component="div" />
-                                </BootstrapForm.Group>
-                            </div>}
+                                <label>
+                                    <button
+                                        className={`checkbox${values.agree ? '__checked' : ''}`}
+                                        onClick={(e) => {
+                                            e.preventDefault()
+                                            setFieldValue('agree', !values.agree);
+                                        }}
+                                    >
+                                    </button>
+                                    Створюючи профіль на QuickQlick, ви погоджуєтеся з умовами використання
+                                </label>
+                                <ErrorMessage name="agree" component="div" />
+                            </div>
+                        }
+                        <label className='login__lbl__remember'>
+                            <button
+                                className={`checkbox${values.remember ? '__checked' : ''}`}
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    setFieldValue('remember', !values.remember);
+                                }}
+                            >
+                            </button>
+                            Запам’ятати мене
+                        </label>
+                        <ErrorMessage name="remember" component="div" />
                         <button
                             type="submit"
-                            className={registration && !values.checkbox ? 'login__sumbmit__disabled' : 'login__submit'}
-                            disabled={registration && !values.checkbox}
+                            className={registration && !values.agree ? 'login__sumbmit__disabled' : 'login__submit'}
+                            disabled={registration && !values.agree}
                         >
                             {registration ? 'Створити' : 'Увійти'}
                         </button>

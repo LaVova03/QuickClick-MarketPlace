@@ -153,7 +153,17 @@ const AddCardBody = () => {
                 resetCard()
             }
         }, 0)
-    }
+    };
+
+    const deletePhoto = (num) => {
+        const updatedPhotos = [...isNewCard.photo];
+        updatedPhotos.splice(num, 1);
+        setNewCard(prevState => ({
+            ...prevState,
+            photo: updatedPhotos
+        }));
+        console.log(updatedPhotos);
+    };
 
     return (
         <div className='AddCardBody__wrap'>
@@ -212,7 +222,15 @@ const AddCardBody = () => {
                     <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
                         <div>
                             {isNewCard.photo[0] ?
-                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[0])} alt="logo" /> :
+                                <>
+                                    <div className='add__photo'>
+                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[0])} alt="logo" />
+                                        <button
+                                            className='add__trash'
+                                            onClick={() => deletePhoto(0)}
+                                        />
+                                    </div>
+                                </> :
                                 <>
                                     <input
                                         type="file"
@@ -232,7 +250,15 @@ const AddCardBody = () => {
                     <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
                         <div>
                             {isNewCard.photo[1] ?
-                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[1])} alt="logo" /> :
+                                <>
+                                    <div className='add__photo'>
+                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[1])} alt="logo" />
+                                        <button
+                                            className='add__trash'
+                                            onClick={() => deletePhoto(1)}
+                                        />
+                                    </div>
+                                </> :
                                 <>
                                     <input
                                         type="file"
@@ -252,7 +278,15 @@ const AddCardBody = () => {
                     <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
                         <div>
                             {isNewCard.photo[2] ?
-                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[2])} alt="logo" /> :
+                                <>
+                                    <div className='add__photo'>
+                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[2])} alt="logo" />
+                                        <button
+                                            className='add__trash'
+                                            onClick={() => deletePhoto(2)}
+                                        />
+                                    </div>
+                                </> :
                                 <>
                                     <input
                                         type="file"
@@ -272,7 +306,15 @@ const AddCardBody = () => {
                     <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
                         <div>
                             {isNewCard.photo[3] ?
-                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[3])} alt="logo" /> :
+                                <>
+                                    <div className='add__photo'>
+                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[3])} alt="logo" />
+                                        <button
+                                            className='add__trash'
+                                            onClick={() => deletePhoto(3)}
+                                        />
+                                    </div>
+                                </> :
                                 <>
                                     <input
                                         type="file"
@@ -292,7 +334,15 @@ const AddCardBody = () => {
                     <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
                         <div>
                             {isNewCard.photo[4] ?
-                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[4])} alt="logo" /> :
+                                <>
+                                    <div className='add__photo'>
+                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[4])} alt="logo" />
+                                        <button
+                                            className='add__trash'
+                                            onClick={() => deletePhoto(4)}
+                                        />
+                                    </div>
+                                </> :
                                 <>
                                     <input
                                         type="file"
@@ -312,7 +362,15 @@ const AddCardBody = () => {
                     <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
                         <div>
                             {isNewCard.photo[5] ?
-                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[5])} alt="logo" /> :
+                                <>
+                                    <div className='add__photo'>
+                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[5])} alt="logo" />
+                                        <button
+                                            className='add__trash'
+                                            onClick={() => deletePhoto(5)}
+                                        />
+                                    </div>
+                                </> :
                                 <>
                                     <input
                                         type="file"
@@ -332,7 +390,15 @@ const AddCardBody = () => {
                     <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
                         <div>
                             {isNewCard.photo[6] ?
-                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[6])} alt="logo" /> :
+                                <>
+                                    <div className='add__photo'>
+                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[6])} alt="logo" />
+                                        <button
+                                            className='add__trash'
+                                            onClick={() => deletePhoto(6)}
+                                        />
+                                    </div>
+                                </> :
                                 <>
                                     <input
                                         type="file"
@@ -352,7 +418,15 @@ const AddCardBody = () => {
                     <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
                         <div>
                             {isNewCard.photo[7] ?
-                                <img className='add__img' src={URL.createObjectURL(isNewCard.photo[7])} alt="logo" /> :
+                                <>
+                                    <div className='add__photo'>
+                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[7])} alt="logo" />
+                                        <button
+                                            className='add__trash'
+                                            onClick={() => deletePhoto(7)}
+                                        />
+                                    </div>
+                                </> :
                                 <>
                                     <input
                                         type="file"
