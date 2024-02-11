@@ -58,6 +58,27 @@ $disable-color: rgb(32, 28, 28);
                 line-height: 120%;
                 cursor: pointer;
             }
+            .login__btn__desable {
+                display: flex;
+                width: 48%;
+                height: 45px;
+                padding: 19px 26px 19px 26px;
+                justify-content: center;
+                align-items: center;
+                margin: 12px 0 15px;
+                gap: 8px;
+                border-radius: 40px;
+                border: 0;
+                background: $disable-background;
+                color: $disable-color;
+                text-align: center;
+                font-family: Montserrat;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: 120%;
+                cursor: pointer;
+            }
         }
 
         .login__btn__wrap button:hover {
@@ -73,6 +94,21 @@ $disable-color: rgb(32, 28, 28);
         .login__btn__wrap button:visited {
             background: $backgroud-form-btn;
             color: $backgroud-form-color;
+        }
+
+        .login__btn__desable:hover {
+            background: $disable-background !important;
+            color: $disable-color !important;
+        }
+
+        .login__btn__desable:active {
+            background: $disable-background !important;
+            color: $disable-color !important;
+        }
+
+        .login__btn__desable:visited {
+            background: $disable-background !important;
+            color: $disable-color !important;
         }
 
         input:-webkit-autofill,

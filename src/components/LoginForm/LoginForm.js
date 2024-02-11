@@ -7,14 +7,16 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RepeatPasswordModal from '../RepeatPasswordModal/RepeatPasswordModal';
 import { useSelector, useDispatch } from 'react-redux';
-import { setAddCard, showButtonExit } from '../../redux/Main/actions';
+import { setAddCard } from '../../redux/Main/actions';
 
 const LoginForm = () => {
+
     const [registration, setRegistration] = useState(false);
     const [isEye, setIsEye] = useState(false);
     const [emptyFields, setEmptyFields] = useState([]);
     const [isModalRepeatPassword, setModalRepeatPassword] = useState(false);
     const [password, setPassword] = useState('');
+    const [isShowExit, setIsShowExit] = useState(false);
     const [resRegex, setResRegex] = useState(
         {
             email: true,
@@ -29,7 +31,6 @@ const LoginForm = () => {
     )
 
     const isAddCard = useSelector(state => state.myReducer?.isAddModal);
-    const isShowExit = useSelector(state => state.myReducer?.isShowExit);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -39,6 +40,16 @@ const LoginForm = () => {
         }
 
     }, [isAddCard, dispatch]);
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('isShowExit');
+        if (token) {
+            setIsShowExit(true);
+            console.log(isShowExit)
+        }
+    }, [isShowExit]);
+
+
 
     const notifyError = (message) => {
         toast.error(message, {
@@ -62,11 +73,6 @@ const LoginForm = () => {
     const showRegistration = (e) => {
         e.preventDefault();
         setRegistration(true);
-    }
-
-    const showEnterence = (e) => {
-        e.preventDefault();
-        setRegistration(false);
     }
 
     const showPassword = () => {
@@ -123,10 +129,10 @@ const LoginForm = () => {
         setModalRepeatPassword(false)
     }
 
-    const deleteToken = (e) => {
-        e.preventDefault()
-        sessionStorage.removeItem("token");
-        dispatch(showButtonExit());
+    const deleteToken = () => {
+        sessionStorage.removeItem("isShowExit");
+        setIsShowExit(false)
+        console.log(isShowExit)
     }
 
     return (
@@ -157,8 +163,8 @@ const LoginForm = () => {
                         if (registration) {
                             setModalRepeatPassword(true);
                         } else {
-                            sessionStorage.setItem("token", "gffsdfvcb1fsfdsfgf");
-                            dispatch(showButtonExit());
+                            sessionStorage.setItem("isShowExit", "true");
+                            setIsShowExit(true);
                             navigate("/personal_area");
                         }
                         resetForm();
@@ -177,6 +183,10 @@ const LoginForm = () => {
                     } else if (isLogin.email && (!resultEmail || !resultIsLogin)) {
                         notifyError("Не вірний формат. Email має бути у форматі angel@gmail.com")
                     }
+
+                    if (isShowExit) {
+                        deleteToken();
+                    }
                 }}
             >
                 {({ handleSubmit, handleChange, setFieldValue, values }) => (
@@ -194,8 +204,21 @@ const LoginForm = () => {
                         </button>
                         <span>або</span>
                         <div className='login__btn__wrap'>
-                            <button onClick={showRegistration}>Зареєструватися</button>
-                            <button onClick={isShowExit ? deleteToken : showEnterence}>{isShowExit ? 'Вийти' : 'Увійти'}</button>
+                            <button
+                                className={isShowExit ? 'login__btn__desable' : 'login__btn__able'}
+                                onClick={showRegistration}
+                                disabled={isShowExit}
+                            >Зареєструватися
+                            </button>
+                            <button
+                                className={isShowExit ? 'login__btn__desable' : 'login__btn__able'}
+                                disabled={isShowExit}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setRegistration(false)
+                                }}>
+                                {isShowExit ? 'Вийти' : 'Увійти'}
+                            </button>
                         </div>
                         <div className='login__wrap__email'>
                             <Field
@@ -283,7 +306,7 @@ const LoginForm = () => {
                             className={registration && !values.agree ? 'login__sumbmit__disabled' : 'login__submit'}
                             disabled={registration && !values.agree}
                         >
-                            {registration ? 'Створити' : 'Увійти'}
+                            {registration ? 'Створити' : isShowExit ? 'Вийти' : 'Увійти'}
                         </button>
                     </Form>
                 )}
