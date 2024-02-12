@@ -5,16 +5,15 @@ import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import RepeatPasswordModal from '../RepeatPasswordModal/RepeatPasswordModal';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAddCard } from '../../redux/Main/actions';
 
 const LoginForm = () => {
 
+    const [isRepeatPassword, setRepeatPassword] = useState('');
     const [registration, setRegistration] = useState(false);
     const [isEye, setIsEye] = useState(false);
     const [emptyFields, setEmptyFields] = useState([]);
-    const [isModalRepeatPassword, setModalRepeatPassword] = useState(false);
     const [password, setPassword] = useState('');
     const [isShowExit, setIsShowExit] = useState(false);
     const [resRegex, setResRegex] = useState(
@@ -45,7 +44,6 @@ const LoginForm = () => {
         const token = sessionStorage.getItem('isShowExit');
         if (token) {
             setIsShowExit(true);
-            console.log(isShowExit)
         }
     }, [isShowExit]);
 
@@ -125,14 +123,17 @@ const LoginForm = () => {
         return isEmail || isPhone;
     };
 
-    const closeModal = () => {
-        setModalRepeatPassword(false)
-    }
-
     const deleteToken = () => {
         sessionStorage.removeItem("isShowExit");
         setIsShowExit(false)
-        console.log(isShowExit)
+    }
+
+    const searchPassword = () => {
+        if (password === isRepeatPassword) {
+            return true
+        } else {
+            return false
+        }
     }
 
     return (
@@ -151,8 +152,11 @@ const LoginForm = () => {
                         .filter(([key, value]) => (key === 'email' ||
                             (key === 'password')) && !value)
                         .map(([key]) => key);
-
                     setEmptyFields(emptyFieldsArray);
+
+                    if (!isRepeatPassword) {
+                        setEmptyFields(prevFields => [...prevFields, 'repeat-password']);
+                    }
 
                     const resultPassword = checkPasswordRegex(values.password);
                     const resultPhone = isLogin.phone ? checkLoginRegex(values.email) : false;
@@ -160,16 +164,13 @@ const LoginForm = () => {
                     const resultIsLogin = validateLogin(values.email)
 
                     if (emptyFieldsArray.length === 0 && resultPassword && (isLogin.phone ? resultPhone : resultEmail)) {
-                        if (registration) {
-                            setModalRepeatPassword(true);
-                        } else {
-                            sessionStorage.setItem("isShowExit", "true");
-                            setIsShowExit(true);
-                            navigate("/personal_area");
-                        }
+                        sessionStorage.setItem("isShowExit", "true");
+                        setIsShowExit(true);
+                        navigate("/personal_area");
                         resetForm();
                         setResRegex((prevState) => ({ ...prevState, password: true, email: true }));
                         setEmptyFields([]);
+                        setRepeatPassword([]);
                         if (isAddCard) {
                             dispatch(setAddCard());
                         }
@@ -236,7 +237,6 @@ const LoginForm = () => {
                                 autoComplete="email"
                                 style={{ border: emptyFields.includes('email') || !resRegex.email ? '1px solid #FF5858' : '' }}
                             />
-
                         </div>
                         <div className='login__wrap__password'>
                             <Field
@@ -245,6 +245,7 @@ const LoginForm = () => {
                                 name="password"
                                 onChange={(e) => {
                                     handleChange(e);
+                                    setPassword(e.target.value)
                                     setEmptyFields((prevFields) => prevFields.filter(field => field !== 'password'));
                                     setResRegex((statePrev) => ({ ...statePrev, password: checkPasswordRegex(e.target.value) }));
                                 }}
@@ -259,6 +260,22 @@ const LoginForm = () => {
                                 className={!isEye ? 'login__eye__close' : 'login__eye__open'}>
                             </button>
                         </div>
+                        {registration ?
+                            <div className='login__wrap__repeat__password'>
+                                <Field
+                                    type="text"
+                                    id="repeat__password"
+                                    name="repeat__password"
+                                    onChange={(e) => {
+                                        setRepeatPassword(e.target.value);
+                                        setEmptyFields(prevFields => prevFields.filter(field => field !== 'repeat-password'));
+                                    }}
+                                    value={isRepeatPassword || ''}
+                                    placeholder='Повторіть пароль*'
+                                    autoComplete="repeat__password"
+                                    style={{ border: emptyFields.includes('repeat-password') || !searchPassword() ? '1px solid #FF5858' : '' }}
+                                />
+                            </div> : null}
                         {!registration ?
                             <div className='login__forgot__pasword'>
                                 <label>
@@ -312,7 +329,6 @@ const LoginForm = () => {
                 )}
             </Formik>
             <ToastContainer />
-            {isModalRepeatPassword ? <RepeatPasswordModal closeModal={closeModal} initialValue={password} /> : null}
         </div >
     )
 }

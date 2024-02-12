@@ -27,7 +27,7 @@ const MainHeader = () => {
     const handleNavigate = () => navigate("/login");
 
     const searchToken = () => {
-        if (sessionStorage.getItem('token')) {
+        if (sessionStorage.getItem('isShowExit')) {
             navigate("/add_card");
         } else {
             dispatch(setAddCard());
