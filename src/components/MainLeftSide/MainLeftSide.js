@@ -100,12 +100,12 @@ const MainLeftSide = ({ isCategory }) => {
                                 <li key={j}>
                                     {key === 'chapter' ? <div className='main__leftside__text'>{el[key]}</div> :
                                         <button
-                                            onClick={isCategory ? () => { handleCategoryClick(el.chapter) } :
-                                                () => { console.log(el.chapter) }}
+                                            onClick={isCategory ? () => { handleCategoryClick(el.chapter) } : null}
                                             className='main__leftside__logo'
                                         >
                                             <img src={el[key]}
                                                 alt='logo'
+                                                className='left__side__img'
                                             />
                                         </button>}
                                 </li>

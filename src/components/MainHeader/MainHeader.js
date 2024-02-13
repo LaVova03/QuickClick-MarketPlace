@@ -1,6 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
 import './MainHeader.scss';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setBurgerMenu, setLanguage, setAddCard } from '../../redux/Main/actions';
@@ -8,6 +8,17 @@ import MainBurgerMenu from '../../components/MainBurgerMenu/MainBurgerMenu';
 import Logo from '../../assets/mainHeader/logo.png';
 
 const MainHeader = () => {
+
+    const [isPersonalPlace, setPersonalPlace] = useState(false);
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('isShowExit');
+        if (token) {
+            setPersonalPlace(true);
+        } else {
+            setPersonalPlace(false);
+        }
+    }, [isPersonalPlace]);
 
     const isFlagSet = useSelector(state => state.myReducer?.isFlagSet);
     const isLanguage = useSelector(state => state.myReducer?.isLanguage);
@@ -24,7 +35,8 @@ const MainHeader = () => {
         dispatch(setLanguage());
     };
 
-    const handleNavigate = () => navigate("/login");
+    const handleNavigateLogin = () => navigate("/login");
+    const handleNavigatePersonalPlace = () => navigate("/personal_area");
 
     const searchToken = () => {
         if (sessionStorage.getItem('isShowExit')) {
@@ -62,7 +74,11 @@ const MainHeader = () => {
                 </div>
                 <div className='main__headre__right'>
                     <button id='main__header__heart'><div></div></button>
-                    <button id='main__header__user' onClick={handleNavigate}><div></div></button>
+                    <button
+                        id='main__header__user'
+                        onClick={!isPersonalPlace ? handleNavigateLogin : handleNavigatePersonalPlace}>
+                        <div></div>
+                    </button>
                     <div className='main__wrap__lang'>
                         <button
                             onClick={changeLanguage}

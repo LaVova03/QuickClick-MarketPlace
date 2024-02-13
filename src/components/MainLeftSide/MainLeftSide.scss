@@ -110,3 +110,16 @@ $background-categorys-color: #00a224;
     box-shadow: 5px 5px 8px $border-color;
     background: $background-color;
 }
+
+.left__side__img {
+    transition: transform 0.5s ease; /* Добавляем плавный переход */
+}
+
+.left__side__img:hover {
+    transform: rotateY(180deg); /* При ховере разворачиваем на 180 градусов по оси Y */
+}
+
+.left__side__img:hover {
+    transform: rotateY(180deg);
+    /*Приснятииховеравозвращаемизображениевисходноеположение*/
+}
