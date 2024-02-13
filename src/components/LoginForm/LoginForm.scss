@@ -18,7 +18,7 @@ $disable-color: rgb(32, 28, 28);
         align-items: center;
         text-align: center;
         width: 28em;
-        height: auto;
+        height: 36em;
         padding: 8vh 0 11vh 0;
         flex-shrink: 0;
         border-radius: 40px;
@@ -187,9 +187,10 @@ $disable-color: rgb(32, 28, 28);
 
 .login__btn__back {
     position: relative;
-    left: -40%;
+    left: -37%;
     margin: 0 24px 0;
     border: 0;
+    top: -17px;
     background-image: url(../../assets/login__page/btn-left.png);
     background-size: contain;
     width: 36px;
