@@ -293,7 +293,7 @@ const PersonalAreaBody = () => {
                 <>
                     {isPutModal &&
                         <div className='persinal__put__modal'>
-                            {isLoading ? (
+                            {isLoading.putModal ? (
                                 <div id='personal__loading'>Loading...</div>
                             ) :
                                 <>
