@@ -1,8 +1,10 @@
 import './PersonalAreaBody.scss';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Plus from '../../assets/personal__area/Plus.png';
 import Minus from '../../assets/personal__area/Minus.png';
 import Msg from '../../assets/personal__area/msg.png';
+import axios from "axios";
+import { API_MOCAPI } from '../../constants/Constants';
 
 const PersonalAreaBody = () => {
 
@@ -27,7 +29,75 @@ const PersonalAreaBody = () => {
         nine: false,
         ten: false,
         eleven: false,
-    })
+    });
+
+    const [isData, setData] = useState([]);
+    const [isKeyPart, setKeyPart] = useState('');
+    const [isIdCard, setIdCard] = useState('');
+    const [isPutModal, setPutModal] = useState(false);
+    const [isPutData, setPutData] = useState(null);
+    const [isLoading, setLoading] = useState({
+        active: false,
+        putModal: false,
+    });
+
+    useEffect(() => {
+        fetchGetIdGoods(isIdCard)
+    }, [isIdCard, isData.length]);
+
+    const fetchGetGoods = async () => {
+        try {
+            setLoading((prev) => ({
+                ...prev,
+                active: !prev,
+            }));
+            const { data } = await axios.get(`${API_MOCAPI}/Goods`);
+            if (data.length === 0) {
+                setData(null);
+            } else {
+                setData(data);
+            }
+        }
+        catch {
+            console.log('fetch data GET cards error')
+        }
+        finally {
+            setLoading((prev) => ({
+                ...prev,
+                active: !prev,
+            }));
+        }
+    };
+
+    const fetchGetIdGoods = async (id) => {
+        try {
+            setLoading((prev) => ({
+                ...prev,
+                putModal: !prev,
+            }));
+            const { data } = await axios.get(`${API_MOCAPI}/Goods/${id}`);
+            setPutData(data)
+        }
+        catch {
+            console.log('fetch data GET cards error')
+        }
+        finally {
+            setLoading((prev) => ({
+                ...prev,
+                putModal: !prev,
+            }));
+        }
+    };
+
+    const fetchPutGoods = async (id) => {
+        try {
+            await axios.put(`${API_MOCAPI}/Goods/${id}`, isPutData);
+            await fetchGetGoods();
+        }
+        catch {
+            console.log('fetch data PUT cards error')
+        }
+    };
 
     const changeList = (key) => {
         setIsList((prev) => ({
@@ -61,7 +131,18 @@ const PersonalAreaBody = () => {
             ...prevState,
             [num]: !prevState[num],
         }))
-    }
+    };
+
+    const lookingCard = () => {
+        for (let key in isPart) {
+            if (isPart[key]) {
+                setKeyPart(key)
+                return true;
+            } else {
+                return null;
+            }
+        }
+    };
 
     return (
         <div className='PersonalAreaBody__wrap'>
@@ -84,7 +165,10 @@ const PersonalAreaBody = () => {
                     <ul className={!isList.isOpen1 ? 'personal__colum__none' : 'personal__colum__block'}>
                         <li >
                             <button
-                                onClick={() => setCategory('one')}
+                                onClick={() => {
+                                    setCategory('one');
+                                    fetchGetGoods();
+                                }}
                                 className={`personal__part${isPart.one ? '__green' : ''}`}>Активні
                             </button>
                         </li>
@@ -185,9 +269,68 @@ const PersonalAreaBody = () => {
                 </li>
             </ul>
             <div className='personal__center__img'>
-                <img src={Msg} alt="logo" />
+                {lookingCard ?
+                    <>
+                        {isData.map((el) => {
+                            return (
+                                <ul key={el.id} >
+                                    <li><img src={el.imageSrc} alt="logo" /></li>
+                                    <li>{el.Description}</li>
+                                    <li>{el.Price}</li>
+                                    <li><button>Переглянути</button></li>
+                                    <li><button onClick={() => {
+                                        setIdCard(el.id);
+                                        setPutModal(true);
+                                    }}>
+                                        Редагувати</button></li>
+                                </ul>
+                            )
+                        })}
+                    </>
+                    : <img src={Msg} alt="logo" />}
             </div>
-        </div>
+            {isPutModal &&
+                <>
+                    {isPutModal &&
+                        <div className='persinal__put__modal'>
+                            {isLoading ? (
+                                <div id='personal__loading'>Loading...</div>
+                            ) :
+                                <>
+                                    <button
+                                        id='personal__x__btn'
+                                        onClick={() => setPutModal(false)}
+                                    ></button>
+                                    <ul>
+                                        {isPutData && typeof isPutData === 'object' && Object.keys(isPutData).map(key => (
+                                            (key !== 'id' && key !== 'ProductId' && key !== 'Category') &&
+                                            <li key={key}>
+                                                <strong>{String(key)}: </strong>
+                                                <div>"{String(isPutData[key])}"</div>
+                                                <input
+                                                    type="text"
+                                                    placeholder={key}
+                                                    onChange={(e) => {
+                                                        setPutData((prevState) => ({
+                                                            ...prevState,
+                                                            [key]: e.target.value,
+                                                        }))
+                                                    }}
+                                                />
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <button onClick={() => {
+                                        fetchPutGoods(isIdCard);
+                                        setPutModal(false);
+                                    }}>Редагувати</button>
+                                </>}
+                        </div>
+                    }
+                </>
+            }
+
+        </div >
     )
 }
 
