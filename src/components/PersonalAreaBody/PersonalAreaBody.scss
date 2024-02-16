@@ -393,3 +393,12 @@ $text-btn-active: #06611a;
     margin: 0 auto;
     justify-content: center;
 }
+
+#personal__loading__active {
+    display: flex;
+    width: 100%;
+    font-size: 30px;
+    color: $open-text-color;
+    margin: 0 auto;
+    justify-content: center;
+}

@@ -36,21 +36,70 @@ const PersonalAreaBody = () => {
     const [isIdCard, setIdCard] = useState('');
     const [isPutModal, setPutModal] = useState(false);
     const [isPutData, setPutData] = useState(null);
+    const [isCategory, addCategory] = useState('');
     const [isLoading, setLoading] = useState({
         active: false,
         putModal: false,
     });
 
     useEffect(() => {
+        lookingCard(isCategory);
+        const res = Object.keys(isList).some(key => key === 'isOpen1' && isList[key] === false);
+        const res1 = Object.keys(isList).some(key => key === 'isOpen2' && isList[key] === false);
+        const res2 = Object.keys(isList).some(key => key === 'isOpen3' && isList[key] === false);
+        const res3 = Object.keys(isList).some(key => key === 'isOpen4' && isList[key] === false);
+        if (res) {
+            setKeyPart(false);
+            setPart(prevState => {
+                return {
+                    ...prevState,
+                    one: false,
+                    two: false,
+                    three: false
+                };
+            });
+        }
+        if (res1) {
+            setPart(prevState => {
+                return {
+                    ...prevState,
+                    four: false,
+                    five: false,
+                    six: false
+                };
+            });
+        }
+        if (res2) {
+            setPart(prevState => {
+                return {
+                    ...prevState,
+                    seven: false,
+                    eight: false,
+                    nine: false
+                };
+            });
+        }
+        if (res3) {
+            setPart(prevState => {
+                return {
+                    ...prevState,
+                    ten: false,
+                    eleven: false,
+                };
+            });
+        }
+    }, [isPart, isList, isCategory])
+
+    useEffect(() => {
         fetchGetIdGoods(isIdCard)
     }, [isIdCard, isData.length]);
 
     const fetchGetGoods = async () => {
+        setLoading((prev) => ({
+            ...prev,
+            active: !prev.active,
+        }));
         try {
-            setLoading((prev) => ({
-                ...prev,
-                active: !prev,
-            }));
             const { data } = await axios.get(`${API_MOCAPI}/Goods`);
             if (data.length === 0) {
                 setData(null);
@@ -64,7 +113,7 @@ const PersonalAreaBody = () => {
         finally {
             setLoading((prev) => ({
                 ...prev,
-                active: !prev,
+                active: !prev.active,
             }));
         }
     };
@@ -133,13 +182,13 @@ const PersonalAreaBody = () => {
         }))
     };
 
-    const lookingCard = () => {
+    const lookingCard = (name) => {
         for (let key in isPart) {
-            if (isPart[key]) {
-                setKeyPart(key)
-                return true;
+            if (key === name && isPart[key] === true) {
+                setKeyPart(key);
+                break;
             } else {
-                return null;
+                setKeyPart(false)
             }
         }
     };
@@ -167,6 +216,7 @@ const PersonalAreaBody = () => {
                             <button
                                 onClick={() => {
                                     setCategory('one');
+                                    addCategory('one');
                                     fetchGetGoods();
                                 }}
                                 className={`personal__part${isPart.one ? '__green' : ''}`}>Активні
@@ -269,25 +319,27 @@ const PersonalAreaBody = () => {
                 </li>
             </ul>
             <div className='personal__center__img'>
-                {lookingCard ?
-                    <>
-                        {isData.map((el) => {
-                            return (
-                                <ul key={el.id} >
-                                    <li><img src={el.imageSrc} alt="logo" /></li>
-                                    <li>{el.Description}</li>
-                                    <li>{el.Price}</li>
-                                    <li><button>Переглянути</button></li>
-                                    <li><button onClick={() => {
-                                        setIdCard(el.id);
-                                        setPutModal(true);
-                                    }}>
-                                        Редагувати</button></li>
-                                </ul>
-                            )
-                        })}
-                    </>
-                    : <img src={Msg} alt="logo" />}
+                {isLoading.active ?
+                    <div id='personal__loading__active'>Loading...</div> :
+                    isKeyPart ?
+                        <>
+                            {isData.map((el) => {
+                                return (
+                                    <ul key={el.id} >
+                                        <li><img src={el.imageSrc} alt="logo" /></li>
+                                        <li>{el.Description}</li>
+                                        <li>{el.Price}</li>
+                                        <li><button>Переглянути</button></li>
+                                        <li><button onClick={() => {
+                                            setIdCard(el.id);
+                                            setPutModal(true);
+                                        }}>
+                                            Редагувати</button></li>
+                                    </ul>
+                                )
+                            })}
+                        </>
+                        : <img src={Msg} alt="logo" />}
             </div>
             {isPutModal &&
                 <>
