@@ -5,6 +5,7 @@ import Minus from '../../assets/personal__area/Minus.png';
 import Msg from '../../assets/personal__area/msg.png';
 import axios from "axios";
 import { API_MOCAPI } from '../../constants/Constants';
+import WaitingPublicOrRejected from '../WaitingPublicOrRejected/WaitingPublicOrRejected';
 
 const PersonalAreaBody = () => {
 
@@ -30,69 +31,63 @@ const PersonalAreaBody = () => {
         ten: false,
         eleven: false,
     });
-
-    const [isData, setData] = useState([]);
-    const [isKeyPart, setKeyPart] = useState('');
     const [isIdCard, setIdCard] = useState('');
     const [isPutModal, setPutModal] = useState(false);
     const [isPutData, setPutData] = useState(null);
-    const [isCategory, addCategory] = useState('');
+    const [isData, setData] = useState([]);
     const [isLoading, setLoading] = useState({
         active: false,
         putModal: false,
     });
 
-    useEffect(() => {
-        lookingCard(isCategory);
-        const res = Object.keys(isList).some(key => key === 'isOpen1' && isList[key] === false);
-        const res1 = Object.keys(isList).some(key => key === 'isOpen2' && isList[key] === false);
-        const res2 = Object.keys(isList).some(key => key === 'isOpen3' && isList[key] === false);
-        const res3 = Object.keys(isList).some(key => key === 'isOpen4' && isList[key] === false);
-        if (res) {
-            setKeyPart(false);
-            setPart(prevState => {
-                return {
-                    ...prevState,
-                    one: false,
-                    two: false,
-                    three: false
-                };
-            });
-        }
-        if (res1) {
-            setPart(prevState => {
-                return {
-                    ...prevState,
-                    four: false,
-                    five: false,
-                    six: false
-                };
-            });
-        }
-        if (res2) {
-            setPart(prevState => {
-                return {
-                    ...prevState,
-                    seven: false,
-                    eight: false,
-                    nine: false
-                };
-            });
-        }
-        if (res3) {
-            setPart(prevState => {
-                return {
-                    ...prevState,
-                    ten: false,
-                    eleven: false,
-                };
-            });
-        }
-    }, [isPart, isList, isCategory])
+    const [isCategory, addCategory] = useState('');
 
     useEffect(() => {
         fetchGetIdGoods(isIdCard)
     }, [isIdCard, isData.length]);
+
+    useEffect(() => {
+        console.log(isCategory)
+    }, [isCategory]);
+
+    useEffect(() => {
+        const list1 = Object.keys(isList).some(key => key === 'isOpen1' && isList[key] === false);
+        const list2 = Object.keys(isList).some(key => key === 'isOpen2' && isList[key] === false);
+        const list3 = Object.keys(isList).some(key => key === 'isOpen3' && isList[key] === false);
+        const list4 = Object.keys(isList).some(key => key === 'isOpen4' && isList[key] === false);
+        if (!list1) {
+            setPart((prev) => ({
+                ...prev,
+                one: false,
+                two: false,
+                three: false,
+            }))
+        }
+        if (!list2) {
+            setPart((prev) => ({
+                ...prev,
+                four: false,
+                five: false,
+                six: false,
+            }))
+        }
+        if (!list3) {
+            setPart((prev) => ({
+                ...prev,
+                seven: false,
+                eight: false,
+                nine: false,
+            }))
+        }
+        if (!list4) {
+            setPart((prev) => ({
+                ...prev,
+                ten: false,
+                eleven: false,
+            }))
+        }
+
+    }, [isList]);
 
     const fetchGetGoods = async () => {
         setLoading((prev) => ({
@@ -164,10 +159,12 @@ const PersonalAreaBody = () => {
                     }))
                 }
             }
+            setCategory('')
         }
     };
 
     const setCategory = (num) => {
+        addCategory(num);
         for (let key in isPart) {
             if (isPart[key] === true) {
                 setPart((prevState) => ({
@@ -180,17 +177,6 @@ const PersonalAreaBody = () => {
             ...prevState,
             [num]: !prevState[num],
         }))
-    };
-
-    const lookingCard = (name) => {
-        for (let key in isPart) {
-            if (key === name && isPart[key] === true) {
-                setKeyPart(key);
-                break;
-            } else {
-                setKeyPart(false)
-            }
-        }
     };
 
     return (
@@ -216,7 +202,6 @@ const PersonalAreaBody = () => {
                             <button
                                 onClick={() => {
                                     setCategory('one');
-                                    addCategory('one');
                                     fetchGetGoods();
                                 }}
                                 className={`personal__part${isPart.one ? '__green' : ''}`}>Активні
@@ -321,25 +306,18 @@ const PersonalAreaBody = () => {
             <div className='personal__center__img'>
                 {isLoading.active ?
                     <div id='personal__loading__active'>Loading...</div> :
-                    isKeyPart ?
-                        <>
-                            {isData.map((el) => {
-                                return (
-                                    <ul key={el.id} >
-                                        <li><img src={el.imageSrc} alt="logo" /></li>
-                                        <li>{el.Description}</li>
-                                        <li>{el.Price}</li>
-                                        <li><button>Переглянути</button></li>
-                                        <li><button onClick={() => {
-                                            setIdCard(el.id);
-                                            setPutModal(true);
-                                        }}>
-                                            Редагувати</button></li>
-                                    </ul>
-                                )
-                            })}
-                        </>
-                        : <img src={Msg} alt="logo" />}
+                    isCategory === 'one' && isList.isOpen1 ?
+                        < WaitingPublicOrRejected
+                            isActive
+                            isData={isData}
+                            setIdCard={setIdCard}
+                            setPutModal={setPutModal}
+                        />
+                        : isCategory === 'two' && isList.isOpen1 ?
+                            < WaitingPublicOrRejected isWaiting />
+                            : isCategory === 'three' && isList.isOpen1 ?
+                                < WaitingPublicOrRejected />
+                                : <img src={Msg} alt="logo" />}
             </div>
             {isPutModal &&
                 <>
