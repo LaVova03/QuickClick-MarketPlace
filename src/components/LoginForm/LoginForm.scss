@@ -135,6 +135,9 @@ $disable-color: rgb(32, 28, 28);
                 outline: none;
             }
         }
+        input:-webkit-autofill {
+            -webkit-text-fill-color: $hover-color;
+        }
     }
 }
 

@@ -47,10 +47,6 @@ const PersonalAreaBody = () => {
     }, [isIdCard, isData.length]);
 
     useEffect(() => {
-        console.log(isCategory)
-    }, [isCategory]);
-
-    useEffect(() => {
         const list1 = Object.keys(isList).some(key => key === 'isOpen1' && isList[key] === false);
         const list2 = Object.keys(isList).some(key => key === 'isOpen2' && isList[key] === false);
         const list3 = Object.keys(isList).some(key => key === 'isOpen3' && isList[key] === false);
@@ -182,8 +178,8 @@ const PersonalAreaBody = () => {
     return (
         <div className='PersonalAreaBody__wrap'>
             <div>
-                <label>Оголошення</label>
                 <div>
+                    <label>Оголошення</label>
                     <button>Створити</button>
                 </div>
                 <br />
