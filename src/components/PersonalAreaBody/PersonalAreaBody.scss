@@ -203,6 +203,7 @@ $text-btn-active: #06611a;
     min-height: 15vw;
     height: max-content;
     margin-bottom: 30px;
+    text-align: center;
     img {
         margin: 0 auto;
         height: 18em;
@@ -218,7 +219,7 @@ $text-btn-active: #06611a;
     line-height: 160%;
 }
 
-.persinal__put__modal {
+.personal__put__modal {
     display: flex;
     position: absolute;
     left: 50%;
@@ -227,8 +228,8 @@ $text-btn-active: #06611a;
     align-items: center;
     text-align: center;
     width: 28em;
-    height: 36em;
-    padding: 3vh 0 11vh 0;
+    height: 37em;
+    padding: 0;
     flex-shrink: 0;
     border-radius: 40px;
     background: $text-btn-active;
@@ -312,6 +313,7 @@ $text-btn-active: #06611a;
     background-color: inherit;
     margin: 0;
     right: -85%;
+    top: 20px;
 }
 
 #personal__loading {
@@ -334,4 +336,34 @@ $text-btn-active: #06611a;
     color: $open-text-color;
     margin: 0 auto;
     justify-content: center;
+}
+
+#personal__edit__select {
+    width: max-content;
+    height: max-content;
+    font-size: 16px;
+    border-radius: 40px;
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    -ms-border-radius: 40px;
+    -o-border-radius: 40px;
+    border: 0;
+    background-color: $open-text-color;
+    outline: none;
+    color: $text-btn-color;
+    padding: 2px;
+    margin: 10px 0 0 0;
+    transition: background 0.3s ease, color 0.3s ease;
+    -webkit-transition: background 0.3s ease, color 0.3s ease;
+    -moz-transition: background 0.3s ease, color 0.3s ease;
+    -ms-transition: background 0.3s ease, color 0.3s ease;
+    -o-transition: background 0.3s ease, color 0.3s ease;
+    &:hover {
+        background-color: $text-btn-color;
+        color: $open-text-color;
+    }
+    &:active {
+        background-color: $open-text-color;
+        color: $text-btn-active;
+    }
 }

@@ -6,6 +6,9 @@ import Msg from '../../assets/personal__area/msg.png';
 import axios from "axios";
 import { API_MOCAPI } from '../../constants/Constants';
 import WaitingPublicOrRejected from '../WaitingPublicOrRejected/WaitingPublicOrRejected';
+import PersonalMessages from '../../components/PersonalMessages/PersonalMessages';
+import PersonalPayment from '../../components/PersonalPayment/PersonalPayment';
+import PersonalDelivery from '../../components/PersonalDelivery/PersonalDelivery';
 
 const PersonalAreaBody = () => {
 
@@ -313,12 +316,28 @@ const PersonalAreaBody = () => {
                             < WaitingPublicOrRejected isWaiting />
                             : isCategory === 'three' && isList.isOpen1 ?
                                 < WaitingPublicOrRejected />
-                                : <img src={Msg} alt="logo" />}
+                                : isCategory === 'four' && isList.isOpen2 ?
+                                    <PersonalMessages isEntrance />
+                                    : isCategory === 'five' && isList.isOpen2 ?
+                                        <PersonalMessages isExit />
+                                        : isCategory === 'six' && isList.isOpen2 ?
+                                            <PersonalMessages />
+                                            : isCategory === 'seven' && isList.isOpen3 ?
+                                                <PersonalPayment isReceived />
+                                                : isCategory === 'eight' && isList.isOpen3 ?
+                                                    <PersonalPayment isOutgoing />
+                                                    : isCategory === 'nine' && isList.isOpen3 ?
+                                                        <PersonalPayment />
+                                                        : isCategory === 'ten' && isList.isOpen4 ?
+                                                            <PersonalDelivery isTrack />
+                                                            : isCategory === 'eleven' && isList.isOpen4 ?
+                                                                <PersonalDelivery />
+                                                                : <img src={Msg} alt="logo" />}
             </div>
             {isPutModal &&
                 <>
                     {isPutModal &&
-                        <div className='persinal__put__modal'>
+                        <div className='personal__put__modal'>
                             {isLoading.putModal ? (
                                 <div id='personal__loading'>Loading...</div>
                             ) :
@@ -332,19 +351,39 @@ const PersonalAreaBody = () => {
                                             (key !== 'id' && key !== 'ProductId' && key !== 'Category') &&
                                             <li key={key}>
                                                 <strong>{String(key)}: </strong>
-                                                <div>"{String(isPutData[key])}"</div>
-                                                <input
-                                                    type="text"
-                                                    placeholder={key}
-                                                    onChange={(e) => {
-                                                        setPutData((prevState) => ({
-                                                            ...prevState,
-                                                            [key]: e.target.value,
-                                                        }))
-                                                    }}
-                                                />
+                                                {key === 'Currency' ? (
+                                                    <select
+                                                    id='personal__edit__select'
+                                                        value={isPutData[key]}
+                                                        onChange={(e) => {
+                                                            setPutData((prevState) => ({
+                                                                ...prevState,
+                                                                [key]: e.target.value,
+                                                            }))
+                                                        }}
+                                                    >
+                                                        <option value="грн">грн</option>
+                                                        <option value="usd">usd</option>
+                                                    </select>
+                                                ) : (
+                                                    <>
+                                                        <div>"{String(isPutData[key])}"</div>
+                                                        <input
+                                                            type="text"
+                                                            placeholder={key}
+                                                            value={isPutData[key]}
+                                                            onChange={(e) => {
+                                                                setPutData((prevState) => ({
+                                                                    ...prevState,
+                                                                    [key]: e.target.value,
+                                                                }))
+                                                            }}
+                                                        />
+                                                    </>
+                                                )}
                                             </li>
                                         ))}
+
                                     </ul>
                                     <button onClick={() => {
                                         fetchPutGoods(isIdCard);

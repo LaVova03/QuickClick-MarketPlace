@@ -46,7 +46,7 @@ const MainLeftSide = ({ isCategory }) => {
         },
         {
             img: Toy,
-            chapter: 'Играшки',
+            chapter: 'Іграшки',
         },
         {
             img: Dog,

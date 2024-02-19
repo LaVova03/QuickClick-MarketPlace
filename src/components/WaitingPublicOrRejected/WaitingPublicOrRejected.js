@@ -3,6 +3,7 @@ import './WaitingPublicOrRejected.scss';
 const WaitingPublicOrRejected = ({ isWaiting, isActive, isData, setIdCard, setPutModal }) => {
     return (
         <div className='personal__category__wrap'>
+            <label>{isActive ? 'Ваші активні оголошення' : isWaiting ? 'Очікують публікації' : 'Відхилені публікації'}</label>
             {isActive ?
                 <>
                     {isData.map((el) => {
@@ -11,6 +12,7 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, isData, setIdCard, setPu
                                 <li><img src={el.imageSrc} alt="logo" /></li>
                                 <li>{el.Description}</li>
                                 <li>{el.Price}</li>
+                                <li>{el.Currency}</li>
                                 <li><button>Переглянути</button></li>
                                 <li><button onClick={() => {
                                     setIdCard(el.id);
@@ -21,8 +23,8 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, isData, setIdCard, setPu
                         )
                     })}
                 </>
-                : isWaiting ? 'WaitingPublic' : 'Rejected'}
-        </div>
+                : null}
+        </div >
     )
 }
 

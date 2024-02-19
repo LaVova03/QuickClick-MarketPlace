@@ -2,11 +2,27 @@ $price-color: #ff5858;
 $deep-color: #001004;
 $text-btn-color: #cdffd8;
 $text-btn-active: #06611a;
+$label-color: #b4b4b4;
 
 .personal__category__wrap {
     display: block !important;
     width: max-content;
     text-align: center !important;
+    label {
+        display: flex;
+        height: 40px;
+        flex-direction: column;
+        justify-content: center;
+        align-self: stretch;
+        color: $label-color;
+        font-family: Montserrat;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 160%;
+        width: max-content;
+        margin: 0 0 15px 32px;
+    }
 }
 
 .personal__category__wrap > ul {
@@ -35,6 +51,14 @@ $text-btn-active: #06611a;
     font-weight: 800;
     line-height: 0%;
     margin: 0 8px;
+    transition: background 0.3s ease, color 0.3s ease;
+    &:hover {
+        background: var(--Green-Normal, #00a224);
+        color: var(--Light, #cdffd8);
+    }
+    &:active {
+        color: var(--Dark-Green, #06611a);
+    }
 }
 
 .personal__category__wrap > ul > li > img {
@@ -58,14 +82,14 @@ $text-btn-active: #06611a;
     font-weight: 600;
     line-height: 160%;
     margin: 0 8px;
-    width: 19vw;
+    width: 11vw;
 }
 
+.personal__category__wrap > ul li:nth-of-type(4),
 .personal__category__wrap > ul li:nth-of-type(3) {
     display: flex;
-    width: 110px;
+    width: 8vw;
     height: 60px;
-    flex-direction: column;
     justify-content: center;
     flex-shrink: 0;
     color: $price-color;
@@ -75,4 +99,5 @@ $text-btn-active: #06611a;
     font-style: normal;
     font-weight: 700;
     line-height: 160%;
+    align-items: center;
 }

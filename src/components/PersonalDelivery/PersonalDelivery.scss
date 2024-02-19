@@ -1,0 +1,22 @@
+$label-color: #b4b4b4;
+
+.PersonalDelivery {
+    display: block !important;
+    width: max-content;
+    text-align: center !important;
+    label {
+        display: flex;
+        height: 40px;
+        flex-direction: column;
+        justify-content: center;
+        align-self: stretch;
+        color: $label-color;
+        font-family: Montserrat;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 160%;
+        width: max-content;
+        margin: 0 0 15px 32px;
+    }
+}
