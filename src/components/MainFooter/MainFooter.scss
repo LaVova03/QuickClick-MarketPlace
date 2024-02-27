@@ -66,6 +66,7 @@ $background-color: #001004;
                 font-size: 20px;
                 font-style: normal;
                 line-height: normal;
+                transition: 0.2s;
             }
             button:hover {
                 color: $btn-hover;
@@ -151,6 +152,7 @@ $background-color: #001004;
     background-color: inherit;
     border: 0;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .main__footer__ut:hover {
@@ -172,6 +174,7 @@ $background-color: #001004;
     border: 0;
     cursor: pointer;
     margin: 0 32px;
+    transition: 0.2s;
 }
 
 .main__footer__fb:hover {
@@ -192,6 +195,7 @@ $background-color: #001004;
     background-color: inherit;
     border: 0;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .main__footer__inst:hover {

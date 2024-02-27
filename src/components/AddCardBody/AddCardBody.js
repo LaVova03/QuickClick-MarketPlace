@@ -110,7 +110,7 @@ const AddCardBody = () => {
             phone: '',
             price: '',
         });
-    }
+    };
 
     const addCard = () => {
         let location = false;

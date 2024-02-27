@@ -187,7 +187,6 @@ const PersonalAreaBody = () => {
       <div>
         <div>
           <label>Оголошення</label>
-          <button>Створити</button>
         </div>
         <br />
       </div>

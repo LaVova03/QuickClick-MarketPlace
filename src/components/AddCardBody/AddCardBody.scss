@@ -179,6 +179,7 @@ label {
             background-repeat: no-repeat;
             border: 0;
             cursor: pointer;
+            transition: 0.3s;
         }
 
         button:hover {
@@ -263,6 +264,7 @@ label {
         position: absolute;
         bottom: 0px;
         right: 0;
+        transition: 0.3s;
     }
     button:hover {
         background: $li-color;
