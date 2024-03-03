@@ -1,0 +1,342 @@
+$backgroud-form-color: #06611a;
+$backgroud-form-btn: #00a224;
+$li-color: #cdffd8;
+$placeholder-color: #b4b4b4;
+$text-color: #001004;
+$border-error-color: red;
+
+.AddCardBody__wrap {
+    display: flex;
+    justify-content: space-between;
+    .add__left__side {
+        display: block;
+        width: 22vw;
+        margin-left: 8vh;
+        margin-bottom: 8vh;
+        margin-top: 45px;
+        .add__textarea__discription {
+            display: flex;
+            width: 100%;
+            padding: 15px;
+            margin: 0 auto 0;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            border-radius: 40px;
+            border: 1px solid $backgroud-form-btn;
+            font-family: Montserrat;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 140%;
+            outline: none;
+        }
+        .add__textarea__discription__empty {
+            display: flex;
+            width: 100%;
+            padding: 15px;
+            margin: 0 auto 0;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            border-radius: 40px;
+            border: 1px solid $border-error-color;
+            font-family: Montserrat;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 140%;
+            outline: none;
+        }
+        .add__textarea__discription:hover {
+            border: 2px solid $li-color;
+        }
+
+        .add__textarea__discription:focus {
+            border: 2px solid $li-color;
+        }
+    }
+}
+
+.add__input__name,
+.add__input__category,
+.add__input__adress,
+.add__input__phone,
+.add__input__price {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    padding: 0 15px;
+    margin: 0 auto 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 40px;
+    border: 1px solid $backgroud-form-btn;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+    outline: none;
+}
+
+.add__input__name__empty,
+.add__input__category__empty,
+.add__input__adress__empty,
+.add__input__phone__empty,
+.add__input__price__empty {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    padding: 0 15px;
+    margin: 0 auto 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 40px;
+    border: 1px solid $border-error-color;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+    outline: none;
+}
+
+.add__input__name:hover,
+.add__input__category:hover,
+.add__input__adress:hover,
+.add__input__phone:hover,
+.add__input__price:hover {
+    border: 2px solid $li-color;
+}
+
+.add__input__name:focus,
+.add__input__category:focus,
+.add__input__adress:focus,
+.add__input__phone:focus,
+.add__input__price:focus {
+    border: 2px solid $li-color;
+}
+
+label {
+    color: $placeholder-color;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+}
+
+.add__left__side > div {
+    color: text-color;
+    font-family: Montserrat Medium;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%;
+    margin: 0 0 24px 0;
+    width: max-content;
+}
+
+.add__center__side {
+    transform: translateX(0);
+    position: relative;
+    width: max-content;
+    display: block;
+    margin-top: 120px;
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+}
+.add__center__side > ul {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    padding: 0;
+    margin: 0;
+    .add__input__photo {
+        display: flex;
+        width: 128px;
+        height: 128px;
+        overflow: hidden;
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+        background: $li-color;
+        margin: 0 4px 4px 0;
+        button {
+            width: 128px;
+            height: 128px;
+            background-image: url(../../assets/add__card/camera.png);
+            background-size: 24px 24px;
+            background-position: center;
+            background-color: inherit;
+            background-repeat: no-repeat;
+            border: 0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: $backgroud-form-btn;
+            background-image: url(../../assets/add__card/camera-hover.png);
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    }
+
+    .add__input__photo__empty {
+        display: flex;
+        width: 128px;
+        height: 128px;
+        overflow: hidden;
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+        background: $li-color;
+        border: 1px solid $border-error-color;
+        margin: 0 4px 4px 0;
+        button {
+            width: 128px;
+            height: 128px;
+            background-image: url(../../assets/add__card/camera.png);
+            background-size: 24px 24px;
+            background-position: center;
+            background-color: inherit;
+            background-repeat: no-repeat;
+            border: 0;
+            cursor: pointer;
+        }
+        button:hover {
+            background: $backgroud-form-btn;
+            background-image: url(../../assets/add__card/camera-hover.png);
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    }
+}
+
+.add__textarea__discription__empty::placeholder,
+.add__textarea__discription::placeholder,
+.add__input__name__empty::placeholder,
+.add__input__category__empty::placeholder,
+.add__input__adress__empty::placeholder,
+.add__input__phone__empty::placeholder,
+.add__input__price__empty::placeholder,
+.add__input__name::placeholder,
+.add__input__category::placeholder,
+.add__input__adress::placeholder,
+.add__input__phone::placeholder,
+.add__input__price::placeholder {
+    color: $placeholder-color;
+}
+
+.add__right__side {
+    position: relative;
+    display: block;
+    width: 22vw;
+    margin-right: 8vh;
+    margin-top: 120px;
+    margin-bottom: 8vh;
+    button {
+        display: flex;
+        width: 224px;
+        height: 64px;
+        padding: 19px 26px 19px 27px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border: 0;
+        cursor: pointer;
+        border-radius: 40px;
+        background: $backgroud-form-btn;
+        color: $li-color;
+        font-family: Montserrat;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        position: absolute;
+        bottom: 0px;
+        right: 0;
+        transition: 0.3s;
+    }
+    button:hover {
+        background: $li-color;
+        color: $backgroud-form-btn;
+    }
+    button:active {
+        background: $backgroud-form-btn;
+        color: $backgroud-form-color;
+    }
+}
+
+.add__img {
+    width: 100%;
+    height: 128px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.add__address,
+.add__address__none,
+.add__categorys,
+.add__categorys__none {
+    position: absolute;
+    width: 100vh;
+    height: max-content;
+    top: -20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.add__address,
+.add__categorys {
+    z-index: 1;
+    opacity: 1;
+    transform: translateX(-35px);
+    -webkit-transform: translateX();
+    -moz-transform: translateX();
+    -ms-transform: translateX();
+    -o-transform: translateX();
+    visibility: visible;
+}
+
+.add__address__none,
+.add__categorys__none {
+    z-index: -1;
+    transform: translateX(-35px);
+    height: 400px;
+}
+
+.add__address.active,
+.add__categorys.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.add__photo {
+    position: relative;
+    width: 128px;
+    height: 128px;
+}
+
+.add__trash {
+    position: absolute !important;
+    width: 24px !important;
+    height: 24px !important;
+    flex-shrink: 0 !important;
+    background-image: url(../../assets/add__card/trash.png) !important;
+    background-size: 24px 24px !important;
+    border: 0 !important;
+    background-color: inherit !important;
+    left: 94px !important;
+    bottom: 12px !important;
+    cursor: pointer !important;
+}

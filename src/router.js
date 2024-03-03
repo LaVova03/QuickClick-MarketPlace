@@ -4,6 +4,8 @@ import Main from './containers/Main/Main';
 import Login from './containers/Login/Login';
 import PrivateRoute from "./privateRoute";
 import PersonalArea from './containers/PersonalArea/PersonalArea';
+import AddCard from './containers/AddCard/AddCard';
+import ForgotPasswordModal from "./components/ForgotPasswordModal/ForgotPasswordModal";
 
 const AppRouter = () => (
     <Router>
@@ -12,6 +14,8 @@ const AppRouter = () => (
 
             <Route >
                 <Route path="/login" element={<Login />} />
+                <Route path="/forgot_password" element={<ForgotPasswordModal />} />
+                <Route path="/add_card" element={<AddCard />} />
             </Route>
 
             <Route element={<PrivateRoute />}>

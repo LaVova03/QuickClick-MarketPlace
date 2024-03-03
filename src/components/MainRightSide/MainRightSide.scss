@@ -61,6 +61,7 @@ $hover-color: #00380d;
                     font-style: normal;
                     font-weight: 500;
                     line-height: normal;
+                    transition: 0.3s;
                 }
                 button:hover {
                     color: $hover-color;

@@ -32,6 +32,7 @@ position: relative;
     top: 50%;
     transform: translateY(-50%);
     left: 24px;
+    transition: 0.3s;
 }
 
 #mainslider__btn__left:hover {
@@ -53,6 +54,7 @@ position: relative;
     top: 50%;
     transform: translateY(-50%);
     right: 24px;
+    transition: 0.3s;
 }
 
 #mainslider__btn__right:hover {
@@ -104,6 +106,7 @@ position: relative;
         font-style: normal;
         font-weight: 700;
         line-height: 120%;
+        transition: 0.3s;
     }
 
     button:hover {

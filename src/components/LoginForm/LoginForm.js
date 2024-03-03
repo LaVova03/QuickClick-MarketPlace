@@ -1,257 +1,403 @@
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './LoginForm.scss';
-import React, { useState } from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { Form as BootstrapForm } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import RepeatPasswordModal from '../RepeatPasswordModal/RepeatPasswordModal';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./LoginForm.scss";
+import React, { useState, useEffect } from "react";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useSelector, useDispatch } from "react-redux";
+import { setAddCard } from "../../redux/Main/actions";
+import axios from "axios";
 
 const LoginForm = () => {
-    const [registration, setRegistration] = useState(false);
-    const [isEye, setIsEye] = useState(false);
-    const [emptyFields, setEmptyFields] = useState([]);
-    const [isModalRepeatPassword, setModalRepeatPassword] = useState(false);
-    const [password, setPassword] = useState('');
-    const [resRegex, setResRegex] = useState(
-        {
-            email: true,
-            password: true,
-        }
+  const [isRepeatPassword, setRepeatPassword] = useState("");
+  const [registration, setRegistration] = useState(false);
+  const [isEye, setIsEye] = useState(false);
+  const [emptyFields, setEmptyFields] = useState([]);
+  const [password, setPassword] = useState("");
+  const [isShowExit, setIsShowExit] = useState(false);
+  const [resRegex, setResRegex] = useState({
+    email: true,
+    password: true,
+  });
+  const [isLogin, setIsLogin] = useState({
+    phone: false,
+    email: false,
+  });
+
+  const isAddCard = useSelector((state) => state.myReducer?.isAddModal);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isAddCard) {
+      notifyError("Для створення оголошення потрібно зареєструватися");
+    }
+  }, [isAddCard, dispatch]);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("isShowExit");
+    if (token) {
+      setIsShowExit(true);
+    }
+  }, [isShowExit]);
+
+  const notifyError = (message) => {
+    toast.error(message, {
+      position: "top-right",
+    });
+  };
+
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    if (isAddCard) {
+      dispatch(setAddCard());
+    }
+    navigate("/");
+  };
+
+  const HandleClick = (e) => {
+    e.preventDefault();
+  };
+
+  const showRegistration = (e) => {
+    e.preventDefault();
+    setRegistration(true);
+  };
+
+  const showPassword = () => {
+    setIsEye((prevState) => {
+      return !prevState;
+    });
+  };
+
+  const checkPasswordRegex = (password) => {
+    if (password.length > 9) {
+      const passwordRegex =
+        /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+{}|:"<>?[\],.';~`\\/-]+$/;
+      return passwordRegex.test(password);
+    } else {
+      return false;
+    }
+  };
+
+  const checkLoginRegex = (email) => {
+    const phoneRegex = /\+{1}\d{12}/.test(email);
+    const emailRegex = /[A-Za-z0-9_-]+@{1}[A-Za-z0-9_-]+/.test(email);
+    if (phoneRegex && email.length === 13) {
+      return phoneRegex;
+    }
+    if (emailRegex) {
+      return emailRegex;
+    }
+  };
+
+  const validateLogin = (login) => {
+    const isEmail = /^[a-zA-Z0-9=!@#$%^&*()_{}+|:"<>?[\],.';~`\\/-]+$/.test(
+      login
     );
-    const [isLogin, setIsLogin] = useState(
-        {
-            phone: false,
-            email: false,
-        }
-    )
-
-    const notifyError = (message) => {
-        toast.error(message, {
-            position: 'top-right'
-        });
-    };
-
-    const navigate = useNavigate();
-
-    const handleNavigate = () => navigate("/");
-
-    const HandleClick = (e) => {
-        e.preventDefault();
+    const isPhone = /\+{1}\d+/.test(login);
+    if (isEmail) {
+      setIsLogin((prevState) => ({
+        ...prevState,
+        phone: false,
+        email: true,
+      }));
+    } else if (isPhone) {
+      setIsLogin((prevState) => ({
+        ...prevState,
+        email: false,
+        phone: true,
+      }));
+    } else {
+      setIsLogin({
+        phone: false,
+        email: false,
+      });
     }
+    return isEmail || isPhone;
+  };
 
-    const showRegistration = (e) => {
-        e.preventDefault();
-        setRegistration(true);
+  const deleteToken = () => {
+    sessionStorage.removeItem("isShowExit");
+    setIsShowExit(false);
+  };
+
+  const searchPassword = () => {
+    if (password === isRepeatPassword) {
+      return true;
+    } else {
+      return false;
     }
+  };
 
-    const showEnterence = (e) => {
-        e.preventDefault();
-        setRegistration(false);
+  const fetchPostLogin = async () => {
+    const dataToSend = {
+      email: 'davidvovchik@gmail.com',
+      password: 'Q1qqqqqqqq',
+    };
+
+    try {
+      const response = await axios.post('http://localhost:8080/v1.0/auth/login', dataToSend);
+      console.log(response.data);
+    } catch {
+      console.log("fetch data POST login error");
+    } finally {
+      console.log(dataToSend);
     }
+  };
 
-    const showPassword = () => {
-        setIsEye((prevState) => {
-            return !prevState;
-        });
-    };
+  return (
+    <div className="login__form__wrap">
+      <Formik
+        initialValues={{
+          email: "",
+          password: "",
+          agree: false,
+          remember: false,
+        }}
+        onSubmit={(values, { resetForm }) => {
+          setPassword(values.password);
+          const emptyFieldsArray = Object.entries(values)
+            .filter(
+              ([key, value]) =>
+                (key === "email" || key === "password") && !value
+            )
+            .map(([key]) => key);
+          setEmptyFields(emptyFieldsArray);
 
-    const checkPasswordRegex = (password) => {
-        if (password.length > 9) {
-            const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+{}|:"<>?[\],.';~`\\/-]+$/;
-            return passwordRegex.test(password);
-        } else {
-            return false;
-        }
-    };
+          if (!isRepeatPassword) {
+            setEmptyFields((prevFields) => [...prevFields, "repeat-password"]);
+          }
 
-    const checkLoginRegex = (email) => {
-        const phoneRegex = /\+{1}\d{12}/.test(email);
-        const emailRegex = /[A-Za-z_-]+@{1}[A-Za-z_-]+/.test(email);
-        if (phoneRegex && email.length === 13) {
-            return phoneRegex
-        }
-        if (emailRegex) {
-            return emailRegex
-        }
-    };
+          const resultPassword = checkPasswordRegex(values.password);
+          const resultPhone = isLogin.phone
+            ? checkLoginRegex(values.email)
+            : false;
+          const resultEmail = isLogin.email
+            ? checkLoginRegex(values.email)
+            : false;
+          const resultIsLogin = validateLogin(values.email);
 
-    const validateLogin = (login) => {
-        const isEmail = /^[a-zA-Z=!@#$%^&*()_{}+|:"<>?[\],.';~`\\/-]+$/.test(login);
-        const isPhone = /\+{1}\d+/.test(login);
-        if (isEmail) {
-            setIsLogin(prevState => ({
-                ...prevState,
-                phone: false,
-                email: true,
-            }))
-        } else if (isPhone) {
-            setIsLogin(prevState => ({
-                ...prevState,
-                email: false,
-                phone: true,
-            }))
-        } else {
-            setIsLogin({
-                phone: false,
-                email: false,
-            });
-        }
-        return isEmail || isPhone;
-    };
+          if (
+            emptyFieldsArray.length === 0 &&
+            resultPassword &&
+            (isLogin.phone ? resultPhone : resultEmail)
+          ) {
+            sessionStorage.setItem("isShowExit", "true");
+            fetchPostLogin();
+            setIsShowExit(true);
+            navigate("/");
+            resetForm();
+            setResRegex((prevState) => ({
+              ...prevState,
+              password: true,
+              email: true,
+            }));
+            setEmptyFields([]);
+            setRepeatPassword([]);
+            if (isAddCard) {
+              dispatch(setAddCard());
+            }
+          }
+          if (emptyFieldsArray.length > 0) {
+            notifyError("Заповніть обов'язкові поля");
+          } else if (isLogin.phone && (!resultPhone || !resultIsLogin)) {
+            notifyError(
+              "Не вірний формат. Введіть телефон у форматі +380939119191"
+            );
+          } else if (!resultPassword) {
+            notifyError(
+              "У пароля мають бути лише латинські літери, хоча б одна велика літера, та хоча б одна цифра, довжина не менше 10 символів"
+            );
+          } else if (isLogin.email && (!resultEmail || !resultIsLogin)) {
+            notifyError(
+              "Не вірний формат. Email має бути у форматі angel@gmail.com"
+            );
+          }
 
-    const closeModal = () => {
-        setModalRepeatPassword(false)
-    }
-
-    return (
-        <div className='login__form__wrap'>
-            <Formik
-                initialValues={{
-                    email: '',
-                    password: '',
-                    checkbox: false,
+          if (isShowExit) {
+            deleteToken();
+          }
+        }}
+      >
+        {({ handleSubmit, handleChange, setFieldValue, values }) => (
+          <Form onSubmit={handleSubmit} className="login__formik">
+            <button
+              className="login__btn__back"
+              onClick={handleNavigate}
+            ></button>
+            <button onClick={HandleClick} className="login__btn__google">
+              <div className="login__google" />
+              Продовжити з Gmail
+            </button>
+            <span>або</span>
+            <div className="login__btn__wrap">
+              <button
+                className={
+                  isShowExit ? "login__btn__desable" : "login__btn__able"
+                }
+                onClick={showRegistration}
+                disabled={isShowExit}
+              >
+                Зареєструватися
+              </button>
+              <button
+                className={
+                  isShowExit ? "login__btn__desable" : "login__btn__able"
+                }
+                disabled={isShowExit}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setRegistration(false);
                 }}
-                onSubmit={(values, { resetForm }) => {
-
-                    setPassword(values.password);
-                    const emptyFieldsArray = Object.entries(values)
-                        .filter(([key, value]) => (key === 'email' ||
-                            (key === 'password')) && !value)
-                        .map(([key]) => key);
-
-                    setEmptyFields(emptyFieldsArray);
-
-                    const resultPassword = checkPasswordRegex(values.password);
-                    const resultPhone = isLogin.phone ? checkLoginRegex(values.email) : false;
-                    const resultEmail = isLogin.email ? checkLoginRegex(values.email) : false;
-                    const resultIsLogin = validateLogin(values.email)
-
-                    if (emptyFieldsArray.length === 0 && resultPassword && (isLogin.phone ? resultPhone : resultEmail)) {
-                        if (registration) {
-                            setModalRepeatPassword(true);
-                        } else {
-                            localStorage.setItem("token", "gffsdfvcb1fsfdsfgf");
-                            navigate("/personal_area");
-                        }
-                        resetForm();
-                        setResRegex((prevState) => ({ ...prevState, password: true, email: true }));
-                        setEmptyFields([]);
-                    }
-                    if (emptyFieldsArray.length > 0) {
-                        notifyError("Заповніть обов'язкові поля");
-                    } else if (isLogin.phone && (!resultPhone || !resultIsLogin)) {
-                        notifyError("Не вірний формат. Введіть телефон у форматі +380939119191");
-                    } else if (!resultPassword) {
-                        notifyError("У пароля мають бути лише латинські літери, хоча б одна велика літера, та хоча б одна цифра, довжина не менше 10 символів");
-                    } else if (isLogin.email && (!resultEmail || !resultIsLogin)) {
-                        notifyError("Не вірний формат. Email має бути у форматі angel@gmail.com")
-                    }
+              >
+                {isShowExit ? "Вийти" : "Увійти"}
+              </button>
+            </div>
+            <div className="login__wrap__email">
+              <Field
+                type="text"
+                id="email"
+                name="email"
+                onChange={(e) => {
+                  handleChange(e);
+                  setEmptyFields((prevFields) =>
+                    prevFields.filter((field) => field !== "email")
+                  );
+                  setResRegex((statePrev) => ({
+                    ...statePrev,
+                    email: checkLoginRegex(e.target.value),
+                  }));
+                  validateLogin(e.target.value);
                 }}
+                value={values.email}
+                placeholder="Електронна пошта чи телефон*"
+                autoComplete="email"
+                style={{
+                  border:
+                    emptyFields.includes("email") || !resRegex.email
+                      ? "1px solid #FF5858"
+                      : "",
+                }}
+              />
+            </div>
+            <div className="login__wrap__password">
+              <Field
+                type={!isEye ? "password" : "text"}
+                id="password"
+                name="password"
+                onChange={(e) => {
+                  handleChange(e);
+                  setPassword(e.target.value);
+                  setEmptyFields((prevFields) =>
+                    prevFields.filter((field) => field !== "password")
+                  );
+                  setResRegex((statePrev) => ({
+                    ...statePrev,
+                    password: checkPasswordRegex(e.target.value),
+                  }));
+                }}
+                value={values.password}
+                placeholder="Пароль*"
+                autoComplete="password"
+                style={{
+                  border:
+                    emptyFields.includes("password") || !resRegex.password
+                      ? "1px solid #FF5858"
+                      : "",
+                }}
+              />
+              <button
+                type="button"
+                onClick={showPassword}
+                className={!isEye ? "login__eye__close" : "login__eye__open"}
+              ></button>
+            </div>
+            {registration ? (
+              <div className="login__wrap__repeat__password">
+                <Field
+                  type="text"
+                  id="repeat__password"
+                  name="repeat__password"
+                  onChange={(e) => {
+                    setRepeatPassword(e.target.value);
+                    setEmptyFields((prevFields) =>
+                      prevFields.filter((field) => field !== "repeat-password")
+                    );
+                  }}
+                  value={isRepeatPassword || ""}
+                  placeholder="Повторіть пароль*"
+                  autoComplete="repeat__password"
+                  style={{
+                    border:
+                      emptyFields.includes("repeat-password") ||
+                        !searchPassword()
+                        ? "1px solid #FF5858"
+                        : "",
+                  }}
+                />
+              </div>
+            ) : null}
+            {!registration && !isShowExit ? (
+              <div className="login__forgot__pasword">
+                <label>
+                  <button
+                    type="button"
+                    name="agree"
+                    id="login__forgot__btn"
+                    onClick={() => {
+                      navigate("/forgot_password");
+                    }}
+                  >
+                    Забули пароль?
+                  </button>
+                </label>
+              </div>
+            ) : registration ? (
+              <div className="login__checkbox">
+                <label>
+                  <button
+                    className={`checkbox${values.agree ? "__checked" : ""}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setFieldValue("agree", !values.agree);
+                    }}
+                  ></button>
+                  Створюючи профіль на QuickQlick, ви погоджуєтеся з умовами
+                  використання
+                </label>
+                <ErrorMessage name="agree" component="div" />
+              </div>
+            ) : null}
+            <label className="login__lbl__remember">
+              <button
+                className={`checkbox${values.remember ? "__checked" : ""}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setFieldValue("remember", !values.remember);
+                }}
+              ></button>
+              Запам’ятати мене
+            </label>
+            <ErrorMessage name="remember" component="div" />
+            <button
+              type="submit"
+              className={
+                registration && !values.agree
+                  ? "login__sumbmit__disabled"
+                  : "login__submit"
+              }
+              disabled={registration && !values.agree}
             >
-                {({ handleSubmit, handleChange, values }) => (
-                    <Form onSubmit={handleSubmit} className='login__formik'>
-                        <button
-                            className='login__btn__back'
-                            onClick={handleNavigate}>
-
-                        </button>
-                        <button
-                            onClick={HandleClick}
-                            className='login__btn__google'>
-                            <div className='login__google' />
-                            Продовжити з Gmail
-                        </button>
-                        <button
-                            onClick={HandleClick}
-                            className='login__btn__inst'>
-                            <div className='login__inst' />
-                            Продовжити з Instagram
-                        </button>
-                        <button
-                            onClick={HandleClick}
-                            className='login__btn__facebook'>
-                            <div className='login__facebook' />
-                            Продовжити з Facebook
-                        </button>
-                        <span>або</span>
-                        <div className='login__btn__wrap'>
-                            <button onClick={showRegistration}>Зареєструватися</button>
-                            <button onClick={showEnterence}>Увійти</button>
-                        </div>
-                        <div className='login__wrap__email'>
-                            <Field
-                                type="text"
-                                id="email"
-                                name="email"
-                                onChange={(e) => {
-                                    handleChange(e);
-                                    setEmptyFields((prevFields) => prevFields.filter(field => field !== 'email'));
-                                    setResRegex((statePrev) => ({ ...statePrev, email: checkLoginRegex(e.target.value) }));
-                                    validateLogin(e.target.value)
-                                }}
-                                value={values.email}
-                                placeholder='Електронна пошта чи телефон*'
-                                autoComplete="email"
-                                style={{ border: emptyFields.includes('email') || !resRegex.email ? '1px solid #FF5858' : '' }}
-                            />
-
-                        </div>
-                        <div className='login__wrap__password'>
-                            <Field
-                                type={!isEye ? "password" : "text"}
-                                id="password"
-                                name="password"
-                                onChange={(e) => {
-                                    handleChange(e);
-                                    setEmptyFields((prevFields) => prevFields.filter(field => field !== 'password'));
-                                    setResRegex((statePrev) => ({ ...statePrev, password: checkPasswordRegex(e.target.value) }));
-                                }}
-                                value={values.password}
-                                placeholder='Пароль*'
-                                autoComplete="password"
-                                style={{ border: emptyFields.includes('password') || !resRegex.password ? '1px solid #FF5858' : '' }}
-                            />
-                            <button
-                                type='button'
-                                onClick={showPassword}
-                                className={!isEye ? 'login__eye__close' : 'login__eye__open'}>
-                            </button>
-                        </div>
-                        {!registration ?
-                            <button
-                                className='login__forgot__pasword'
-                                onClick={HandleClick}>Забули пароль?
-                            </button> :
-                            <div className='login__checkbox'>
-                                <BootstrapForm.Group controlId="formCheckbox" className="d-flex align-items-center">
-                                    <BootstrapForm.Check
-                                        type="checkbox"
-                                        name="checkbox"
-                                        checked={values.checkbox}
-                                        onChange={handleChange}
-                                    />
-                                    <BootstrapForm.Label className="ml-2" style={{ pointerEvents: 'none' }}>
-                                        Створюючи профіль на QuickQlick, ви погоджуєтеся з умовами використання
-                                    </BootstrapForm.Label>
-                                    <ErrorMessage name="checkbox" component="div" />
-                                </BootstrapForm.Group>
-                            </div>}
-                        <button
-                            type="submit"
-                            className={registration && !values.checkbox ? 'login__sumbmit__disabled' : 'login__submit'}
-                            disabled={registration && !values.checkbox}
-                        >
-                            {registration ? 'Створити' : 'Увійти'}
-                        </button>
-                    </Form>
-                )}
-            </Formik>
-            <ToastContainer />
-            {isModalRepeatPassword ? <RepeatPasswordModal closeModal={closeModal} initialValue={password}/> : null}
-        </div >
-    )
-}
+              {registration ? "Створити" : isShowExit ? "Вийти" : "Увійти"}
+            </button>
+          </Form>
+        )}
+      </Formik>
+      <ToastContainer />
+    </div>
+  );
+};
 
 export default LoginForm;

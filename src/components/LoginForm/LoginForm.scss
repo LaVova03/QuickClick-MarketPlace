@@ -18,8 +18,8 @@ $disable-color: rgb(32, 28, 28);
         align-items: center;
         text-align: center;
         width: 28em;
-        height: auto;
-        padding: 2vw 0 3vw 0;
+        height: 36em;
+        padding: 8vh 0 11vh 0;
         flex-shrink: 0;
         border-radius: 40px;
         background: $backgroud-form-color;
@@ -52,7 +52,28 @@ $disable-color: rgb(32, 28, 28);
                 color: $hover-color;
                 text-align: center;
                 font-family: Montserrat;
-                font-size: 15px;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: 120%;
+                cursor: pointer;
+            }
+            .login__btn__desable {
+                display: flex;
+                width: 48%;
+                height: 45px;
+                padding: 19px 26px 19px 26px;
+                justify-content: center;
+                align-items: center;
+                margin: 12px 0 15px;
+                gap: 8px;
+                border-radius: 40px;
+                border: 0;
+                background: $disable-background;
+                color: $disable-color;
+                text-align: center;
+                font-family: Montserrat;
+                font-size: 14px;
                 font-style: normal;
                 font-weight: 700;
                 line-height: 120%;
@@ -75,6 +96,21 @@ $disable-color: rgb(32, 28, 28);
             color: $backgroud-form-color;
         }
 
+        .login__btn__desable:hover {
+            background: $disable-background !important;
+            color: $disable-color !important;
+        }
+
+        .login__btn__desable:active {
+            background: $disable-background !important;
+            color: $disable-color !important;
+        }
+
+        .login__btn__desable:visited {
+            background: $disable-background !important;
+            color: $disable-color !important;
+        }
+
         input:-webkit-autofill,
         input {
             display: flex;
@@ -94,18 +130,18 @@ $disable-color: rgb(32, 28, 28);
             font-style: normal;
             font-weight: 500;
             line-height: 140%;
-            -webkit-box-shadow: 0 0 0 30px $backgroud-form-color inset !important;
             transition: background-color 5000s ease-in-out 0s;
             &:focus {
                 outline: none;
             }
         }
+        input:-webkit-autofill {
+            -webkit-text-fill-color: $hover-color;
+        }
     }
 }
 
-.login__btn__google,
-.login__btn__inst,
-.login__btn__facebook {
+.login__btn__google {
     display: flex;
     justify-content: center;
     width: 70%;
@@ -119,7 +155,7 @@ $disable-color: rgb(32, 28, 28);
     background: $backgroud-form-btn;
     color: $hover-color;
     font-family: Montserrat;
-    font-size: 15px;
+    font-size: 14px;
     white-space: nowrap;
     font-style: normal;
     font-weight: 700;
@@ -128,32 +164,24 @@ $disable-color: rgb(32, 28, 28);
 }
 
 .login__submit:hover,
-.login__btn__google:hover,
-.login__btn__inst:hover,
-.login__btn__facebook:hover {
+.login__btn__google:hover {
     background: $hover-color;
     color: $backgroud-form-btn;
 }
 
 .login__submit:active,
-.login__btn__google:active,
-.login__btn__inst:active,
-.login__btn__facebook:active {
+.login__btn__google:active {
     color: $backgroud-form-color;
     background: $backgroud-form-btn;
 }
 
 .login__submit:visited,
-.login__btn__google:visited,
-.login__btn__inst:visited,
-.login__btn__facebook:visited {
+.login__btn__google:visited {
     color: $backgroud-form-color;
     background: $visited-color;
 }
 
-.login__google,
-.login__inst,
-.login__facebook {
+.login__google {
     width: 36px;
     height: 36px;
     flex-shrink: 0;
@@ -162,9 +190,10 @@ $disable-color: rgb(32, 28, 28);
 
 .login__btn__back {
     position: relative;
-    left: -40%;
+    left: -37%;
     margin: 0 24px 0;
     border: 0;
+    top: -17px;
     background-image: url(../../assets/login__page/btn-left.png);
     background-size: contain;
     width: 36px;
@@ -196,7 +225,7 @@ $disable-color: rgb(32, 28, 28);
     color: $hover-color;
     text-align: center;
     font-family: Montserrat;
-    font-size: 15px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 700;
     line-height: 120%;
@@ -217,14 +246,17 @@ $disable-color: rgb(32, 28, 28);
     color: $disable-color;
     text-align: center;
     font-family: Montserrat;
-    font-size: 15px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 700;
     line-height: 120%;
     cursor: pointer;
 }
 
+.login__lbl__remember,
 .login__forgot__pasword {
+    width: max-content;
+    height: 25px;
     color: $backgroud-form-btn;
     font-family: Montserrat;
     font-size: 15px;
@@ -235,8 +267,42 @@ $disable-color: rgb(32, 28, 28);
     border: 0;
     background-color: inherit;
     position: relative;
-    left: -21%;
+    left: 14%;
     cursor: pointer;
+    label {
+        font-family: Montserrat;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 140%;
+        display: flex;
+        width: 315px;
+        height: 39px;
+        justify-content: left;
+        color: $backgroud-form-btn;
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%;
+    }
+    #login__forgot__btn {
+        background-color: inherit;
+        border: 0;
+        cursor: pointer;
+        display: flex;
+        width: max-content;
+        height: 39px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: $backgroud-form-btn;
+        font-family: Montserrat;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%;
+    }
 }
 
 .login__forgot__pasword:hover {
@@ -248,8 +314,17 @@ $disable-color: rgb(32, 28, 28);
     -webkit-filter: blur(0.6px);
 }
 
-.login__checkbox {
+.login__lbl__remember {
+    font-size: 12px !important;
+    width: 315px !important;
+    justify-content: left;
     display: flex;
+    margin-left: 4px;
+    align-items: center;
+}
+
+.login__checkbox {
+    display: block;
     align-items: center;
     text-align: left;
     width: 70%;
@@ -260,74 +335,57 @@ $disable-color: rgb(32, 28, 28);
     font-style: normal;
     font-weight: 500;
     line-height: 120%;
-    #checkbox {
-        width: 26px;
-        height: 26px;
-        flex-shrink: 0;
-        border-radius: 8px;
-        border: 2px solid $backgroud-form-btn;
+    label {
         display: flex;
-        height: 39px;
-        flex-direction: column;
-        justify-content: center;
-        flex-shrink: 0;
-        margin: 0 16px 0 0;
+        color: $backgroud-form-btn;
+        font-family: Montserrat;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%;
+        align-items: center;
     }
 }
 
-.form-check-input:checked {
+.checkbox__checked,
+.checkbox {
+    background-color: inherit !important;
+    width: 26px !important;
+    height: 26px !important;
+    flex-shrink: 0 !important;
     border-radius: 8px !important;
     border: 2px solid $backgroud-form-btn !important;
-    background-color: $backgroud-form-color !important;
-    width: 36px;
-    height: 36px;
-    margin-right: 16px !important;
-    flex-shrink: 0;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    margin: 0 16px 0 0 !important;
     -webkit-border-radius: 8px !important;
     -moz-border-radius: 8px !important;
     -ms-border-radius: 8px !important;
     -o-border-radius: 8px !important;
 }
 
-.form-check-input {
-    border-radius: 8px !important;
-    border: 2px solid $backgroud-form-btn !important;
-    background-color: $backgroud-form-color !important;
-    background-size: 25px 25px;
-    width: 25px !important;
-    height: 25px !important;
-    margin-right: 16px !important;
-    flex-shrink: 0;
-    -webkit-border-radius: 8px !important;
-    -moz-border-radius: 8px !important;
-    -ms-border-radius: 8px !important;
-    -o-border-radius: 8px !important;
-    &:hover {
-        border-color: $hover-color !important;
-        width: 25px !important;
-        height: 25px !important;
-        border: 0;
-    }
-    &:active {
-        background-image: url(../../assets/login__page/check-half.png) !important;
-    }
-    &:checked {
-        background-image: url(../../assets/login__page/check.png) !important;
-    }
-    &:focus {
-        box-shadow: none !important;
-    }
-    transition: background-image 0.4s ease;
-    -webkit-transition: background-image 0.4s ease;
-    -moz-transition: background-image 0.4s ease;
-    -ms-transition: background-image 0.4s ease;
-    -o-transition: background-image 0.4s ease;
+.checkbox:hover {
+    border: 2px solid $hover-color !important;
 }
 
-.form-label {
-    margin-bottom: 0 !important;
+.checkbox:active {
+    background-image: url(../../assets/login__page/check-focus.png);
+    background-size: 26px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
+.checkbox__checked {
+    background-image: url(../../assets/login__page/check-active.png);
+    background-size: 26px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 2px solid $hover-color !important;
+}
+
+.login__wrap__repeat__password,
 .login__wrap__email,
 .login__wrap__password {
     width: 70%;
@@ -385,55 +443,5 @@ $disable-color: rgb(32, 28, 28);
 .login__btn__google:active {
     .login__google {
         background-image: url(../../assets/login__page/IconsGmail.png);
-    }
-}
-
-.login__inst {
-    background-image: url(../../assets/login__page/IconsInst.png);
-    width: 22px;
-    height: 22px;
-    flex-shrink: 0;
-    display: flex;
-    background-size: 22px 22px;
-    background-repeat: no-repeat;
-    background-color: inherit;
-    align-items: center;
-    justify-content: center;
-}
-
-.login__btn__inst:hover {
-    .login__inst {
-        background-image: url(../../assets/login__page/InstOnhover.png);
-    }
-}
-
-.login__btn__inst:active {
-    .login__inst {
-        background-image: url(../../assets/login__page/IconsInst.png);
-    }
-}
-
-.login__facebook {
-    background-image: url(../../assets/login__page/IconsFB.png);
-    width: 18px;
-    height: 24px;
-    flex-shrink: 0;
-    display: flex;
-    background-size: 18px 24px;
-    background-repeat: no-repeat;
-    background-color: inherit;
-    align-items: center;
-    justify-content: center;
-}
-
-.login__btn__facebook:hover {
-    .login__facebook {
-        background-image: url(../../assets/login__page/FBOnhover.png);
-    }
-}
-
-.login__btn__facebook:active {
-    .login__facebook {
-        background-image: url(../../assets/login__page/IconsFB.png);
     }
 }

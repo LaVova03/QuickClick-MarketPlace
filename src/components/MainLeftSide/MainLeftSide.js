@@ -1,5 +1,5 @@
 import './MainLeftSide.scss';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Car from '../../assets/mainLeftSide/car.png';
 import Beauty from '../../assets/mainLeftSide/beauty.png';
 import Coach from '../../assets/mainLeftSide/coach.png';
@@ -14,8 +14,22 @@ import Rent from '../../assets/mainLeftSide/rent.png';
 import Shirt from '../../assets/mainLeftSide/shirt.png';
 import Techn from '../../assets/mainLeftSide/techn.png';
 import Toy from '../../assets/mainLeftSide/toy.png';
+import { useDispatch } from 'react-redux';
+import { addCategory } from '../../redux/Main/actions';
 
-const MainLeftSide = () => {
+const MainLeftSide = ({ isCategory }) => {
+
+    const [isOnFormPage, setIsOnFormPage] = useState(false);
+
+    useEffect(() => {
+        setIsOnFormPage(window.location.pathname === '/add_card');
+    }, [isCategory])
+
+    const dispatch = useDispatch();
+
+    const handleCategoryClick = (isCategoryRedux) => {
+        dispatch(addCategory(isCategoryRedux));
+    };
 
     const arr = [
         {
@@ -32,7 +46,7 @@ const MainLeftSide = () => {
         },
         {
             img: Toy,
-            chapter: 'Играшки',
+            chapter: 'Іграшки',
         },
         {
             img: Dog,
@@ -77,15 +91,23 @@ const MainLeftSide = () => {
     ]
 
     return (
-        <div className='main__leftside__wrap'>
-            <div className='main__leftside__border'>
+        <div className={isOnFormPage ? 'add__categorys__wrap' : 'main__leftside__wrap'}>
+            <div className={isOnFormPage ? 'add__categorys__card' : 'main__leftside__border'}>
                 {arr.map((el, i) => {
                     return (
                         <ul key={i}>
                             {Object.keys(el).map((key, j) => (
                                 <li key={j}>
                                     {key === 'chapter' ? <div className='main__leftside__text'>{el[key]}</div> :
-                                        <button className='main__leftside__logo'><img src={el[key]} alt='logo' /></button>}
+                                        <button
+                                            onClick={isCategory ? () => { handleCategoryClick(el.chapter) } : null}
+                                            className='main__leftside__logo'
+                                        >
+                                            <img src={el[key]}
+                                                alt='logo'
+                                                className='left__side__img'
+                                            />
+                                        </button>}
                                 </li>
                             ))}
                         </ul>
