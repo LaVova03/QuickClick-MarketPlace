@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setAddCard } from "../../redux/Main/actions";
-import axios from "axios";
+import fetchPostLogin from '../FetchLogin/FetchLogin';
 
 const LoginForm = () => {
   const [isRepeatPassword, setRepeatPassword] = useState("");
@@ -131,20 +131,13 @@ const LoginForm = () => {
     }
   };
 
-  const fetchPostLogin = async () => {
-    const dataToSend = {
-      email: 'davidvovchik@gmail.com',
-      password: 'Q1qqqqqqqq',
-    };
-
+  const handleSubmit = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:8080/v1.0/auth/login', dataToSend);
-      console.log(response.data);
-    } catch {
-      console.log("fetch data POST login error");
-    } finally {
-      console.log(dataToSend);
-    }
+      await fetchPostLogin(email, password);
+      console.log(email, password)
+    } catch (error) {
+      console.error('Ошибка при попытке входа:', error);
+    };
   };
 
   return (
@@ -185,7 +178,7 @@ const LoginForm = () => {
             (isLogin.phone ? resultPhone : resultEmail)
           ) {
             sessionStorage.setItem("isShowExit", "true");
-            fetchPostLogin();
+            handleSubmit(values.email, values.password);
             setIsShowExit(true);
             navigate("/");
             resetForm();
@@ -397,7 +390,7 @@ const LoginForm = () => {
       </Formik>
       <ToastContainer />
     </div>
-  );
+  )
 };
 
 export default LoginForm;
