@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Categorys from '../MainLeftSide/MainLeftSide';
 import { useSelector } from 'react-redux';
 import PlacingAnOrder from '../PlacingAnOrder/PlacingAnOrder';
+import axios from 'axios';
 
 const AddCardBody = () => {
 
@@ -163,6 +164,30 @@ const AddCardBody = () => {
             photo: updatedPhotos
         }));
         console.log(updatedPhotos);
+    };
+
+    const submitForm = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:8080/v1.0/adverts',
+                {
+                    "title": "Big dog",
+                    "description": "description a toy Big dog",
+                    "category": "TOYS",
+                    "status": "PUBLISHED",
+                    "phone": "+380507778855",
+                    "price": "100.00",
+                    "firstPriceDisplayed": "true",
+                    "currency": "EUR",
+                    "address": "Dania",
+                }
+            );
+            console.log(response.data);
+        } catch (error) {
+            console.log("Ошибка при выполнении POST-запроса для создания карточки товара:", error);
+        } finally {
+            console.log("End");
+        }
     };
 
     return (
@@ -487,7 +512,7 @@ const AddCardBody = () => {
                         setNewCard({ ...isNewCard, price: e.target.value });
                     }}
                 /><br />
-                <button onClick={addCard}>Опублікувати</button>
+                <button onClick={submitForm}>Опублікувати</button>
             </div>
         </div>
     )
