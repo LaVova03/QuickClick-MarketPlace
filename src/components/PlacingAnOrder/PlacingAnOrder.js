@@ -92,8 +92,8 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
         setItemRegion(newValue);
         setNewCard((prevState) => ({
             ...prevState,
-            location: {
-                ...prevState.location,
+            address: {
+                ...prevState.address,
                 region: `${description}, `,
             },
         }))
@@ -105,8 +105,8 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
         setItemCity(newValue);
         setNewCard((prevState) => ({
             ...prevState,
-            location: {
-                ...prevState.location,
+            address: {
+                ...prevState.address,
                 city: `${description}, `,
             },
         }))
@@ -116,8 +116,8 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
         const description = event.target.options[event.target.selectedIndex].text;
         setNewCard((prevState) => ({
             ...prevState,
-            location: {
-                ...prevState.location,
+            address: {
+                ...prevState.address,
                 postAddress: `${description}, `,
             },
         }))

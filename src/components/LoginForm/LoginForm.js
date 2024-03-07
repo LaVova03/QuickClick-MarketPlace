@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setAddCard } from "../../redux/Main/actions";
-import fetchPostLogin from '../FetchLogin/FetchLogin';
+import FetchLogin from '../Fetches/LoginPage/FetchLogin';
 
 const LoginForm = () => {
   const [isRepeatPassword, setRepeatPassword] = useState("");
@@ -133,7 +133,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (email, password) => {
     try {
-      await fetchPostLogin(email, password);
+      await FetchLogin(email, password);
       console.log(email, password)
     } catch (error) {
       console.error('Ошибка при попытке входа:', error);

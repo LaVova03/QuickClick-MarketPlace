@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Categorys from '../MainLeftSide/MainLeftSide';
 import { useSelector } from 'react-redux';
 import PlacingAnOrder from '../PlacingAnOrder/PlacingAnOrder';
-import axios from 'axios';
+import AddCard from '../Fetches/CreateCardsPage/CraateCard';
 
 const AddCardBody = () => {
 
@@ -22,27 +22,31 @@ const AddCardBody = () => {
     const [isAddress, setIsAddress] = useState(false);
     const [isNewCard, setNewCard] = useState(
         {
-            productName: '',
-            category: '',
+            title: '',
             discription: '',
+            category: '',
+            status: "PUBLISHED",
+            phone: '',
+            price: '',
+            firstPriceDisplayed: true,
+            currency: "USD",
             photo: [],
-            location: {
+            address: {
                 region: '',
                 city: '',
                 postAddress: '',
             },
-            phone: '',
-            price: '',
+            userId: 1
         }
     );
 
     const [productNameEmpty, setProductNameEmpty] = useState(
         {
-            productName: null,
+            title: null,
             category: null,
             discription: null,
             photo: null,
-            location: null,
+            address: null,
             phone: null,
             price: null,
         }
@@ -99,22 +103,26 @@ const AddCardBody = () => {
 
     const resetCard = () => {
         setNewCard({
-            productName: '',
-            category: '',
+            title: '',
             discription: '',
+            category: '',
+            status: "PUBLISHED",
+            phone: '',
+            price: '',
+            firstPriceDisplayed: true,
+            currency: "USD",
             photo: [],
-            location: {
+            address: {
                 region: '',
                 city: '',
                 postAddress: '',
             },
-            phone: '',
-            price: '',
+            userId: 1
         });
     };
 
-    const addCard = () => {
-        let location = false;
+    const submitCard = () => {
+        let address = false;
         for (let key in isNewCard) {
             if (isNewCard[key].length === 0) {
                 setProductNameEmpty((prevState) => ({
@@ -129,28 +137,28 @@ const AddCardBody = () => {
             }
         }
 
-        for (let key in isNewCard.location) {
-            if (isNewCard.location[key].length === 0) {
-                location = true;
+        for (let key in isNewCard.address) {
+            if (isNewCard.address[key].length === 0) {
+                address = true;
             }
         }
 
-        if (location) {
+        if (address) {
             setProductNameEmpty((prevState) => ({
                 ...prevState,
-                location: true,
+                address: true,
             }))
         } else {
             setProductNameEmpty((prevState) => ({
                 ...prevState,
-                location: false,
+                address: false,
             }))
         }
 
         setTimeout(() => {
             const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
             if (allFieldsEmpty) {
-                console.log(productNameEmpty, allFieldsEmpty, isNewCard)
+                AddCard(isNewCard)
                 resetCard()
             }
         }, 0)
@@ -166,44 +174,20 @@ const AddCardBody = () => {
         console.log(updatedPhotos);
     };
 
-    const submitForm = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8080/v1.0/adverts',
-                {
-                    "title": "Big dog",
-                    "description": "description a toy Big dog",
-                    "category": "TOYS",
-                    "status": "PUBLISHED",
-                    "phone": "+380507778855",
-                    "price": "100.00",
-                    "firstPriceDisplayed": "true",
-                    "currency": "EUR",
-                    "address": "Dania",
-                }
-            );
-            console.log(response.data);
-        } catch (error) {
-            console.log("Ошибка при выполнении POST-запроса для создания карточки товара:", error);
-        } finally {
-            console.log("End");
-        }
-    };
-
     return (
         <div className='AddCardBody__wrap'>
             <div className='add__left__side'>
                 <div >Створити оголошення</div>
                 <label >Заповніть основні дані про товар*</label><br />
                 <input
-                    className={`add__input__name${productNameEmpty.productName ? '__empty' : ''}`}
+                    className={`add__input__name${productNameEmpty.title ? '__empty' : ''}`}
                     type="text"
-                    name="productName"
+                    name="title"
                     placeholder='Назва товару'
-                    value={isNewCard.productName || ''}
+                    value={isNewCard.title || ''}
                     onChange={(e) => {
-                        setProductNameEmpty((prevState) => ({ ...prevState, productName: false }))
-                        setNewCard({ ...isNewCard, productName: e.target.value });
+                        setProductNameEmpty((prevState) => ({ ...prevState, title: false }))
+                        setNewCard({ ...isNewCard, title: e.target.value });
                     }}
                 />
                 <br />
@@ -473,17 +457,17 @@ const AddCardBody = () => {
             <div className='add__right__side'>
                 <label >Місцезнаходження товару*</label><br />
                 <input
-                    className={`add__input__adress${productNameEmpty.location ? '__empty' : ''}`}
+                    className={`add__input__adress${productNameEmpty.address ? '__empty' : ''}`}
                     type="text"
-                    name="location"
+                    name="address"
                     placeholder='Адреса відправки'
-                    value={`${isNewCard.location.region}${isNewCard.location.city}${isNewCard.location.postAddress}` || ''}
+                    value={`${isNewCard.address.region}${isNewCard.address.city}${isNewCard.address.postAddress}` || ''}
                     onClick={() => {
                         showAdress()
-                        setProductNameEmpty((prevState) => ({ ...prevState, location: false }))
+                        setProductNameEmpty((prevState) => ({ ...prevState, address: false }))
                     }}
                     onChange={() => {
-                        setProductNameEmpty((prevState) => ({ ...prevState, location: false }))
+                        setProductNameEmpty((prevState) => ({ ...prevState, address: false }))
                     }}
                 />
                 <br />
@@ -512,7 +496,7 @@ const AddCardBody = () => {
                         setNewCard({ ...isNewCard, price: e.target.value });
                     }}
                 /><br />
-                <button onClick={submitForm}>Опублікувати</button>
+                <button onClick={submitCard}>Опублікувати</button>
             </div>
         </div>
     )

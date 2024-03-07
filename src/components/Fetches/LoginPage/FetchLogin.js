@@ -1,8 +1,9 @@
 import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
+import { API_MAIN_URL } from '../../../constants/Constants';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8080/v1.0',
+    baseURL: API_MAIN_URL,
     headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer efGRkrGRkjC9hIGRrlmIvZCB2bmdkUmduL2FsXGdsZGFua2cvbGRrbnJnL2xhL3JsZy9hbHNhZGcvYWxlaWcvbGR2Zy9lc2xnaWhoL3NsL3NsZWdoL2xzZGpnL3NsamRn`
