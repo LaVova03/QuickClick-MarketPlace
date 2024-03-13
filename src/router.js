@@ -6,25 +6,31 @@ import PrivateRoute from "./privateRoute";
 import PersonalArea from './containers/PersonalArea/PersonalArea';
 import AddCard from './containers/AddCard/AddCard';
 import ForgotPasswordModal from "./components/ForgotPasswordModal/ForgotPasswordModal";
+import { useSelector } from 'react-redux';
 
-const AppRouter = () => (
-    <Router>
-        <Routes>
-            <Route path="/" element={<Main />} />
+const AppRouter = () => {
+    const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
+    const path = isEditWindow ? "/edit_card" : "/add_card";
 
-            <Route >
-                <Route path="/login" element={<Login />} />
-                <Route path="/forgot_password" element={<ForgotPasswordModal />} />
-                <Route path="/add_card" element={<AddCard />} />
-            </Route>
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Main />} />
 
-            <Route element={<PrivateRoute />}>
-                <Route path="/personal_area" element={<PersonalArea />} />
-            </Route>
+                <Route >
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/forgot_password" element={<ForgotPasswordModal />} />
+                </Route>
 
-            <Route path="*" element={<div>404 | Page is not found !</div>} />
-        </Routes>
-    </Router>
-);
+                <Route element={<PrivateRoute />}>
+                    <Route path="/personal_area" element={<PersonalArea />} />
+                    <Route path={path} element={<AddCard />} />
+                </Route>
+
+                <Route path="*" element={<div>404 | Page is not found !</div>} />
+            </Routes>
+        </Router>
+    );
+}
 
 export default AppRouter;

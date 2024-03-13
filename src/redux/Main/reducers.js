@@ -1,10 +1,11 @@
-import { SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, ADD_CATEGORY_CARD } from './actionTypes';
+import { SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, ADD_CATEGORY_CARD, SET_EDIT_WINDOW } from './actionTypes';
 
 const initialState = {
     isFlagSet: false,
     isLanguage: true,
     isAddModal: false,
     isCategoryRedux: '',
+    isEditWindow: false,
 };
 
 const myReducer = (state = initialState, action) => {
@@ -28,6 +29,11 @@ const myReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isCategoryRedux: action.payload,
+            };
+        case SET_EDIT_WINDOW:
+            return {
+                ...state,
+                isEditWindow: !state.isEditWindow,
             };
         default:
             return state;

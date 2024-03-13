@@ -1,12 +1,19 @@
 import './AddCardBody.scss';
 import React, { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Categorys from '../MainLeftSide/MainLeftSide';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PlacingAnOrder from '../PlacingAnOrder/PlacingAnOrder';
 import AddCard from '../Fetches/CreateCardsPage/CraateCard';
 import Vector from '../../assets/add__card/Vector.png';
+import { useNavigate } from 'react-router-dom';
+import { setEditWindow } from '../../redux/Main/actions';
 
 const AddCardBody = () => {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const fileInputRefs = {
         one: useRef(null),
@@ -54,6 +61,7 @@ const AddCardBody = () => {
     const [isOptions, setOptions] = useState(false);
 
     const isCategoryRedux = useSelector(state => state.myReducer?.isCategoryRedux);
+    const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
 
     useEffect(() => {
         setNewCard((prevState) => ({
@@ -81,6 +89,13 @@ const AddCardBody = () => {
             document.body.removeEventListener('click', handleClickOutside);
         };
     }, []);
+
+    useEffect(() => {
+        if (location.pathname !== '/edit_card' && isEditWindow) {
+            console.log(location.pathname)
+            dispatch(setEditWindow());
+        }
+    }, [location, dispatch, isEditWindow]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -155,10 +170,13 @@ const AddCardBody = () => {
         }
         setTimeout(() => {
             const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
-            console.log(productNameEmpty)
             if (allFieldsEmpty) {
-                AddCard(isNewCard)
-                resetCard()
+                AddCard(isNewCard);
+                resetCard();
+                if (isEditWindow) {
+                    dispatch(setEditWindow());
+                    navigate("/personal_area")
+                }
             }
         }, 0)
     };
@@ -176,7 +194,7 @@ const AddCardBody = () => {
     return (
         <div className='AddCardBody__wrap'>
             <div className='add__left__side'>
-                <div >Створити оголошення</div>
+                <div >{isEditWindow ? "Редагувати оголошення" : "Створити оголошення"}</div>
                 <label >Заповніть основні дані про товар*</label><br />
                 <input
                     className={`add__input__name${productNameEmpty.title ? '__empty' : ''}`}

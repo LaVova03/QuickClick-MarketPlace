@@ -10,6 +10,7 @@ import PersonalMessages from "../../components/PersonalMessages/PersonalMessages
 import PersonalData from "../PersonalData/PersonalData";
 
 const PersonalAreaBody = () => {
+
   const [isList, setIsList] = useState({
     isOpen1: false,
     isOpen2: false,

@@ -1,4 +1,4 @@
-import { SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, ADD_CATEGORY_CARD } from './actionTypes';
+import { SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, ADD_CATEGORY_CARD, SET_EDIT_WINDOW } from './actionTypes';
 
 export const setBurgerMenu = () => ({
     type: SET_BURGER_MENU,
@@ -15,4 +15,8 @@ export const setAddCard = () => ({
 export const addCategory = (isCategoryRedux) => ({
     type: ADD_CATEGORY_CARD,
     payload: isCategoryRedux,
+})
+
+export const setEditWindow = () => ({
+    type: SET_EDIT_WINDOW,
 })
