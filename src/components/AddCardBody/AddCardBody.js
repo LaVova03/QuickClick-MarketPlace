@@ -4,6 +4,7 @@ import Categorys from '../MainLeftSide/MainLeftSide';
 import { useSelector } from 'react-redux';
 import PlacingAnOrder from '../PlacingAnOrder/PlacingAnOrder';
 import AddCard from '../Fetches/CreateCardsPage/CraateCard';
+import Vector from '../../assets/add__card/Vector.png';
 
 const AddCardBody = () => {
 
@@ -23,20 +24,17 @@ const AddCardBody = () => {
     const [isNewCard, setNewCard] = useState(
         {
             title: '',
-            discription: '',
             category: '',
-            status: "PUBLISHED",
-            phone: '',
-            price: '',
-            firstPriceDisplayed: true,
-            currency: "USD",
+            discription: '',
             photo: [],
             address: {
                 region: '',
                 city: '',
                 postAddress: '',
             },
-            userId: 1
+            phone: '',
+            price: '',
+            currency: '',
         }
     );
 
@@ -49,8 +47,11 @@ const AddCardBody = () => {
             address: null,
             phone: null,
             price: null,
+            currency: null,
         }
     );
+
+    const [isOptions, setOptions] = useState(false);
 
     const isCategoryRedux = useSelector(state => state.myReducer?.isCategoryRedux);
 
@@ -102,22 +103,20 @@ const AddCardBody = () => {
     }
 
     const resetCard = () => {
+        console.log(isNewCard)
         setNewCard({
             title: '',
-            discription: '',
             category: '',
-            status: "PUBLISHED",
-            phone: '',
-            price: '',
-            firstPriceDisplayed: true,
-            currency: "USD",
+            discription: '',
             photo: [],
             address: {
                 region: '',
                 city: '',
                 postAddress: '',
             },
-            userId: 1
+            phone: '',
+            price: '',
+            currency: '',
         });
     };
 
@@ -154,9 +153,9 @@ const AddCardBody = () => {
                 address: false,
             }))
         }
-
         setTimeout(() => {
             const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
+            console.log(productNameEmpty)
             if (allFieldsEmpty) {
                 AddCard(isNewCard)
                 resetCard()
@@ -495,8 +494,49 @@ const AddCardBody = () => {
                         setProductNameEmpty((prevState) => ({ ...prevState, price: false }))
                         setNewCard({ ...isNewCard, price: e.target.value });
                     }}
-                /><br />
-                <button onClick={submitCard}>Опублікувати</button>
+                />
+                <button
+                    className={isNewCard.currency ? 'add__select__option'
+                        : productNameEmpty.currency ? "add__select__empty" : 'add__select'}
+                    onClick={() => {
+                        setOptions((prev) => !prev);
+                        setProductNameEmpty((prev) => ({
+                            ...prev,
+                            currency: null,
+                        }))
+                    }}
+                >{isNewCard.currency === "UAH" ? 'грн' : isNewCard.currency === "USD" ? 'usd' : 'Валюта*'}
+                    <div><img id={isOptions ? "add_vector_down" : null} alt='logo' src={Vector} /></div>
+                </button>
+                {isOptions ?
+                    <div className='add__options__wrap'>
+                        <button
+                            className='add__select'
+                            onClick={() => {
+                                setOptions(false);
+                                setProductNameEmpty((prevState) => ({ ...prevState, currency: false }))
+                                setNewCard((prevState) => ({
+                                    ...prevState,
+                                    currency: "UAH",
+                                }))
+                            }}
+                        >грн
+                        </button>
+                        <button
+                            className='add__select'
+                            onClick={() => {
+                                setOptions(false);
+                                setProductNameEmpty((prevState) => ({ ...prevState, currency: false }))
+                                setNewCard((prevState) => ({
+                                    ...prevState,
+                                    currency: "USD",
+                                }))
+                            }}
+                        >usd
+                        </button>
+                    </div> : null
+                }
+                <button id={isOptions ? 'add_submit_none' : 'add_submit'} onClick={submitCard}>Опублікувати</button>
             </div>
         </div>
     )
