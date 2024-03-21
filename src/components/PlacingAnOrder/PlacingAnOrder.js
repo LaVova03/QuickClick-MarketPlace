@@ -98,7 +98,6 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
                         <div>
                             <br /><label className='register-lable'>Оберіть регін: </label>
                             <br /><br /><label className='register-lable'>Оберіть населений пункт: </label>
-                            <br /><br /><label className='register-lable'>Оберіть відділення: </label>
                         </div>
                         <div>
                             <br /><select name="select" defaultChecked='Region' className='select' onClick={sendRequestRegion} onChange={handleChangeRegion} >
