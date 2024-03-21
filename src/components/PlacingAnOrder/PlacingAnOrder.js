@@ -7,8 +7,6 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
     const [region, setRegion] = useState([]);
     const [itemRegion, setItemRegion] = useState([]);
     const [city, setCity] = useState([]);
-    const [itemCity, setItemCity] = useState([]);
-    const [novaPoshta, setNovaPoshta] = useState([]);
 
     const sendRequestRegion = async () => {
         try {
@@ -60,32 +58,6 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
         }
     }
 
-    const sendRequestNovaPoshta = async () => {
-        if (city) {
-            try {
-                const response = await fetch(`${API_URL}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        apiKey: `${API_KEY}`,
-                        modelName: 'AddressGeneral',
-                        calledMethod: 'getWarehouses',
-                        methodProperties: { CityRef: itemCity },
-                    }),
-                });
-                const data = await response.json();
-
-                if (response.ok) {
-                    setNovaPoshta(data.data)
-                }
-            } catch {
-                console.log('Error with fetch setRegion')
-            }
-        }
-    }
-
     const handleChangeRegion = (event) => {
         const newValue = event.target.value;
         const description = event.target.options[event.target.selectedIndex].text;
@@ -100,25 +72,12 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
     };
 
     const handleChangeCity = (event) => {
-        const newValue = event.target.value;
-        const description = event.target.options[event.target.selectedIndex].text;
-        setItemCity(newValue);
-        setNewCard((prevState) => ({
-            ...prevState,
-            address: {
-                ...prevState.address,
-                city: `${description}, `,
-            },
-        }))
-    };
-
-    const handleChangeAddress = (event) => {
         const description = event.target.options[event.target.selectedIndex].text;
         setNewCard((prevState) => ({
             ...prevState,
             address: {
                 ...prevState.address,
-                postAddress: `${description}, `,
+                city: `${description}.`,
             },
         }))
     };
@@ -128,8 +87,6 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
         setRegion([]);
         setItemRegion([]);
         setCity([]);
-        setItemCity([]);
-        setNovaPoshta([]);
     }
 
     return (
@@ -155,14 +112,6 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
                             <br /><br /><select name="select" className='select' defaultChecked='City' onClick={sendRequestCity} onChange={handleChangeCity}>
                                 <option value="">Населенный пункт</option>
                                 {city.map((item) => (
-                                    <option key={item.Ref} value={item.Ref}>
-                                        {item.Description}
-                                    </option>
-                                ))}
-                            </select>
-                            <br /><br /><select name="select" defaultChecked='#NP' className='select' onClick={sendRequestNovaPoshta} onChange={handleChangeAddress}>
-                                <option value="">Отделение НП</option>
-                                {novaPoshta.map((item) => (
                                     <option key={item.Ref} value={item.Ref}>
                                         {item.Description}
                                     </option>

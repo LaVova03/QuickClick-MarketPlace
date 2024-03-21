@@ -14,7 +14,7 @@ $border-error-color: red;
     margin-left: 8vh;
     margin-bottom: 8vh;
     margin-top: 45px;
-    .add__textarea__discription {
+    .add__textarea__description {
       display: flex;
       width: 100%;
       padding: 15px;
@@ -31,7 +31,7 @@ $border-error-color: red;
       line-height: 140%;
       outline: none;
     }
-    .add__textarea__discription__empty {
+    .add__textarea__description__empty {
       display: flex;
       width: 100%;
       padding: 15px;
@@ -48,11 +48,11 @@ $border-error-color: red;
       line-height: 140%;
       outline: none;
     }
-    .add__textarea__discription:hover {
+    .add__textarea__description:hover {
       border: 2px solid $li-color;
     }
 
-    .add__textarea__discription:focus {
+    .add__textarea__description:focus {
       border: 2px solid $li-color;
     }
   }
@@ -221,8 +221,8 @@ label {
   }
 }
 
-.add__textarea__discription__empty::placeholder,
-.add__textarea__discription::placeholder,
+.add__textarea__description__empty::placeholder,
+.add__textarea__description::placeholder,
 .add__input__name__empty::placeholder,
 .add__input__category__empty::placeholder,
 .add__input__adress__empty::placeholder,

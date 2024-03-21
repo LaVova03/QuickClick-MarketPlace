@@ -6,8 +6,9 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector, useDispatch } from "react-redux";
-import { setAddCard } from "../../redux/Main/actions";
+import { setAddCard, setAddCardPage } from "../../redux/Main/actions";
 import FetchLogin from '../Fetches/LoginPage/FetchLogin';
+import FetchRegistration from '../Fetches/LoginPage/FetchRegistration';
 
 const LoginForm = () => {
   const [isRepeatPassword, setRepeatPassword] = useState("");
@@ -25,14 +26,15 @@ const LoginForm = () => {
     email: false,
   });
 
-  const isAddCard = useSelector((state) => state.myReducer?.isAddModal);
+  const isAddCardModal = useSelector((state) => state.myReducer?.isAddModal);
+  const isAddCardPage = useSelector((state) => state.myReducer?.isAddModal);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isAddCard) {
+    if (isAddCardModal) {
       notifyError("Для створення оголошення потрібно зареєструватися");
     }
-  }, [isAddCard, dispatch]);
+  }, [isAddCardModal, dispatch]);
 
   useEffect(() => {
     const token = sessionStorage.getItem("isShowExit");
@@ -50,7 +52,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    if (isAddCard) {
+    if (isAddCardModal) {
       dispatch(setAddCard());
     }
     navigate("/");
@@ -133,8 +135,11 @@ const LoginForm = () => {
 
   const handleSubmit = async (email, password) => {
     try {
-      await FetchLogin(email, password);
-      console.log(email, password)
+      if (registration) {
+        await FetchRegistration(email, password)
+      } else {
+        await FetchLogin(email, password);
+      }
     } catch (error) {
       console.error('Ошибка при попытке входа:', error);
     };
@@ -180,7 +185,12 @@ const LoginForm = () => {
             sessionStorage.setItem("isShowExit", "true");
             handleSubmit(values.email, values.password);
             setIsShowExit(true);
-            navigate("/");
+            if (isAddCardPage) {
+              dispatch(setAddCardPage());
+              navigate("/add_card");
+            } else {
+              navigate("/");
+            }
             resetForm();
             setResRegex((prevState) => ({
               ...prevState,
@@ -189,7 +199,7 @@ const LoginForm = () => {
             }));
             setEmptyFields([]);
             setRepeatPassword([]);
-            if (isAddCard) {
+            if (isAddCardModal) {
               dispatch(setAddCard());
             }
           }

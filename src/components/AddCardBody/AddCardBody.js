@@ -1,3 +1,5 @@
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import './AddCardBody.scss';
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -28,16 +30,16 @@ const AddCardBody = () => {
 
     const [isCategory, setIsCategory] = useState(false);
     const [isAddress, setIsAddress] = useState(false);
+    const [isPhoto, setPhoto] = useState([]);
+    const [responsOk, setResponseOk] = useState(false);
     const [isNewCard, setNewCard] = useState(
         {
             title: '',
             category: '',
-            discription: '',
-            photo: [],
+            description: '',
             address: {
                 region: '',
                 city: '',
-                postAddress: '',
             },
             phone: '',
             price: '',
@@ -49,8 +51,7 @@ const AddCardBody = () => {
         {
             title: null,
             category: null,
-            discription: null,
-            photo: null,
+            description: null,
             address: null,
             phone: null,
             price: null,
@@ -58,7 +59,10 @@ const AddCardBody = () => {
         }
     );
 
+    const [photoEmpty, setPhotoEmpty] = useState(null);
+
     const [isOptions, setOptions] = useState(false);
+    const [isInputCategory, setInputCategory] = useState('');
 
     const isCategoryRedux = useSelector(state => state.myReducer?.isCategoryRedux);
     const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
@@ -92,17 +96,20 @@ const AddCardBody = () => {
 
     useEffect(() => {
         if (location.pathname !== '/edit_card' && isEditWindow) {
-            console.log(location.pathname)
             dispatch(setEditWindow());
         }
-    }, [location, dispatch, isEditWindow]);
+
+        if (responsOk) {
+            notifyError('Оголошення створено.')
+            setTimeout(() => {
+                setResponseOk(false)
+            }, 2000)
+        }
+    }, [location, dispatch, isEditWindow, responsOk]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        setNewCard(prevState => ({
-            ...prevState,
-            photo: [...prevState.photo, file]
-        }))
+        setPhoto([...isPhoto, file]);
     };
 
     const handleButtonClick = (fileInputRef) => {
@@ -118,21 +125,20 @@ const AddCardBody = () => {
     }
 
     const resetCard = () => {
-        console.log(isNewCard)
         setNewCard({
             title: '',
             category: '',
-            discription: '',
-            photo: [],
+            description: '',
             address: {
                 region: '',
                 city: '',
-                postAddress: '',
             },
             phone: '',
             price: '',
             currency: '',
         });
+        setInputCategory('');
+        setPhoto([]);
     };
 
     const submitCard = () => {
@@ -149,6 +155,12 @@ const AddCardBody = () => {
                     [key]: false,
                 }))
             }
+        }
+
+        if (isPhoto.length === 0) {
+            setPhotoEmpty(true)
+        } else {
+            setPhotoEmpty(false)
         }
 
         for (let key in isNewCard.address) {
@@ -170,8 +182,8 @@ const AddCardBody = () => {
         }
         setTimeout(() => {
             const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
-            if (allFieldsEmpty) {
-                AddCard(isNewCard);
+            if (allFieldsEmpty && photoEmpty === false) {
+                AddCard(isNewCard, isPhoto, setResponseOk);
                 resetCard();
                 if (isEditWindow) {
                     dispatch(setEditWindow());
@@ -181,14 +193,16 @@ const AddCardBody = () => {
         }, 0)
     };
 
-    const deletePhoto = (num) => {
-        const updatedPhotos = [...isNewCard.photo];
-        updatedPhotos.splice(num, 1);
-        setNewCard(prevState => ({
-            ...prevState,
-            photo: updatedPhotos
-        }));
-        console.log(updatedPhotos);
+    const deletePhoto = (index) => {
+        const updatedPhotos = [...isPhoto];
+        updatedPhotos.splice(index, 1);
+        setPhoto(updatedPhotos);
+    };
+
+    const notifyError = (message) => {
+        toast.error(message, {
+            position: "top-right",
+        });
     };
 
     return (
@@ -213,7 +227,7 @@ const AddCardBody = () => {
                     type="text"
                     name="category"
                     placeholder='Оберіть категорію'
-                    value={isNewCard.category || ''}
+                    value={isInputCategory || ''}
                     onClick={() => {
                         showCategorys()
                         setProductNameEmpty((prevState) => ({ ...prevState, category: false }))
@@ -224,33 +238,33 @@ const AddCardBody = () => {
                 />
                 <br />
                 <textarea
-                    className={`add__textarea__discription${productNameEmpty.discription ? '__empty' : ''}`}
+                    className={`add__textarea__description${productNameEmpty.description ? '__empty' : ''}`}
                     cols="50"
                     rows="8"
                     placeholder='Додайте опис'
-                    name="discription"
-                    value={isNewCard.discription || ''}
+                    name="description"
+                    value={isNewCard.description || ''}
                     onChange={(e) => {
-                        setProductNameEmpty((prevState) => ({ ...prevState, discription: false }))
-                        setNewCard({ ...isNewCard, discription: e.target.value });
+                        setProductNameEmpty((prevState) => ({ ...prevState, description: false }))
+                        setNewCard({ ...isNewCard, description: e.target.value });
                     }}
                 />
             </div>
             <div className='add__center__side'>
                 <label >Додати фото*</label><br />
                 <div className={isCategory ? 'add__categorys' : 'add__categorys__none'}>
-                    <Categorys isCategory={isCategory} />
+                    <Categorys isCategory={isCategory} setInputCategory={setInputCategory} />
                 </div>
                 <div className={isAddress ? 'add__address' : 'add__address__none'}>
                     <PlacingAnOrder setIsAddress={setIsAddress} isNewCard={isNewCard} setNewCard={setNewCard} />
                 </div>
                 <ul>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isNewCard.photo[0] ?
+                            {isPhoto[0] ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[0])} alt="logo" />
+                                        <img className='add__img' src={URL.createObjectURL(isPhoto[0])} alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(0)}
@@ -266,19 +280,19 @@ const AddCardBody = () => {
                                         onChange={(e) => handleFileChange(e, 0)}
                                     />
                                     <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
+                                        setPhotoEmpty(false);
                                         handleButtonClick(fileInputRefs.one)
                                     }} />
                                 </>
                             }
                         </div>
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isNewCard.photo[1] ?
+                            {isPhoto[1] ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[1])} alt="logo" />
+                                        <img className='add__img' src={URL.createObjectURL(isPhoto[1])} alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(1)}
@@ -294,19 +308,19 @@ const AddCardBody = () => {
                                         onChange={(e) => handleFileChange(e, 1)}
                                     />
                                     <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
+                                        setPhotoEmpty(false);
                                         handleButtonClick(fileInputRefs.two)
                                     }} />
                                 </>
                             }
                         </div>
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isNewCard.photo[2] ?
+                            {isPhoto[2] ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[2])} alt="logo" />
+                                        <img className='add__img' src={URL.createObjectURL(isPhoto[2])} alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(2)}
@@ -322,19 +336,19 @@ const AddCardBody = () => {
                                         onChange={(e) => handleFileChange(e, 2)}
                                     />
                                     <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
+                                        setPhotoEmpty(false);
                                         handleButtonClick(fileInputRefs.three)
                                     }} />
                                 </>
                             }
                         </div>
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isNewCard.photo[3] ?
+                            {isPhoto[3] ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[3])} alt="logo" />
+                                        <img className='add__img' src={URL.createObjectURL(isPhoto[3])} alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(3)}
@@ -350,19 +364,19 @@ const AddCardBody = () => {
                                         onChange={(e) => handleFileChange(e, 3)}
                                     />
                                     <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
+                                        setPhotoEmpty(false);
                                         handleButtonClick(fileInputRefs.four)
                                     }} />
                                 </>
                             }
                         </div>
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isNewCard.photo[4] ?
+                            {isPhoto[4] ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[4])} alt="logo" />
+                                        <img className='add__img' src={URL.createObjectURL(isPhoto[4])} alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(4)}
@@ -378,19 +392,19 @@ const AddCardBody = () => {
                                         onChange={(e) => handleFileChange(e, 4)}
                                     />
                                     <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
+                                        setPhotoEmpty(false);
                                         handleButtonClick(fileInputRefs.five)
                                     }} />
                                 </>
                             }
                         </div>
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isNewCard.photo[5] ?
+                            {isPhoto[5] ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[5])} alt="logo" />
+                                        <img className='add__img' src={URL.createObjectURL(isPhoto[5])} alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(5)}
@@ -406,19 +420,19 @@ const AddCardBody = () => {
                                         onChange={(e) => handleFileChange(e, 5)}
                                     />
                                     <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
+                                        setPhotoEmpty(false);
                                         handleButtonClick(fileInputRefs.six)
                                     }} />
                                 </>
                             }
                         </div>
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isNewCard.photo[6] ?
+                            {isPhoto[6] ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[6])} alt="logo" />
+                                        <img className='add__img' src={URL.createObjectURL(isPhoto[6])} alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(6)}
@@ -434,19 +448,19 @@ const AddCardBody = () => {
                                         onChange={(e) => handleFileChange(e, 6)}
                                     />
                                     <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
+                                        setPhotoEmpty(false);
                                         handleButtonClick(fileInputRefs.seven)
                                     }} />
                                 </>
                             }
                         </div>
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isNewCard.photo[7] ?
+                            {isPhoto[7] ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[7])} alt="logo" />
+                                        <img className='add__img' src={URL.createObjectURL(isPhoto[7])} alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(7)}
@@ -462,7 +476,7 @@ const AddCardBody = () => {
                                         onChange={(e) => handleFileChange(e, 7)}
                                     />
                                     <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
+                                        setPhotoEmpty(false);
                                         handleButtonClick(fileInputRefs.eight)
                                     }} />
                                 </>
@@ -478,7 +492,7 @@ const AddCardBody = () => {
                     type="text"
                     name="address"
                     placeholder='Адреса відправки'
-                    value={`${isNewCard.address.region}${isNewCard.address.city}${isNewCard.address.postAddress}` || ''}
+                    value={`${isNewCard.address.region}${isNewCard.address.city}` || ''}
                     onClick={() => {
                         showAdress()
                         setProductNameEmpty((prevState) => ({ ...prevState, address: false }))
@@ -523,7 +537,10 @@ const AddCardBody = () => {
                             currency: null,
                         }))
                     }}
-                >{isNewCard.currency === "UAH" ? 'грн' : isNewCard.currency === "USD" ? 'usd' : 'Валюта*'}
+                >{isNewCard.currency === "UAH" ? 'грн'
+                    : isNewCard.currency === "USD" ? 'usd'
+                        : isNewCard.currency === "EUR" ? 'eur'
+                            : 'Валюта*'}
                     <div><img id={isOptions ? "add_vector_down" : null} alt='logo' src={Vector} /></div>
                 </button>
                 {isOptions ?
@@ -552,10 +569,23 @@ const AddCardBody = () => {
                             }}
                         >usd
                         </button>
+                        <button
+                            className='add__select'
+                            onClick={() => {
+                                setOptions(false);
+                                setProductNameEmpty((prevState) => ({ ...prevState, currency: false }))
+                                setNewCard((prevState) => ({
+                                    ...prevState,
+                                    currency: "EUR",
+                                }))
+                            }}
+                        >eur
+                        </button>
                     </div> : null
                 }
                 <button id={isOptions ? 'add_submit_none' : 'add_submit'} onClick={submitCard}>Опублікувати</button>
             </div>
+            <ToastContainer />
         </div>
     )
 }

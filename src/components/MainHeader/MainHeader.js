@@ -3,7 +3,7 @@ import './MainHeader.scss';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setBurgerMenu, setLanguage, setAddCard } from '../../redux/Main/actions';
+import { setBurgerMenu, setLanguage, setAddCard, setAddCardPage } from '../../redux/Main/actions';
 import MainBurgerMenu from '../../components/MainBurgerMenu/MainBurgerMenu';
 import Logo from '../../assets/mainHeader/logo.png';
 
@@ -43,6 +43,7 @@ const MainHeader = () => {
             navigate("/add_card");
         } else {
             dispatch(setAddCard());
+            dispatch(setAddCardPage());
             navigate("/login");
         }
     }
