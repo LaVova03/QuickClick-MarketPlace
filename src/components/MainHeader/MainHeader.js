@@ -3,7 +3,7 @@ import './MainHeader.scss';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setBurgerMenu, setLanguage, setAddCard, setAddCardPage } from '../../redux/Main/actions';
+import { setBurgerMenu, setLanguage, setAddCard, setEditWindow } from '../../redux/Main/actions';
 import MainBurgerMenu from '../../components/MainBurgerMenu/MainBurgerMenu';
 import Logo from '../../assets/mainHeader/logo.png';
 
@@ -22,6 +22,7 @@ const MainHeader = () => {
 
     const isFlagSet = useSelector(state => state.myReducer?.isFlagSet);
     const isLanguage = useSelector(state => state.myReducer?.isLanguage);
+    const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
 
     const dispatch = useDispatch();
 
@@ -43,7 +44,7 @@ const MainHeader = () => {
             navigate("/add_card");
         } else {
             dispatch(setAddCard());
-            dispatch(setAddCardPage());
+            dispatch(setEditWindow());
             navigate("/login");
         }
     }
@@ -88,7 +89,12 @@ const MainHeader = () => {
                         </button>
                         <label>{isLanguage ? 'UK' : 'ENG'}</label>
                     </div>
-                    <button onClick={searchToken}>Додати оголошення</button>
+                    <button onClick={() => {
+                        searchToken();
+                        if (isEditWindow) {
+                            dispatch(setEditWindow());
+                        }
+                    }}>Додати оголошення</button>
                 </div>
             </div>
             < MainBurgerMenu isFlagSet={isFlagSet} />

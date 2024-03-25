@@ -3,13 +3,16 @@ import React, { useState, useEffect } from "react";
 import Plus from "../../assets/personal__area/Plus.png";
 import Minus from "../../assets/personal__area/Minus.png";
 import Msg from "../../assets/personal__area/msg.png";
-import axios from "axios";
-import { API_MOCAPI } from "../../constants/Constants";
 import WaitingPublicOrRejected from "../WaitingPublicOrRejected/WaitingPublicOrRejected";
 import PersonalMessages from "../../components/PersonalMessages/PersonalMessages";
 import PersonalData from "../PersonalData/PersonalData";
+import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
+import { useDispatch } from 'react-redux';
+import { setData } from '../../redux/AddEdit/actions';
 
 const PersonalAreaBody = () => {
+
+  const dispatch = useDispatch();
 
   const [isList, setIsList] = useState({
     isOpen1: false,
@@ -26,19 +29,12 @@ const PersonalAreaBody = () => {
     six: false,
   });
   const [isIdCard, setIdCard] = useState("");
-  const [isPutModal, setPutModal] = useState(false);
-  const [isPutData, setPutData] = useState(null);
-  const [isData, setData] = useState([]);
   const [isLoading, setLoading] = useState({
     active: false,
     putModal: false,
   });
 
   const [isCategory, addCategory] = useState("");
-
-  useEffect(() => {
-    fetchGetIdGoods(isIdCard);
-  }, [isIdCard, isData.length]);
 
   useEffect(() => {
     if (isList.isOpen3) {
@@ -52,6 +48,14 @@ const PersonalAreaBody = () => {
       });
     }
   }, [isList]);
+
+  useEffect(() => {
+    if (isIdCard) {
+      changeData(isIdCard);
+      setIdCard("");
+    }
+
+  }, [isIdCard])
 
   //закрываем подкатегории при закрытии категории
   useEffect(() => {
@@ -85,12 +89,7 @@ const PersonalAreaBody = () => {
       active: !prev.active,
     }));
     try {
-      const { data } = await axios.get(`${API_MOCAPI}/Goods`);
-      if (data.length === 0) {
-        setData(null);
-      } else {
-        setData(data);
-      }
+      fetchActiveStunneds(setData, dispatch, '1');
     } catch {
       console.log("fetch data GET cards error");
     } finally {
@@ -101,28 +100,10 @@ const PersonalAreaBody = () => {
     }
   };
 
-  const fetchGetIdGoods = async (id) => {
+  const changeData = async (id) => {
     try {
-      setLoading((prev) => ({
-        ...prev,
-        putModal: !prev,
-      }));
-      const { data } = await axios.get(`${API_MOCAPI}/Goods/${id}`);
-      setPutData(data);
-    } catch {
-      console.log("fetch data GET cards error");
-    } finally {
-      setLoading((prev) => ({
-        ...prev,
-        putModal: !prev,
-      }));
-    }
-  };
-
-  const fetchPutGoods = async (id) => {
-    try {
-      await axios.put(`${API_MOCAPI}/Goods/${id}`, isPutData);
-      await fetchGetGoods();
+      // await fetchPutGoods(isIdCard);
+      await fetchActiveStunneds('2');
     } catch {
       console.log("fetch data PUT cards error");
     }
@@ -317,9 +298,7 @@ const PersonalAreaBody = () => {
         ) : isCategory === "one" && isList.isOpen1 ? (
           <WaitingPublicOrRejected
             isActive
-            isData={isData}
             setIdCard={setIdCard}
-            setPutModal={setPutModal}
           />
         ) : isCategory === "two" && isList.isOpen1 ? (
           <WaitingPublicOrRejected isWaiting />
@@ -337,76 +316,6 @@ const PersonalAreaBody = () => {
           <img src={Msg} alt="logo" />
         )}
       </div>
-      {isPutModal && (
-        <>
-          {isPutModal && (
-            <div className="personal__put__modal">
-              {isLoading.putModal ? (
-                <div id="personal__loading">Loading...</div>
-              ) : (
-                <>
-                  <button
-                    id="personal__x__btn"
-                    onClick={() => setPutModal(false)}
-                  ></button>
-                  <ul>
-                    {isPutData &&
-                      typeof isPutData === "object" &&
-                      Object.keys(isPutData).map(
-                        (key) =>
-                          key !== "id" &&
-                          key !== "ProductId" &&
-                          key !== "Category" && (
-                            <li key={key}>
-                              <strong>{String(key)}: </strong>
-                              {key === "Currency" ? (
-                                <select
-                                  id="personal__edit__select"
-                                  value={isPutData[key]}
-                                  onChange={(e) => {
-                                    setPutData((prevState) => ({
-                                      ...prevState,
-                                      [key]: e.target.value,
-                                    }));
-                                  }}
-                                >
-                                  <option value="грн">грн</option>
-                                  <option value="usd">usd</option>
-                                </select>
-                              ) : (
-                                <>
-                                  <div>"{String(isPutData[key])}"</div>
-                                  <input
-                                    type="text"
-                                    placeholder={key}
-                                    value={isPutData[key]}
-                                    onChange={(e) => {
-                                      setPutData((prevState) => ({
-                                        ...prevState,
-                                        [key]: e.target.value,
-                                      }));
-                                    }}
-                                  />
-                                </>
-                              )}
-                            </li>
-                          )
-                      )}
-                  </ul>
-                  <button
-                    onClick={() => {
-                      fetchPutGoods(isIdCard);
-                      setPutModal(false);
-                    }}
-                  >
-                    Редагувати
-                  </button>
-                </>
-              )}
-            </div>
-          )}
-        </>
-      )}
     </div>
   );
 };

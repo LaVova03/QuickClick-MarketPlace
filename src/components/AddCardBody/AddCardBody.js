@@ -7,11 +7,20 @@ import Categorys from '../MainLeftSide/MainLeftSide';
 import { useSelector, useDispatch } from 'react-redux';
 import PlacingAnOrder from '../PlacingAnOrder/PlacingAnOrder';
 import AddCard from '../Fetches/CreateCardsPage/CraateCard';
+import EditCard from '../Fetches/EditCardPage/EditCardPage';
 import Vector from '../../assets/add__card/Vector.png';
 import { useNavigate } from 'react-router-dom';
 import { setEditWindow } from '../../redux/Main/actions';
+import { setData, showSuccessfulModal } from '../../redux/AddEdit/actions';
+import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
 
 const AddCardBody = () => {
+
+    const isCategoryRedux = useSelector(state => state.myReducer?.isCategoryRedux);
+    const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
+    const isData = useSelector(state => state.myReducer2?.isData);
+    const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
+    const isLocalHostiId = localStorage.getItem('setIdCard');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -31,19 +40,18 @@ const AddCardBody = () => {
     const [isCategory, setIsCategory] = useState(false);
     const [isAddress, setIsAddress] = useState(false);
     const [isPhoto, setPhoto] = useState([]);
-    const [responsOk, setResponseOk] = useState(false);
     const [isNewCard, setNewCard] = useState(
         {
-            title: '',
-            category: '',
-            description: '',
+            title: isEditWindow ? isData[0]?.title : '',
+            category: isEditWindow ? isData[0]?.category : '',
+            description: isEditWindow ? isData[0]?.description : '',
             address: {
-                region: '',
-                city: '',
+                region: isEditWindow ? isData[0]?.address : '',
+                city: isEditWindow ? '.' : '',
             },
-            phone: '',
-            price: '',
-            currency: '',
+            phone: isEditWindow ? isData[0]?.phone : '',
+            price: isEditWindow ? isData[0]?.price : '',
+            currency: isEditWindow ? isData[0]?.currency : '',
         }
     );
 
@@ -60,12 +68,8 @@ const AddCardBody = () => {
     );
 
     const [photoEmpty, setPhotoEmpty] = useState(null);
-
     const [isOptions, setOptions] = useState(false);
-    const [isInputCategory, setInputCategory] = useState('');
-
-    const isCategoryRedux = useSelector(state => state.myReducer?.isCategoryRedux);
-    const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
+    const [isInputCategory, setInputCategory] = useState(isEditWindow ? isData[0]?.category : '');
 
     useEffect(() => {
         setNewCard((prevState) => ({
@@ -74,6 +78,32 @@ const AddCardBody = () => {
         }));
         setIsCategory(false);
     }, [isCategoryRedux]);
+
+    useEffect(() => {
+        setNewCard({
+            title: isEditWindow ? isData[0]?.title : '',
+            category: isEditWindow ? isData[0]?.category : '',
+            description: isEditWindow ? isData[0]?.description : '',
+            address: {
+                region: isEditWindow ? isData[0]?.address : '',
+                city: isEditWindow ? '.' : '',
+            },
+            phone: isEditWindow ? isData[0]?.phone : '',
+            price: isEditWindow ? isData[0]?.price : '',
+            currency: isEditWindow ? isData[0]?.currency : '',
+        });
+        setInputCategory(isEditWindow ? isData[0]?.category : '');
+        // setPhoto(isEditWindow ? isData[0]?.images : '');
+        setProductNameEmpty({
+            title: isData[0]?.title ? false : true,
+            category: isData[0]?.category ? false : true,
+            description: isData[0]?.description ? false : true,
+            address: isData[0]?.address ? false : true,
+            phone: isData[0]?.phone ? false : true,
+            price: isData[0]?.price ? false : true,
+            currency: isData[0]?.currency ? false : true,
+        })
+    }, [isData, isEditWindow]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -97,15 +127,20 @@ const AddCardBody = () => {
     useEffect(() => {
         if (location.pathname !== '/edit_card' && isEditWindow) {
             dispatch(setEditWindow());
+            console.log(location.pathname)
         }
 
-        if (responsOk) {
-            notifyError('Оголошення створено.')
+        if (isSuccessfulWindow) {
+            notifyError(isEditWindow ? 'Оголошення відредактовано' : 'Оголошення створено.')
             setTimeout(() => {
-                setResponseOk(false)
+                dispatch(showSuccessfulModal())
             }, 2000)
         }
-    }, [location, dispatch, isEditWindow, responsOk]);
+        if (isLocalHostiId) {
+            fetchActiveStunneds(setData, dispatch, isLocalHostiId);
+        }
+
+    }, [location, dispatch, isEditWindow, isSuccessfulWindow, isLocalHostiId]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -183,11 +218,13 @@ const AddCardBody = () => {
         setTimeout(() => {
             const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
             if (allFieldsEmpty && photoEmpty === false) {
-                AddCard(isNewCard, isPhoto, setResponseOk);
-                resetCard();
                 if (isEditWindow) {
+                    EditCard(isNewCard, isPhoto, '1', showSuccessfulModal);
                     dispatch(setEditWindow());
-                    navigate("/personal_area")
+                    navigate("/personal_area");
+                } else {
+                    AddCard(isNewCard, isPhoto, showSuccessfulModal, dispatch);
+                    resetCard();
                 }
             }
         }, 0)
@@ -253,7 +290,7 @@ const AddCardBody = () => {
             <div className='add__center__side'>
                 <label >Додати фото*</label><br />
                 <div className={isCategory ? 'add__categorys' : 'add__categorys__none'}>
-                    <Categorys isCategory={isCategory} setInputCategory={setInputCategory} />
+                    <Categorys isCategory={isCategory} setInputCategory={setInputCategory} isEditWindow={isEditWindow} />
                 </div>
                 <div className={isAddress ? 'add__address' : 'add__address__none'}>
                     <PlacingAnOrder setIsAddress={setIsAddress} isNewCard={isNewCard} setNewCard={setNewCard} />
@@ -583,7 +620,10 @@ const AddCardBody = () => {
                         </button>
                     </div> : null
                 }
-                <button id={isOptions ? 'add_submit_none' : 'add_submit'} onClick={submitCard}>Опублікувати</button>
+                <button
+                    id={isOptions ? 'add_submit_none' : 'add_submit'}
+                    onClick={submitCard}>{isEditWindow ? 'Оновити' : 'Опублікувати'}
+                </button>
             </div>
             <ToastContainer />
         </div>

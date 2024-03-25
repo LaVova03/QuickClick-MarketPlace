@@ -1,0 +1,2 @@
+export const SET_DATA = 'SET_DATA';
+export const SHOW_SUCCESSFUL_WINDOW = 'SHOW_SUCCESSFUL_WINDOW';

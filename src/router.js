@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import React from "react";
 import Main from './containers/Main/Main';
 import Login from './containers/Login/Login';
 import PrivateRoute from "./privateRoute";
 import PersonalArea from './containers/PersonalArea/PersonalArea';
 import AddCard from './containers/AddCard/AddCard';
 import ForgotPasswordModal from "./components/ForgotPasswordModal/ForgotPasswordModal";
+import PageIsNotFound from './containers/PageIsNotFound/PageIsNotFound';
 import { useSelector } from 'react-redux';
 
 const AppRouter = () => {
@@ -27,7 +27,7 @@ const AppRouter = () => {
                     <Route path={path} element={<AddCard />} />
                 </Route>
 
-                <Route path="*" element={<div>404 | Page is not found !</div>} />
+                <Route path="*" element={<PageIsNotFound />} />
             </Routes>
         </Router>
     );

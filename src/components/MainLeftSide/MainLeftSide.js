@@ -22,7 +22,7 @@ const MainLeftSide = ({ isCategory, setInputCategory }) => {
     const [isOnFormPage, setIsOnFormPage] = useState(false);
 
     useEffect(() => {
-        setIsOnFormPage(window.location.pathname === '/add_card');
+        setIsOnFormPage(window.location.pathname === '/add_card' || window.location.pathname === '/edit_card');
     }, [isCategory])
 
     const dispatch = useDispatch();
@@ -103,7 +103,7 @@ const MainLeftSide = ({ isCategory, setInputCategory }) => {
         'Доставка': 'DELIVERY',
     };
 
-    const chechCategory = (item) => {
+    const checkCategory = (item) => {
         Object.keys(categoryMap).filter((el) => {
             if (el === item) {
                 const latinCategory = categoryMap[el];
@@ -128,7 +128,7 @@ const MainLeftSide = ({ isCategory, setInputCategory }) => {
                                     {key === 'chapter' ? <div className='main__leftside__text'>{el[key]}</div> :
                                         <button
                                             onClick={isCategory ? () => {
-                                                chechCategory(el.chapter);
+                                                checkCategory(el.chapter);
                                                 setInputCategory(el.chapter);
                                             }
                                                 : null}

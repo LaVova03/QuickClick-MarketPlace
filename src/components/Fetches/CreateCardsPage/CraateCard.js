@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 
-const addCard = async (obj, isPhoto, setResponseOk) => {
+const addCard = async (obj, isPhoto, showSuccessfulModal, dispatch) => {
     const jsonAddress = {
         ...obj,
         address: JSON.stringify(obj.address)
@@ -20,7 +20,7 @@ const addCard = async (obj, isPhoto, setResponseOk) => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            setResponseOk(true);
+            dispatch(showSuccessfulModal());
         } else {
             console.log("Ошибка при выполнении POST-запроса для добавления картинок в созданную карточку товара");
         }

@@ -29,10 +29,15 @@ import { API_MAIN_URL } from '../../../constants/Constants';
 
 const fetchPostLogin = async (email, password) => {
     try {
-        const response = await axios.post(`${API_MAIN_URL}login`,
+        const response = await axios.post(`${API_MAIN_URL}auth/login`,
             {
-                "email": email,
-                "password": password,
+                "email": "admin@gmail.com",
+                "password": "123",
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
         console.log(response.data)
     } catch (error) {

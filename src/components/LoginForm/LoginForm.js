@@ -6,7 +6,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector, useDispatch } from "react-redux";
-import { setAddCard, setAddCardPage } from "../../redux/Main/actions";
+import { setAddCard, setEditWindow } from "../../redux/Main/actions";
 import FetchLogin from '../Fetches/LoginPage/FetchLogin';
 import FetchRegistration from '../Fetches/LoginPage/FetchRegistration';
 
@@ -27,7 +27,7 @@ const LoginForm = () => {
   });
 
   const isAddCardModal = useSelector((state) => state.myReducer?.isAddModal);
-  const isAddCardPage = useSelector((state) => state.myReducer?.isAddModal);
+  const isEditWindow = useSelector((state) => state.myReducer?.isEditWindow);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -136,8 +136,10 @@ const LoginForm = () => {
   const handleSubmit = async (email, password) => {
     try {
       if (registration) {
+        console.log('reg')
         await FetchRegistration(email, password)
       } else {
+        console.log('log')
         await FetchLogin(email, password);
       }
     } catch (error) {
@@ -185,8 +187,8 @@ const LoginForm = () => {
             sessionStorage.setItem("isShowExit", "true");
             handleSubmit(values.email, values.password);
             setIsShowExit(true);
-            if (isAddCardPage) {
-              dispatch(setAddCardPage());
+            if (isEditWindow) {
+              dispatch(setEditWindow());
               navigate("/add_card");
             } else {
               navigate("/");

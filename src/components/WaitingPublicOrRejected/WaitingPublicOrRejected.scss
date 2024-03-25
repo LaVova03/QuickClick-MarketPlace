@@ -5,99 +5,100 @@ $text-btn-active: #06611a;
 $label-color: #b4b4b4;
 
 .personal__category__wrap {
-    display: block !important;
-    width: max-content;
-    text-align: center !important;
-    label {
-        display: flex;
-        height: 40px;
-        flex-direction: column;
-        justify-content: center;
-        align-self: stretch;
-        color: $label-color;
-        font-family: Montserrat;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 160%;
-        width: max-content;
-        margin: 0 0 15px 32px;
-    }
-}
-
-.personal__category__wrap > ul {
+  display: block !important;
+  width: max-content;
+  text-align: center !important;
+  label {
     display: flex;
-    align-items: center;
-    width: max-content;
-    li {
-        list-style: none;
-    }
-}
-
-.personal__category__wrap > ul > li > button {
-    display: flex;
-    width: 170px;
-    height: 50px;
+    height: 40px;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    gap: 10px;
-    border-radius: 40px;
-    background: $text-btn-color;
-    border: 0;
-    color: $text-btn-active;
-    font-family: Montserrat;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 800;
-    line-height: 0%;
-    margin: 0 8px;
-    transition: background 0.3s ease, color 0.3s ease;
-    &:hover {
-        background: var(--Green-Normal, #00a224);
-        color: var(--Light, #cdffd8);
-    }
-    &:active {
-        color: var(--Dark-Green, #06611a);
-    }
-}
-
-.personal__category__wrap > ul > li > img {
-    display: flex;
-    width: 80px;
-    height: 80px;
-    padding: 5px;
-    align-items: flex-start;
-    gap: 10px;
-    flex-shrink: 0;
-    border-radius: 8px;
-    background: $text-btn-color;
-    margin: 0 8px;
-}
-
-.personal__category__wrap > ul li:nth-of-type(2) {
-    color: $deep-color;
+    align-self: stretch;
+    color: $label-color;
     font-family: Montserrat;
     font-size: 18px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 160%;
-    margin: 0 8px;
-    width: 11vw;
+    width: max-content;
+    margin: 0 0 15px 32px;
+  }
+}
+
+.personal__category__wrap > ul {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  li {
+    list-style: none;
+  }
+}
+
+.personal__category__wrap > ul > li > button {
+  display: flex;
+  width: 170px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 40px;
+  background: $text-btn-color;
+  border: 0;
+  color: $text-btn-active;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 0%;
+  margin: 0 8px;
+  transition: background 0.3s ease, color 0.3s ease;
+  &:hover {
+    background: var(--Green-Normal, #00a224);
+    color: var(--Light, #cdffd8);
+  }
+  &:active {
+    color: var(--Dark-Green, #06611a);
+  }
+}
+
+.personal__category__wrap > ul > li > img {
+  display: flex;
+  width: 80px;
+  height: 80px;
+  padding: 5px;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: $text-btn-color;
+  margin: 0 8px;
+}
+
+.personal__category__wrap > ul li:nth-of-type(2) {
+  color: $deep-color;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%;
+  margin: 0 8px;
+  width: 17vw;
 }
 
 .personal__category__wrap > ul li:nth-of-type(4),
 .personal__category__wrap > ul li:nth-of-type(3) {
-    display: flex;
-    width: 8vw;
-    height: 60px;
-    justify-content: center;
-    flex-shrink: 0;
-    color: $price-color;
-    text-align: center;
-    font-family: Montserrat;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 160%;
-    align-items: center;
+  display: flex;
+  width: 5vw;
+  height: 60px;
+  justify-content: center;
+  flex-shrink: 0;
+  color: $price-color;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 160%;
+  align-items: center;
 }
