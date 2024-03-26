@@ -21,6 +21,7 @@ const AddCardBody = () => {
     const isData = useSelector(state => state.myReducer2?.isData);
     const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
     const isLocalHostiId = localStorage.getItem('setIdCard');
+    const isUpdateId = localStorage.getItem('update');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -51,6 +52,7 @@ const AddCardBody = () => {
             },
             phone: isEditWindow ? isData[0]?.phone : '',
             price: isEditWindow ? isData[0]?.price : '',
+            ...(isEditWindow && { firstPriceDisplayed: isData[0]?.firstPriceDisplayed }),
             currency: isEditWindow ? isData[0]?.currency : '',
         }
     );
@@ -90,6 +92,7 @@ const AddCardBody = () => {
             },
             phone: isEditWindow ? isData[0]?.phone : '',
             price: isEditWindow ? isData[0]?.price : '',
+            firstPriceDisplayed: isEditWindow ? isData[0]?.firstPriceDisplayed : false,
             currency: isEditWindow ? isData[0]?.currency : '',
         });
         setInputCategory(isEditWindow ? isData[0]?.category : '');
@@ -127,20 +130,20 @@ const AddCardBody = () => {
     useEffect(() => {
         if (location.pathname !== '/edit_card' && isEditWindow) {
             dispatch(setEditWindow());
-            console.log(location.pathname)
         }
 
         if (isSuccessfulWindow) {
             notifyError(isEditWindow ? 'Оголошення відредактовано' : 'Оголошення створено.')
             setTimeout(() => {
                 dispatch(showSuccessfulModal())
-            }, 2000)
+            }, 0)
         }
-        if (isLocalHostiId) {
+        if (isLocalHostiId || isUpdateId) {
             fetchActiveStunneds(setData, dispatch, isLocalHostiId);
+            localStorage.removeItem('update');
         }
 
-    }, [location, dispatch, isEditWindow, isSuccessfulWindow, isLocalHostiId]);
+    }, [location, dispatch, isEditWindow, isSuccessfulWindow, isLocalHostiId, isUpdateId]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -219,7 +222,7 @@ const AddCardBody = () => {
             const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
             if (allFieldsEmpty && photoEmpty === false) {
                 if (isEditWindow) {
-                    EditCard(isNewCard, isPhoto, '1', showSuccessfulModal);
+                    EditCard(isNewCard, isPhoto, '1', showSuccessfulModal, dispatch);
                     dispatch(setEditWindow());
                     navigate("/personal_area");
                 } else {
@@ -529,7 +532,7 @@ const AddCardBody = () => {
                     type="text"
                     name="address"
                     placeholder='Адреса відправки'
-                    value={`${isNewCard.address.region}${isNewCard.address.city}` || ''}
+                    value={`${isNewCard.address?.region}${isNewCard.address?.city}` || ''}
                     onClick={() => {
                         showAdress()
                         setProductNameEmpty((prevState) => ({ ...prevState, address: false }))
@@ -620,10 +623,49 @@ const AddCardBody = () => {
                         </button>
                     </div> : null
                 }
-                <button
-                    id={isOptions ? 'add_submit_none' : 'add_submit'}
-                    onClick={submitCard}>{isEditWindow ? 'Оновити' : 'Опублікувати'}
-                </button>
+                {isEditWindow ?
+                    <div className="edit__check__wrap">
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setNewCard(prevState => ({
+                                    ...prevState,
+                                    firstPriceDisplayed: !prevState.firstPriceDisplayed
+                                }));
+                            }}
+                            className={`edit__checkbox${isNewCard.firstPriceDisplayed ? '__active' : ''}`}>
+                        </button>
+                        <label>
+                            Відображати акцію на сторінці
+                        </label>
+                    </div>
+                    : null
+                }
+                <div className="add__submit__wrap">
+                    {isEditWindow ?
+                        <button
+                            id={'edit__cancel'}
+                            onClick={()=> navigate('/personal_area')}>Повернутися
+                        </button> : null
+                    }
+                    <button
+                        id={isOptions ? 'add_submit_none' : 'add_submit'}
+                        onClick={submitCard}>{isEditWindow ? 'Оновити' : 'Опублікувати'}
+                    </button>
+                    {isEditWindow ?
+                        <>
+                            <button
+                                id={'edit__delete'}
+                                onClick={submitCard}>Видалити
+                            </button>
+                            <button
+                                id={'edit__archive'}
+                                onClick={submitCard}>Архівувати
+                            </button>
+                        </>
+                        : null
+                    }
+                </div>
             </div>
             <ToastContainer />
         </div>

@@ -30,6 +30,7 @@ $border-error-color: red;
       font-weight: 500;
       line-height: 140%;
       outline: none;
+      color: green;
     }
     .add__textarea__description__empty {
       display: flex;
@@ -79,6 +80,7 @@ $border-error-color: red;
   font-weight: 500;
   line-height: 140%;
   outline: none;
+  color: green;
 }
 
 .add__input__name__empty,
@@ -243,39 +245,62 @@ label {
   margin-right: 8vh;
   margin-top: 120px;
   margin-bottom: 8vh;
-  #add_submit {
+  .add__submit__wrap {
     display: flex;
-    width: 224px;
-    height: 64px;
-    padding: 19px 26px 19px 27px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    border: 0;
-    cursor: pointer;
-    border-radius: 40px;
-    background: $backgroud-form-btn;
-    color: $li-color;
-    font-family: Montserrat;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    position: absolute;
-    bottom: 0px;
-    right: 0;
-    transition: 0.3s;
-  }
-  #add_submit:hover {
-    background: $li-color;
-    color: $backgroud-form-btn;
-  }
-  #add_submit:active {
-    background: $backgroud-form-btn;
-    color: $backgroud-form-color;
-  }
-  #add_submit_none {
-    display: none;
+    flex-wrap: wrap;
+    justify-content: right;
+    width: 40vw;
+    position: relative;
+    right: 17vw;
+    #edit__cancel,
+    #edit__delete,
+    #edit__archive,
+    #add_submit {
+      display: flex;
+      width: 224px;
+      height: 64px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      border: 0;
+      cursor: pointer;
+      border-radius: 40px;
+      background: $backgroud-form-btn;
+      color: $li-color;
+      font-family: Montserrat;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      position: relative;
+      bottom: 0px;
+      right: 0;
+      transition: 0.3s;
+      margin: 12px;
+    }
+    #edit__cancel {
+      background: var(--Light, #cdffd8);
+      color: var(--Green-Normal, #00a224);
+    }
+    #edit__delete {
+      background: var(--Red, #ff5858);
+      color: var(--Dark-deep, #001004);
+    }
+    #edit__archive {
+      background: var(--Gray-Green, #b4b4b4);
+      color: var(--Dark-Green, #06611a);
+    }
+    #add_submit:hover {
+      background: $li-color;
+      color: $backgroud-form-btn;
+    }
+    #add_submit:active {
+      background: $backgroud-form-btn;
+      color: $backgroud-form-color;
+    }
+    #add_submit_none {
+      display: none;
+    }
   }
 }
 
@@ -364,6 +389,7 @@ label {
   font-weight: 500;
   line-height: 140%;
   outline: none;
+  color: $backgroud-form-color;
 }
 .add__select__option {
   color: $text-color;
@@ -410,4 +436,36 @@ label {
     height: 10px;
     transform: rotate(180deg);
   }
+}
+
+.edit__check__wrap {
+  display: flex;
+  align-items: center;
+  margin: 12px 0 12px 0;
+  width: 22vw;
+  justify-content: center;
+  label {
+    font-size: 12px !important;
+    margin-left: 4px;
+    width: 18vw;
+  }
+}
+
+.edit__checkbox {
+  border: 2px solid $backgroud-form-btn;
+  border-radius: 5px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+}
+
+.edit__checkbox__active {
+  border: 0;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: inherit;
+  background-image: url(../../assets/add__card/Checkbox.png);
 }
