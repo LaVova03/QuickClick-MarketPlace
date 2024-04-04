@@ -11,17 +11,20 @@ import EditCard from '../Fetches/EditCardPage/EditCardPage';
 import Vector from '../../assets/add__card/Vector.png';
 import { useNavigate } from 'react-router-dom';
 import { setEditWindow } from '../../redux/Main/actions';
-import { setData, showSuccessfulModal } from '../../redux/AddEdit/actions';
+import { showSuccessfulModal, setEditImages } from '../../redux/AddEdit/actions';
 import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
+import DeleteAdverts from '../Fetches/EditCardPage/DeleteAdverts';
 
 const AddCardBody = () => {
 
     const isCategoryRedux = useSelector(state => state.myReducer?.isCategoryRedux);
     const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
-    const isData = useSelector(state => state.myReducer2?.isData);
+    const isData = useSelector(state => state.myReducer2?.isIdCard);
+    let isFullImages = useSelector(state => state.myReducer2?.isImages);
     const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
-    const isLocalHostiId = localStorage.getItem('setIdCard');
+    const isLocalHostiId = localStorage.getItem('setIdCard') - 1;
     const isUpdateId = localStorage.getItem('update');
+    const isDelete = localStorage.getItem('delete');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -43,17 +46,17 @@ const AddCardBody = () => {
     const [isPhoto, setPhoto] = useState([]);
     const [isNewCard, setNewCard] = useState(
         {
-            title: isEditWindow ? isData[0]?.title : '',
-            category: isEditWindow ? isData[0]?.category : '',
-            description: isEditWindow ? isData[0]?.description : '',
+            title: isEditWindow ? isData?.title : '',
+            category: isEditWindow ? isData?.category : '',
+            description: isEditWindow ? isData?.description : '',
             address: {
-                region: isEditWindow ? isData[0]?.address : '',
+                region: isEditWindow ? isData?.address : '',
                 city: isEditWindow ? '.' : '',
             },
-            phone: isEditWindow ? isData[0]?.phone : '',
-            price: isEditWindow ? isData[0]?.price : '',
-            ...(isEditWindow && { firstPriceDisplayed: isData[0]?.firstPriceDisplayed }),
-            currency: isEditWindow ? isData[0]?.currency : '',
+            phone: isEditWindow ? isData?.phone : '',
+            price: isEditWindow ? isData?.price : '',
+            ...(isEditWindow && { firstPriceDisplayed: isData?.firstPriceDisplayed }),
+            currency: isEditWindow ? isData?.currency : '',
         }
     );
 
@@ -71,7 +74,7 @@ const AddCardBody = () => {
 
     const [photoEmpty, setPhotoEmpty] = useState(null);
     const [isOptions, setOptions] = useState(false);
-    const [isInputCategory, setInputCategory] = useState(isEditWindow ? isData[0]?.category : '');
+    const [isInputCategory, setInputCategory] = useState(isEditWindow ? isData?.category : '');
 
     useEffect(() => {
         setNewCard((prevState) => ({
@@ -79,34 +82,43 @@ const AddCardBody = () => {
             category: isCategoryRedux,
         }));
         setIsCategory(false);
+
     }, [isCategoryRedux]);
 
     useEffect(() => {
-        setNewCard({
-            title: isEditWindow ? isData[0]?.title : '',
-            category: isEditWindow ? isData[0]?.category : '',
-            description: isEditWindow ? isData[0]?.description : '',
-            address: {
-                region: isEditWindow ? isData[0]?.address : '',
-                city: isEditWindow ? '.' : '',
-            },
-            phone: isEditWindow ? isData[0]?.phone : '',
-            price: isEditWindow ? isData[0]?.price : '',
-            firstPriceDisplayed: isEditWindow ? isData[0]?.firstPriceDisplayed : false,
-            currency: isEditWindow ? isData[0]?.currency : '',
-        });
-        setInputCategory(isEditWindow ? isData[0]?.category : '');
-        // setPhoto(isEditWindow ? isData[0]?.images : '');
-        setProductNameEmpty({
-            title: isData[0]?.title ? false : true,
-            category: isData[0]?.category ? false : true,
-            description: isData[0]?.description ? false : true,
-            address: isData[0]?.address ? false : true,
-            phone: isData[0]?.phone ? false : true,
-            price: isData[0]?.price ? false : true,
-            currency: isData[0]?.currency ? false : true,
-        })
-    }, [isData, isEditWindow]);
+        if (isEditWindow) {
+            setNewCard({
+                title: isEditWindow ? isData?.title : '',
+                category: isEditWindow ? isData?.category : '',
+                description: isEditWindow ? isData?.description : '',
+                address: {
+                    region: isEditWindow ? isData?.address : '',
+                    city: isEditWindow ? '.' : '',
+                },
+                phone: isEditWindow ? isData?.phone : '',
+                price: isEditWindow ? isData?.price : '',
+                firstPriceDisplayed: isEditWindow ? isData?.firstPriceDisplayed : false,
+                currency: isEditWindow ? isData?.currency : '',
+            });
+            setInputCategory(isEditWindow ? isData?.category : '');
+        }
+
+        if (isEditWindow) {
+            setPhoto(isFullImages);
+        }
+
+        if (isEditWindow) {
+            setProductNameEmpty({
+                title: isData?.title ? false : null,
+                category: isData?.category ? false : null,
+                description: isData?.description ? false : null,
+                address: isData?.address ? false : null,
+                phone: isData?.phone ? false : null,
+                price: isData?.price ? false : null,
+                currency: isData?.currency ? false : null,
+            })
+        }
+    }, [isData, isEditWindow, isFullImages]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -133,21 +145,48 @@ const AddCardBody = () => {
         }
 
         if (isSuccessfulWindow) {
-            notifyError(isEditWindow ? 'Оголошення відредактовано' : 'Оголошення створено.')
+            notifyError(isEditWindow && isUpdateId ? 'Оголошення відредактовано' : 'Оголошення створено.')
             setTimeout(() => {
                 dispatch(showSuccessfulModal())
             }, 0)
+        } else if (isSuccessfulWindow && isDelete) {
+            notifyError('Оголошення видалено.')
+            setTimeout(() => {
+                dispatch(showSuccessfulModal())
+            }, 0)
+            localStorage.removeItem('delete');
         }
         if (isLocalHostiId || isUpdateId) {
-            fetchActiveStunneds(setData, dispatch, isLocalHostiId);
+            fetchActiveStunneds(dispatch, isLocalHostiId);
             localStorage.removeItem('update');
         }
+        if (!isLocalHostiId && isEditWindow) {
+            navigate('/personal_area');
+        }
 
-    }, [location, dispatch, isEditWindow, isSuccessfulWindow, isLocalHostiId, isUpdateId]);
+    }, [location, dispatch, isEditWindow, isSuccessfulWindow, isLocalHostiId, isUpdateId, navigate, isDelete]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
+        if (isEditWindow) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const base64String = event.target.result;
+                let cod = '';
+                let found64 = false;
+
+                for (let i = 0; i < base64String.length; i++) {
+                    if (found64 || (base64String[i - 3] === '6' && base64String[i - 2] === '4' && base64String[i - 1] === ',')) {
+                        found64 = true;
+                        cod += base64String[i];
+                    }
+                }
+                dispatch(setEditImages(isLocalHostiId, cod));
+            };
+            reader.readAsDataURL(file);
+        }
         setPhoto([...isPhoto, file]);
+        setPhotoEmpty(false)
     };
 
     const handleButtonClick = (fileInputRef) => {
@@ -200,7 +239,6 @@ const AddCardBody = () => {
         } else {
             setPhotoEmpty(false)
         }
-
         for (let key in isNewCard.address) {
             if (isNewCard.address[key].length === 0) {
                 address = true;
@@ -218,11 +256,13 @@ const AddCardBody = () => {
                 address: false,
             }))
         }
+
         setTimeout(() => {
             const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
-            if (allFieldsEmpty && photoEmpty === false) {
+            if (allFieldsEmpty && !photoEmpty) {
                 if (isEditWindow) {
-                    EditCard(isNewCard, isPhoto, '1', showSuccessfulModal, dispatch);
+                    const idFotoEdit = isFullImages[isLocalHostiId]
+                    EditCard(isNewCard, isLocalHostiId, showSuccessfulModal, dispatch, idFotoEdit);
                     dispatch(setEditWindow());
                     navigate("/personal_area");
                 } else {
@@ -301,16 +341,25 @@ const AddCardBody = () => {
                 <ul>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isPhoto[0] ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isPhoto[0])} alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(0)}
-                                        />
-                                    </div>
-                                </> :
+                            {((isPhoto[0] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][0] && isEditWindow)) ? (
+                                <div className='add__photo'>
+                                    <img className='add__img'
+                                        src={
+                                            isEditWindow ?
+                                                `data:image/*;base64,${isFullImages[isLocalHostiId][0]
+                                                }`
+                                                :
+                                                isPhoto &&
+                                                isPhoto[0] &&
+                                                URL.createObjectURL(isPhoto[0])
+                                        }
+                                        alt="logo" />
+                                    <button
+                                        className='add__trash'
+                                        onClick={() => deletePhoto(0)}
+                                    />
+                                </div>
+                            ) : (
                                 <>
                                     <input
                                         type="file"
@@ -324,15 +373,25 @@ const AddCardBody = () => {
                                         handleButtonClick(fileInputRefs.one)
                                     }} />
                                 </>
-                            }
+                            )}
                         </div>
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isPhoto[1] ?
+                            {((isPhoto[1] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][1] && isEditWindow)) ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isPhoto[1])} alt="logo" />
+                                        <img className='add__img'
+                                            src={
+                                                isEditWindow ?
+                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][1]
+                                                    }`
+                                                    :
+                                                    isPhoto &&
+                                                    isPhoto[1] &&
+                                                    URL.createObjectURL(isPhoto[1])
+                                            }
+                                            alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(1)}
@@ -357,10 +416,20 @@ const AddCardBody = () => {
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isPhoto[2] ?
+                            {((isPhoto[2] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][2] && isEditWindow)) ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isPhoto[2])} alt="logo" />
+                                        <img className='add__img'
+                                            src={
+                                                isEditWindow ?
+                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][2]
+                                                    }`
+                                                    :
+                                                    isPhoto &&
+                                                    isPhoto[2] &&
+                                                    URL.createObjectURL(isPhoto[2])
+                                            }
+                                            alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(2)}
@@ -385,10 +454,20 @@ const AddCardBody = () => {
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isPhoto[3] ?
+                            {((isPhoto[3] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][3] && isEditWindow)) ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isPhoto[3])} alt="logo" />
+                                        <img className='add__img'
+                                            src={
+                                                isEditWindow ?
+                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][3]
+                                                    }`
+                                                    :
+                                                    isPhoto &&
+                                                    isPhoto[3] &&
+                                                    URL.createObjectURL(isPhoto[3])
+                                            }
+                                            alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(3)}
@@ -413,10 +492,20 @@ const AddCardBody = () => {
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isPhoto[4] ?
+                            {((isPhoto[4] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][4] && isEditWindow)) ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isPhoto[4])} alt="logo" />
+                                        <img className='add__img'
+                                            src={
+                                                isEditWindow ?
+                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][4]
+                                                    }`
+                                                    :
+                                                    isPhoto &&
+                                                    isPhoto[4] &&
+                                                    URL.createObjectURL(isPhoto[4])
+                                            }
+                                            alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(4)}
@@ -441,10 +530,20 @@ const AddCardBody = () => {
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isPhoto[5] ?
+                            {((isPhoto[5] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][5] && isEditWindow)) ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isPhoto[5])} alt="logo" />
+                                        <img className='add__img'
+                                            src={
+                                                isEditWindow ?
+                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][5]
+                                                    }`
+                                                    :
+                                                    isPhoto &&
+                                                    isPhoto[5] &&
+                                                    URL.createObjectURL(isPhoto[5])
+                                            }
+                                            alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(5)}
@@ -469,10 +568,20 @@ const AddCardBody = () => {
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isPhoto[6] ?
+                            {((isPhoto[6] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][6] && isEditWindow)) ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isPhoto[6])} alt="logo" />
+                                        <img className='add__img'
+                                            src={
+                                                isEditWindow ?
+                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][6]
+                                                    }`
+                                                    :
+                                                    isPhoto &&
+                                                    isPhoto[6] &&
+                                                    URL.createObjectURL(isPhoto[6])
+                                            }
+                                            alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(6)}
@@ -497,10 +606,19 @@ const AddCardBody = () => {
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
                         <div>
-                            {isPhoto[7] ?
+                            {((isPhoto[7] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][7] && isEditWindow)) ?
                                 <>
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isPhoto[7])} alt="logo" />
+                                        <img className='add__img'
+                                            src={
+                                                isEditWindow ?
+                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][7]}`
+                                                    :
+                                                    isPhoto &&
+                                                    isPhoto[7] &&
+                                                    URL.createObjectURL(isPhoto[7])
+                                            }
+                                            alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(7)}
@@ -645,7 +763,7 @@ const AddCardBody = () => {
                     {isEditWindow ?
                         <button
                             id={'edit__cancel'}
-                            onClick={()=> navigate('/personal_area')}>Повернутися
+                            onClick={() => navigate('/personal_area')}>Повернутися
                         </button> : null
                     }
                     <button
@@ -656,11 +774,14 @@ const AddCardBody = () => {
                         <>
                             <button
                                 id={'edit__delete'}
-                                onClick={submitCard}>Видалити
+                                onClick={() => {
+                                    DeleteAdverts(isLocalHostiId, showSuccessfulModal, dispatch);
+                                    navigate('/personal_area')
+                                }}>Видалити
                             </button>
                             <button
                                 id={'edit__archive'}
-                                onClick={submitCard}>Архівувати
+                                onClick={() => alert('Архів')}>Архівувати
                             </button>
                         </>
                         : null

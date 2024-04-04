@@ -1,11 +1,20 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 
-const fetchPutGoods = async (isNewCard, isPhoto, id, showSuccessfulModal, dispatch) => {
+const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, idFotoEdit) => {
+
+    // console.log(id)
 
     const file = new FormData();
-    isPhoto.forEach((item) => {
-        file.append(`file`, item);
+    idFotoEdit.forEach((base64String, index) => {
+        const byteCharacters = atob(base64String);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const fileData = new File([byteArray], `image${index + 1}.jpg`, { type: 'image/jpeg' });
+        file.append(`file`, fileData);
     });
 
     const user = {
@@ -23,8 +32,8 @@ const fetchPutGoods = async (isNewCard, isPhoto, id, showSuccessfulModal, dispat
 
     try {
         const response = await axios.put(`${API_MAIN_URL}adverts/${id}`, user);
-        if (response) {
-            const responseFile = await axios.post(`http://localhost:8080/v1.0/images/image/${response.data.id}`, file, {
+        if (response && file) {
+            const responseFile = await axios.post(`http://localhost:8080/v1.0/images/${response.data.id}`, file, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

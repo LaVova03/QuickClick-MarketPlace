@@ -2,6 +2,7 @@ import './WaitingPublicOrRejected.scss';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { setEditWindow } from '../../redux/Main/actions';
+// import { useEffect } from 'react';
 
 const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard }) => {
 
@@ -9,21 +10,36 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard }) => {
 
     const dispatch = useDispatch();
     const isData = useSelector(state => state.myReducer2?.isData);
+    const isFullImages = useSelector(state => state.myReducer2?.isImages);
 
     const addLocalstorage = (id) => {
         localStorage.removeItem('setIdCard');
         localStorage.setItem('setIdCard', id);
     }
 
+    // useEffect(() => {
+    //     console.log(isFullImages)
+    // }, [isFullImages])
+
     return (
         <div className='personal__category__wrap'>
             <label>{isActive ? 'Ваші активні оголошення' : isWaiting ? 'Очікують публікації' : 'Відхилені публікації'}</label>
             {isActive ?
                 <>
-                    {isData?.map((el) => {
+                    {isFullImages && isData?.map((el, index) => {
                         return (
                             <ul key={el.id} >
-                                <li><img src={el.imageSrc} alt="logo" /></li>
+                                <li>
+                                    <img
+                                        src={isFullImages[index]
+                                            && isFullImages[index][0]
+                                            && isFullImages[index][0].length > 0 ?
+                                            `data:image/*;base64,${isFullImages[index][0]}`
+                                            : ''}
+                                        alt='logo'
+                                    />
+                                </li>
+
                                 <li>{el.description}</li>
                                 <li>{el.currency}</li>
                                 <li>{el.firstPrice}</li>

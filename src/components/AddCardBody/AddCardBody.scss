@@ -275,28 +275,36 @@ label {
       position: relative;
       bottom: 0px;
       right: 0;
-      transition: 0.3s;
       margin: 12px;
     }
+
     #edit__cancel {
       background: var(--Light, #cdffd8);
       color: var(--Green-Normal, #00a224);
+    }
+    #add_submit:active,
+    #edit__cancel:active,
+    #edit__delete:active,
+    #edit__archive:active {
+      color: var(--Dark-Green, #06611a);
+    }
+    #edit__cancel:hover {
+      border: 2px solid var(--Green-Normal, #00a224);
     }
     #edit__delete {
       background: var(--Red, #ff5858);
       color: var(--Dark-deep, #001004);
     }
+    #edit__delete:hover {
+      border: 2px solid var(--Dark-deep, #001004);
+    }
     #edit__archive {
       background: var(--Gray-Green, #b4b4b4);
       color: var(--Dark-Green, #06611a);
     }
-    #add_submit:hover {
-      background: $li-color;
-      color: $backgroud-form-btn;
-    }
-    #add_submit:active {
-      background: $backgroud-form-btn;
-      color: $backgroud-form-color;
+    #add_submit:hover,
+    #edit__archive:hover {
+      border: 2px solid var(--Dark-Green, #06611a);
     }
     #add_submit_none {
       display: none;
@@ -389,7 +397,7 @@ label {
   font-weight: 500;
   line-height: 140%;
   outline: none;
-  color: $backgroud-form-color;
+  color: green;
 }
 .add__select__option {
   color: $text-color;
@@ -418,6 +426,7 @@ label {
 .add__select__empty,
 .add__select__option,
 .add__select {
+  color: green;
   position: relative;
   div {
     display: flex;
