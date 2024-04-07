@@ -4,7 +4,9 @@ import GetAllImages from '../Stunneds/GetAllImages';
 
 
 const AllAdverts = async (setData, dispatch) => {
+
     try {
+
         const response = await axios.get(`${API_MAIN_URL}adverts`,
             {
                 headers: {

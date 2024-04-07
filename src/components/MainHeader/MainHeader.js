@@ -10,7 +10,6 @@ import Logo from '../../assets/mainHeader/logo.png';
 const MainHeader = () => {
 
     const [isPersonalPlace, setPersonalPlace] = useState(false);
-    const [isBurger, setBurger] = useState(false);
 
     useEffect(() => {
         const token = sessionStorage.getItem('isShowExit');
@@ -27,18 +26,11 @@ const MainHeader = () => {
 
     const dispatch = useDispatch();
 
-    const navigate = useNavigate()
-
+    const navigate = useNavigate();
 
     const handleButtonClick = () => {
-        if (isFlagSet) {
-            dispatch(setBurgerMenu());
-        }
-    };
-
-    const closeBurger = () => {
         dispatch(setBurgerMenu());
-    }
+    };
 
     const changeLanguage = () => {
         dispatch(setLanguage());
@@ -67,7 +59,7 @@ const MainHeader = () => {
                 <div className='main__header__wrapleft'>
                     <button
                         onClick={() => {
-                            closeBurger()
+                            handleButtonClick();
                         }}
                         className={`burger-icon${isFlagSet ? 'active' : ''}`}>
                         <div className="bar"></div>
@@ -109,8 +101,7 @@ const MainHeader = () => {
                     }}>Додати оголошення</button>
                 </div>
             </div>
-            < MainBurgerMenu isFlagSet={isFlagSet} handleButtonClick={handleButtonClick}
-                isBurger={isBurger} setBurger={setBurger} closeBurger={closeBurger} />
+            < MainBurgerMenu isFlagSet={isFlagSet} handleButtonClick={handleButtonClick} />
         </div >
     )
 }

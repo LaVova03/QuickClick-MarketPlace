@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
-import { setImages } from '../../../redux/AddEdit/actions';
+import { setImages, resetImages } from '../../../redux/AddEdit/actions';
 
 const GetAllImages = async (data, dispatch) => {
     try {
@@ -18,6 +18,7 @@ const GetAllImages = async (data, dispatch) => {
         }
 
         // Отправляем массив файлов изображений в действие setImages
+        dispatch(resetImages());
         dispatch(setImages(imagesFilesArray));
         // console.log(imagesFilesArray)
     } catch (error) {

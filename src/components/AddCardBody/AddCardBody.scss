@@ -4,6 +4,7 @@ $li-color: #cdffd8;
 $placeholder-color: #b4b4b4;
 $text-color: #001004;
 $border-error-color: red;
+$color-white: white;
 
 .AddCardBody__wrap {
   display: flex;
@@ -30,7 +31,7 @@ $border-error-color: red;
       font-weight: 500;
       line-height: 140%;
       outline: none;
-      color: green;
+      color: $backgroud-form-btn;
     }
     .add__textarea__description__empty {
       display: flex;
@@ -80,7 +81,7 @@ $border-error-color: red;
   font-weight: 500;
   line-height: 140%;
   outline: none;
-  color: green;
+  color: $backgroud-form-btn;
 }
 
 .add__input__name__empty,
@@ -279,32 +280,32 @@ label {
     }
 
     #edit__cancel {
-      background: var(--Light, #cdffd8);
-      color: var(--Green-Normal, #00a224);
+      background: $li-color;
+      color: $backgroud-form-btn;
     }
     #add_submit:active,
     #edit__cancel:active,
     #edit__delete:active,
     #edit__archive:active {
-      color: var(--Dark-Green, #06611a);
+      color: $backgroud-form-color;
     }
     #edit__cancel:hover {
-      border: 2px solid var(--Green-Normal, #00a224);
+      border: 2px solid $backgroud-form-btn;
     }
     #edit__delete {
-      background: var(--Red, #ff5858);
-      color: var(--Dark-deep, #001004);
+      background: $border-error-color;
+      color: $text-color;
     }
     #edit__delete:hover {
-      border: 2px solid var(--Dark-deep, #001004);
+      border: 2px solid $text-color;
     }
     #edit__archive {
-      background: var(--Gray-Green, #b4b4b4);
-      color: var(--Dark-Green, #06611a);
+      background: $placeholder-color;
+      color: $backgroud-form-color;
     }
     #add_submit:hover,
     #edit__archive:hover {
-      border: 2px solid var(--Dark-Green, #06611a);
+      border: 2px solid $backgroud-form-color;
     }
     #add_submit_none {
       display: none;
@@ -397,7 +398,7 @@ label {
   font-weight: 500;
   line-height: 140%;
   outline: none;
-  color: green;
+  color: $backgroud-form-btn;
 }
 .add__select__option {
   color: $text-color;
@@ -405,6 +406,9 @@ label {
 
 .add__select__empty {
   border: 1px solid $border-error-color;
+}
+.add__select {
+  color: $placeholder-color !important;
 }
 
 .add__select__option:hover,
@@ -426,7 +430,7 @@ label {
 .add__select__empty,
 .add__select__option,
 .add__select {
-  color: green;
+  color: $backgroud-form-btn;
   position: relative;
   div {
     display: flex;
@@ -465,7 +469,7 @@ label {
   border-radius: 5px;
   width: 20px;
   height: 20px;
-  background-color: white;
+  background-color: $color-white;
 }
 
 .edit__checkbox__active {

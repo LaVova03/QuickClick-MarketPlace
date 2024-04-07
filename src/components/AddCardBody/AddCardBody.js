@@ -11,9 +11,12 @@ import EditCard from '../Fetches/EditCardPage/EditCardPage';
 import Vector from '../../assets/add__card/Vector.png';
 import { useNavigate } from 'react-router-dom';
 import { setEditWindow } from '../../redux/Main/actions';
+import { setData, resetImages } from '../../redux/AddEdit/actions';
 import { showSuccessfulModal, setEditImages } from '../../redux/AddEdit/actions';
 import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
 import DeleteAdverts from '../Fetches/EditCardPage/DeleteAdverts';
+import DeletePhoto from '../Fetches/EditCardPage/DeletePhoto';
+import AllAdverts from '../Fetches/Stunneds/AllAdverts';
 
 const AddCardBody = () => {
 
@@ -22,6 +25,7 @@ const AddCardBody = () => {
     const isData = useSelector(state => state.myReducer2?.isIdCard);
     let isFullImages = useSelector(state => state.myReducer2?.isImages);
     const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
+
     const isLocalHostiId = localStorage.getItem('setIdCard') - 1;
     const isUpdateId = localStorage.getItem('update');
     const isDelete = localStorage.getItem('delete');
@@ -75,6 +79,7 @@ const AddCardBody = () => {
     const [photoEmpty, setPhotoEmpty] = useState(null);
     const [isOptions, setOptions] = useState(false);
     const [isInputCategory, setInputCategory] = useState(isEditWindow ? isData?.category : '');
+    const [isDonloadPictures, setDonloadPictures] = useState(false);
 
     useEffect(() => {
         setNewCard((prevState) => ({
@@ -101,13 +106,7 @@ const AddCardBody = () => {
                 currency: isEditWindow ? isData?.currency : '',
             });
             setInputCategory(isEditWindow ? isData?.category : '');
-        }
 
-        if (isEditWindow) {
-            setPhoto(isFullImages);
-        }
-
-        if (isEditWindow) {
             setProductNameEmpty({
                 title: isData?.title ? false : null,
                 category: isData?.category ? false : null,
@@ -118,7 +117,24 @@ const AddCardBody = () => {
                 currency: isData?.currency ? false : null,
             })
         }
-    }, [isData, isEditWindow, isFullImages]);
+
+    }, [isData, isEditWindow, isFullImages, dispatch]);
+
+    useEffect(() => {
+        if (!isFullImages && !isDonloadPictures) {
+            AllAdverts(setData, dispatch);
+            setDonloadPictures(true);
+        }
+
+        // if (isFullImages) {
+        //     setPhoto(isFullImages);
+        //     dispatch(resetImages());
+        // }
+
+        if (isPhoto.length > 0) {
+            setDonloadPictures(false);
+        }
+    }, [dispatch, isPhoto, isDonloadPictures, isFullImages]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -277,6 +293,7 @@ const AddCardBody = () => {
         const updatedPhotos = [...isPhoto];
         updatedPhotos.splice(index, 1);
         setPhoto(updatedPhotos);
+        DeletePhoto(index, showSuccessfulModal, dispatch)
     };
 
     const notifyError = (message) => {
@@ -339,307 +356,332 @@ const AddCardBody = () => {
                     <PlacingAnOrder setIsAddress={setIsAddress} isNewCard={isNewCard} setNewCard={setNewCard} />
                 </div>
                 <ul>
+
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        <div>
-                            {((isPhoto[0] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][0] && isEditWindow)) ? (
-                                <div className='add__photo'>
-                                    <img className='add__img'
-                                        src={
-                                            isEditWindow ?
-                                                `data:image/*;base64,${isFullImages[isLocalHostiId][0]
-                                                }`
-                                                :
-                                                isPhoto &&
-                                                isPhoto[0] &&
-                                                URL.createObjectURL(isPhoto[0])
-                                        }
-                                        alt="logo" />
-                                    <button
-                                        className='add__trash'
-                                        onClick={() => deletePhoto(0)}
-                                    />
-                                </div>
-                            ) : (
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.one}
-                                        onChange={(e) => handleFileChange(e, 0)}
-                                    />
-                                    <button onClick={() => {
-                                        setPhotoEmpty(false);
-                                        handleButtonClick(fileInputRefs.one)
-                                    }} />
-                                </>
-                            )}
-                        </div>
-                    </li>
-                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        <div>
-                            {((isPhoto[1] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][1] && isEditWindow)) ?
-                                <>
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((isPhoto[0] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][0] && isEditWindow)) ? (
                                     <div className='add__photo'>
                                         <img className='add__img'
                                             src={
                                                 isEditWindow ?
-                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][1]
+                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][0]
                                                     }`
                                                     :
                                                     isPhoto &&
-                                                    isPhoto[1] &&
-                                                    URL.createObjectURL(isPhoto[1])
+                                                    isPhoto[0] &&
+                                                    URL.createObjectURL(isPhoto[0])
                                             }
                                             alt="logo" />
                                         <button
                                             className='add__trash'
-                                            onClick={() => deletePhoto(1)}
+                                            onClick={() => deletePhoto(0)}
                                         />
                                     </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.two}
-                                        onChange={(e) => handleFileChange(e, 1)}
-                                    />
-                                    <button onClick={() => {
-                                        setPhotoEmpty(false);
-                                        handleButtonClick(fileInputRefs.two)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                ) : (
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.one}
+                                            onChange={(e) => handleFileChange(e, 0)}
+                                        />
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.one)
+                                        }} />
+                                    </>
+                                )}
+                            </div>
+                        }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        <div>
-                            {((isPhoto[2] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][2] && isEditWindow)) ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img'
-                                            src={
-                                                isEditWindow ?
-                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][2]
-                                                    }`
-                                                    :
-                                                    isPhoto &&
-                                                    isPhoto[2] &&
-                                                    URL.createObjectURL(isPhoto[2])
-                                            }
-                                            alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(2)}
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((isPhoto[1] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][1] && isEditWindow)) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={
+                                                    isEditWindow ?
+                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][1]
+                                                        }`
+                                                        :
+                                                        isPhoto &&
+                                                        isPhoto[1] &&
+                                                        URL.createObjectURL(isPhoto[1])
+                                                }
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(1)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.two}
+                                            onChange={(e) => handleFileChange(e, 1)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.three}
-                                        onChange={(e) => handleFileChange(e, 2)}
-                                    />
-                                    <button onClick={() => {
-                                        setPhotoEmpty(false);
-                                        handleButtonClick(fileInputRefs.three)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.two)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        <div>
-                            {((isPhoto[3] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][3] && isEditWindow)) ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img'
-                                            src={
-                                                isEditWindow ?
-                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][3]
-                                                    }`
-                                                    :
-                                                    isPhoto &&
-                                                    isPhoto[3] &&
-                                                    URL.createObjectURL(isPhoto[3])
-                                            }
-                                            alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(3)}
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((isPhoto[2] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][2] && isEditWindow)) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={
+                                                    isEditWindow ?
+                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][2]
+                                                        }`
+                                                        :
+                                                        isPhoto &&
+                                                        isPhoto[2] &&
+                                                        URL.createObjectURL(isPhoto[2])
+                                                }
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(2)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.three}
+                                            onChange={(e) => handleFileChange(e, 2)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.four}
-                                        onChange={(e) => handleFileChange(e, 3)}
-                                    />
-                                    <button onClick={() => {
-                                        setPhotoEmpty(false);
-                                        handleButtonClick(fileInputRefs.four)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.three)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        <div>
-                            {((isPhoto[4] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][4] && isEditWindow)) ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img'
-                                            src={
-                                                isEditWindow ?
-                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][4]
-                                                    }`
-                                                    :
-                                                    isPhoto &&
-                                                    isPhoto[4] &&
-                                                    URL.createObjectURL(isPhoto[4])
-                                            }
-                                            alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(4)}
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((isPhoto[3] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][3] && isEditWindow)) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={
+                                                    isEditWindow ?
+                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][3]
+                                                        }`
+                                                        :
+                                                        isPhoto &&
+                                                        isPhoto[3] &&
+                                                        URL.createObjectURL(isPhoto[3])
+                                                }
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(3)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.four}
+                                            onChange={(e) => handleFileChange(e, 3)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.five}
-                                        onChange={(e) => handleFileChange(e, 4)}
-                                    />
-                                    <button onClick={() => {
-                                        setPhotoEmpty(false);
-                                        handleButtonClick(fileInputRefs.five)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.four)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        <div>
-                            {((isPhoto[5] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][5] && isEditWindow)) ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img'
-                                            src={
-                                                isEditWindow ?
-                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][5]
-                                                    }`
-                                                    :
-                                                    isPhoto &&
-                                                    isPhoto[5] &&
-                                                    URL.createObjectURL(isPhoto[5])
-                                            }
-                                            alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(5)}
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((isPhoto[4] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][4] && isEditWindow)) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={
+                                                    isEditWindow ?
+                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][4]
+                                                        }`
+                                                        :
+                                                        isPhoto &&
+                                                        isPhoto[4] &&
+                                                        URL.createObjectURL(isPhoto[4])
+                                                }
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(4)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.five}
+                                            onChange={(e) => handleFileChange(e, 4)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.six}
-                                        onChange={(e) => handleFileChange(e, 5)}
-                                    />
-                                    <button onClick={() => {
-                                        setPhotoEmpty(false);
-                                        handleButtonClick(fileInputRefs.six)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.five)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        <div>
-                            {((isPhoto[6] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][6] && isEditWindow)) ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img'
-                                            src={
-                                                isEditWindow ?
-                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][6]
-                                                    }`
-                                                    :
-                                                    isPhoto &&
-                                                    isPhoto[6] &&
-                                                    URL.createObjectURL(isPhoto[6])
-                                            }
-                                            alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(6)}
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((isPhoto[5] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][5] && isEditWindow)) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={
+                                                    isEditWindow ?
+                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][5]
+                                                        }`
+                                                        :
+                                                        isPhoto &&
+                                                        isPhoto[5] &&
+                                                        URL.createObjectURL(isPhoto[5])
+                                                }
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(5)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.six}
+                                            onChange={(e) => handleFileChange(e, 5)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.seven}
-                                        onChange={(e) => handleFileChange(e, 6)}
-                                    />
-                                    <button onClick={() => {
-                                        setPhotoEmpty(false);
-                                        handleButtonClick(fileInputRefs.seven)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.six)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        <div>
-                            {((isPhoto[7] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][7] && isEditWindow)) ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img'
-                                            src={
-                                                isEditWindow ?
-                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][7]}`
-                                                    :
-                                                    isPhoto &&
-                                                    isPhoto[7] &&
-                                                    URL.createObjectURL(isPhoto[7])
-                                            }
-                                            alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(7)}
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((isPhoto[6] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][6] && isEditWindow)) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={
+                                                    isEditWindow ?
+                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][6]
+                                                        }`
+                                                        :
+                                                        isPhoto &&
+                                                        isPhoto[6] &&
+                                                        URL.createObjectURL(isPhoto[6])
+                                                }
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(6)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.seven}
+                                            onChange={(e) => handleFileChange(e, 6)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.eight}
-                                        onChange={(e) => handleFileChange(e, 7)}
-                                    />
-                                    <button onClick={() => {
-                                        setPhotoEmpty(false);
-                                        handleButtonClick(fileInputRefs.eight)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.seven)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
+                    </li>
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((isPhoto[7] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][7] && isEditWindow)) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={
+                                                    isEditWindow ?
+                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][7]}`
+                                                        :
+                                                        isPhoto &&
+                                                        isPhoto[7] &&
+                                                        URL.createObjectURL(isPhoto[7])
+                                                }
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(7)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.eight}
+                                            onChange={(e) => handleFileChange(e, 7)}
+                                        />
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.eight)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
                     </li>
                 </ul>
             </div>

@@ -3,6 +3,7 @@ import { SET_ID_CARD } from './actionTypes';
 import { SHOW_SUCCESSFUL_WINDOW } from './actionTypes';
 import { SET_IMAGES } from './actionTypes';
 import { SET_EDIT_IMAGES } from './actionTypes';
+import { RESET_IMAGES } from './actionTypes';
 
 export const setData = (data) => ({
     type: SET_DATA,
@@ -28,3 +29,6 @@ export const setEditImages = (index, data) => ({
     payload: { index, data }
 });
 
+export const resetImages = () => ({
+    type: RESET_IMAGES,
+});
