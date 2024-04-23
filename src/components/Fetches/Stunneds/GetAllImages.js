@@ -2,25 +2,34 @@ import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 import { setImages, resetImages } from '../../../redux/AddEdit/actions';
 
-const GetAllImages = async (data, dispatch) => {
+const GetAllImages = async (data, dispatch, token) => {
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+
     try {
+        console.log(token)
         const imagesFilesArray = []; // Массив для всех файлов изображений
 
         for (const item of data) {
             const id = item.id; // Получаем ID текущего элемента
 
             // Делаем запрос на сервер для получения изображений по текущему ID
-            const response = await axios.get(`${API_MAIN_URL}images/${id}`);
+            const response = await axios.get(`${API_MAIN_URL}images/${id}`, config);
 
             if (response.data) {
                 imagesFilesArray.push(response.data);
+                console.log(response.data)
             }
         }
 
         // Отправляем массив файлов изображений в действие setImages
         dispatch(resetImages());
         dispatch(setImages(imagesFilesArray));
-        // console.log(imagesFilesArray)
+        console.log(imagesFilesArray)
     } catch (error) {
         console.log("Ошибка при выполнении GET-запроса всех картинок объявления:", error);
     }

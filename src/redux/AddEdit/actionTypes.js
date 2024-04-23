@@ -4,3 +4,4 @@ export const SET_ID_CARD = 'SET_ID_CARD';
 export const SET_IMAGES = 'SET_IMAGES';
 export const SET_EDIT_IMAGES = 'SET_EDIT_IMAGES';
 export const RESET_IMAGES = 'SET_RESET_IMAGES';
+export const SAVE_BEARER = 'SAVE_BEARER';

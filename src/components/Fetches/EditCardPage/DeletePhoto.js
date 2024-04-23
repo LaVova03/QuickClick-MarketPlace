@@ -1,14 +1,14 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 
-const DeletePhoto = async (id, showSuccessfulModal, dispatch) => {
+const DeletePhoto = async (indexPhoto, indexAdvert, showSuccessfulModal, dispatch) => {
 
     try {
-        console.log(id)
-        const response = await axios.delete(`${API_MAIN_URL}images/${id}`);
+        const response = await axios.delete(`${API_MAIN_URL}images/${indexAdvert}/${indexPhoto}`);
         if (response) {
-            const responseImages = await axios.get(`${API_MAIN_URL}images/${id}`);
-            if (responseImages) {
+            const responseImages = await axios.get(`${API_MAIN_URL}images/${indexAdvert}`);
+            if (responseImages.data) {
+                console.log(responseImages.data)
                 dispatch(showSuccessfulModal());
             }
         }

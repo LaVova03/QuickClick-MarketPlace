@@ -1,9 +1,7 @@
-import { SET_DATA } from './actionTypes';
-import { SET_ID_CARD } from './actionTypes';
-import { SHOW_SUCCESSFUL_WINDOW } from './actionTypes';
-import { SET_IMAGES } from './actionTypes';
-import { SET_EDIT_IMAGES } from './actionTypes';
-import { RESET_IMAGES } from './actionTypes';
+import {
+    SET_DATA, SET_ID_CARD, SHOW_SUCCESSFUL_WINDOW, SET_IMAGES, SET_EDIT_IMAGES, RESET_IMAGES,
+    SAVE_BEARER
+} from './actionTypes';
 
 export const setData = (data) => ({
     type: SET_DATA,
@@ -31,4 +29,9 @@ export const setEditImages = (index, data) => ({
 
 export const resetImages = () => ({
     type: RESET_IMAGES,
+});
+
+export const saveBearer = (token) => ({
+    type: SAVE_BEARER,
+    payload: { token }
 });

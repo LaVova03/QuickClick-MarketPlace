@@ -136,11 +136,9 @@ const LoginForm = () => {
   const handleSubmit = async (email, password) => {
     try {
       if (registration) {
-        console.log('reg')
         await FetchRegistration(email, password)
       } else {
-        console.log('log')
-        await FetchLogin(email, password);
+        await FetchLogin(email, password, dispatch);
       }
     } catch (error) {
       console.error('Ошибка при попытке входа:', error);

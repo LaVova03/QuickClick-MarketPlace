@@ -1,12 +1,10 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 
-const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, idFotoEdit) => {
-
-    // console.log(id)
+const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, idFotoEdit, token) => {
 
     const file = new FormData();
-    idFotoEdit.forEach((base64String, index) => {
+    idFotoEdit?.forEach((base64String, index) => {
         const byteCharacters = atob(base64String);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
@@ -35,7 +33,8 @@ const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, idFot
         if (response && file) {
             const responseFile = await axios.post(`http://localhost:8080/v1.0/images/${response.data.id}`, file, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             if (responseFile) {

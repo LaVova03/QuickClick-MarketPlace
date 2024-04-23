@@ -25,8 +25,9 @@ const AddCardBody = () => {
     const isData = useSelector(state => state.myReducer2?.isIdCard);
     let isFullImages = useSelector(state => state.myReducer2?.isImages);
     const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
+    const tokenBearer = useSelector(state => state.myReducer2?.isToken);
 
-    const isLocalHostiId = localStorage.getItem('setIdCard') - 1;
+    const isLocalHostiId = localStorage.getItem('setIdCard');
     const isUpdateId = localStorage.getItem('update');
     const isDelete = localStorage.getItem('delete');
 
@@ -122,7 +123,7 @@ const AddCardBody = () => {
 
     useEffect(() => {
         if (!isFullImages && !isDonloadPictures) {
-            AllAdverts(setData, dispatch);
+            AllAdverts(setData, dispatch, tokenBearer);
             setDonloadPictures(true);
         }
 
@@ -173,14 +174,15 @@ const AddCardBody = () => {
             localStorage.removeItem('delete');
         }
         if (isLocalHostiId || isUpdateId) {
-            fetchActiveStunneds(dispatch, isLocalHostiId);
+            fetchActiveStunneds(dispatch, isLocalHostiId, tokenBearer);
             localStorage.removeItem('update');
         }
         if (!isLocalHostiId && isEditWindow) {
             navigate('/personal_area');
         }
 
-    }, [location, dispatch, isEditWindow, isSuccessfulWindow, isLocalHostiId, isUpdateId, navigate, isDelete]);
+    }, [location, dispatch, isEditWindow, isSuccessfulWindow, isLocalHostiId, isUpdateId,
+        navigate, isDelete, tokenBearer]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -278,7 +280,7 @@ const AddCardBody = () => {
             if (allFieldsEmpty && !photoEmpty) {
                 if (isEditWindow) {
                     const idFotoEdit = isFullImages[isLocalHostiId]
-                    EditCard(isNewCard, isLocalHostiId, showSuccessfulModal, dispatch, idFotoEdit);
+                    EditCard(isNewCard, isLocalHostiId, showSuccessfulModal, dispatch, idFotoEdit, tokenBearer);
                     dispatch(setEditWindow());
                     navigate("/personal_area");
                 } else {
@@ -289,11 +291,12 @@ const AddCardBody = () => {
         }, 0)
     };
 
-    const deletePhoto = (index) => {
+    const deletePhoto = (indexPhoto) => {
         const updatedPhotos = [...isPhoto];
-        updatedPhotos.splice(index, 1);
+        updatedPhotos.splice(indexPhoto, 1);
         setPhoto(updatedPhotos);
-        DeletePhoto(index, showSuccessfulModal, dispatch)
+        const indexAdvert = localStorage.getItem('setIdCard')
+        DeletePhoto(indexPhoto, indexAdvert, showSuccessfulModal, dispatch)
     };
 
     const notifyError = (message) => {

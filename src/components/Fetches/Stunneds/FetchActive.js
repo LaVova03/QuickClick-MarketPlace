@@ -2,14 +2,16 @@ import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 import { setIdCard } from "../../../redux/AddEdit/actions";
 
-const fetchActiveStunneds = async (dispatch, id) => {
+const fetchActiveStunneds = async (dispatch, id, token) => {
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+
     try {
-        const response = await axios.get(`${API_MAIN_URL}adverts/${id}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+        const response = await axios.get(`${API_MAIN_URL}adverts/${id}`, config);
         if (response.data) {
             dispatch(setIdCard(null));
             dispatch(setIdCard(response.data));
