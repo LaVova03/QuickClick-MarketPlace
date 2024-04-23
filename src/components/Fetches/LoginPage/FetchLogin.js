@@ -29,26 +29,25 @@ import { saveBearer } from '../../../redux/AddEdit/actions';
 // };
 
 const fetchPostLogin = async (email, password, dispatch) => {
-    console.log('log')
     try {
-        const formData = new URLSearchParams();
-        formData.append('email', email);
-        formData.append('password', password);
-
-        const response = await axios.post(`${API_MAIN_URL}auth/login`, formData, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        });
-
+        const response = await axios.post(`${API_MAIN_URL}auth/login`,
+            {
+                "email": "admin@gmail.com",
+                "password": "123456789A!"
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         if (response.data) {
-            console.log(response.data.accessToken);
-            dispatch(saveBearer(response.data.accessToken));
+            dispatch(saveBearer(response.data.accessToken))
         }
     } catch (error) {
         console.log("Ошибка при выполнении POST-запроса для создания аккаунта:", error);
     }
 };
+
 
 export default fetchPostLogin;
 
