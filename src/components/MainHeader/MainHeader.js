@@ -9,24 +9,24 @@ import Logo from '../../assets/mainHeader/logo.png';
 
 const MainHeader = () => {
 
-    const [isPersonalPlace, setPersonalPlace] = useState(false);
-
-    useEffect(() => {
-        const token = sessionStorage.getItem('isShowExit');
-        if (token) {
-            setPersonalPlace(true);
-        } else {
-            setPersonalPlace(false);
-        }
-    }, [isPersonalPlace]);
-
     const isFlagSet = useSelector(state => state.myReducer?.isFlagSet);
     const isLanguage = useSelector(state => state.myReducer?.isLanguage);
     const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
+    const tokenBearer = useSelector(state => state.myReducer2?.isToken.token);
 
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
+
+    const [isPersonalPlace, setPersonalPlace] = useState(false);
+
+    useEffect(() => {
+        if (tokenBearer) {
+            setPersonalPlace(true);
+        } else {
+            setPersonalPlace(false);
+        }
+    }, [tokenBearer]);
 
     const handleButtonClick = () => {
         dispatch(setBurgerMenu());
@@ -40,7 +40,8 @@ const MainHeader = () => {
     const handleNavigatePersonalPlace = () => navigate("/personal_area");
 
     const searchToken = () => {
-        if (sessionStorage.getItem('isShowExit')) {
+        if (tokenBearer.length > 0) {
+            console.log(tokenBearer)
             navigate("/add_card");
         } else {
             dispatch(setAddCard());

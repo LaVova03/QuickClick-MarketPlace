@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setAddCard, setEditWindow } from "../../redux/Main/actions";
 import FetchLogin from '../Fetches/LoginPage/FetchLogin';
 import FetchRegistration from '../Fetches/LoginPage/FetchRegistration';
+import { saveBearer } from '../../redux/AddEdit/actions';
 
 const LoginForm = () => {
   const [isRepeatPassword, setRepeatPassword] = useState("");
@@ -35,13 +36,6 @@ const LoginForm = () => {
       notifyError("Для створення оголошення потрібно зареєструватися");
     }
   }, [isAddCardModal, dispatch]);
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("isShowExit");
-    if (token) {
-      setIsShowExit(true);
-    }
-  }, [isShowExit]);
 
   const notifyError = (message) => {
     toast.error(message, {
@@ -121,7 +115,7 @@ const LoginForm = () => {
   };
 
   const deleteToken = () => {
-    sessionStorage.removeItem("isShowExit");
+    dispatch(saveBearer(''))
     setIsShowExit(false);
   };
 
@@ -133,16 +127,12 @@ const LoginForm = () => {
     }
   };
 
-  const handleSubmit = async (email, password) => {
-    try {
-      if (registration) {
-        await FetchRegistration(email, password)
-      } else {
-        await FetchLogin(email, password, dispatch);
-      }
-    } catch (error) {
-      console.error('Ошибка при попытке входа:', error);
-    };
+  const handleSubmit = (email, password) => {
+    if (registration) {
+      FetchRegistration(email, password, dispatch)
+    } else {
+      FetchLogin(email, password, dispatch, setIsShowExit);
+    }
   };
 
   return (
@@ -182,9 +172,7 @@ const LoginForm = () => {
             resultPassword &&
             (isLogin.phone ? resultPhone : resultEmail)
           ) {
-            sessionStorage.setItem("isShowExit", "true");
             handleSubmit(values.email, values.password);
-            setIsShowExit(true);
             if (isEditWindow) {
               dispatch(setEditWindow());
               navigate("/add_card");

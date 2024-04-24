@@ -11,12 +11,11 @@ import EditCard from '../Fetches/EditCardPage/EditCardPage';
 import Vector from '../../assets/add__card/Vector.png';
 import { useNavigate } from 'react-router-dom';
 import { setEditWindow } from '../../redux/Main/actions';
-import { setData, resetImages } from '../../redux/AddEdit/actions';
+import { resetImages } from '../../redux/AddEdit/actions';
 import { showSuccessfulModal, setEditImages } from '../../redux/AddEdit/actions';
 import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
 import DeleteAdverts from '../Fetches/EditCardPage/DeleteAdverts';
 import DeletePhoto from '../Fetches/EditCardPage/DeletePhoto';
-import AllAdverts from '../Fetches/Stunneds/AllAdverts';
 
 const AddCardBody = () => {
 
@@ -25,7 +24,7 @@ const AddCardBody = () => {
     const isData = useSelector(state => state.myReducer2?.isIdCard);
     let isFullImages = useSelector(state => state.myReducer2?.isImages);
     const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
-    const tokenBearer = useSelector(state => state.myReducer2?.isToken);
+    const tokenBearer = useSelector(state => state.myReducer2?.isToken.token);
 
     const isLocalHostiId = localStorage.getItem('setIdCard');
     const isUpdateId = localStorage.getItem('update');
@@ -123,7 +122,6 @@ const AddCardBody = () => {
 
     useEffect(() => {
         if (!isFullImages && !isDonloadPictures) {
-            AllAdverts(setData, dispatch, tokenBearer);
             setDonloadPictures(true);
         }
 
@@ -135,7 +133,7 @@ const AddCardBody = () => {
         if (isPhoto.length > 0) {
             setDonloadPictures(false);
         }
-    }, [dispatch, isPhoto, isDonloadPictures, isFullImages]);
+    }, [dispatch, isPhoto, isDonloadPictures, isFullImages, tokenBearer]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {

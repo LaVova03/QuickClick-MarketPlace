@@ -1,16 +1,16 @@
 import './MainBurgerMenu.scss';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import FetchLogout from '../Fetches/LoginPage/FetchLogOut';
 
 const MainBurgerMenu = ({ isFlagSet, handleButtonClick }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const deleteToken = () => {
-        sessionStorage.removeItem("isShowExit");
-        const item = sessionStorage.getItem("isShowExit");
-        if (!item) {
-            navigate("/")
-        }
-    }
+        FetchLogout(dispatch);
+        navigate("/");
+    };
 
     return (
         <div className={!isFlagSet ? 'main__burgermenu__close' : 'main__burgermenu__wrap'}>

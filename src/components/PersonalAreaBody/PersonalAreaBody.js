@@ -8,12 +8,14 @@ import PersonalMessages from "../../components/PersonalMessages/PersonalMessages
 import PersonalData from "../PersonalData/PersonalData";
 import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
 import AllAdverts from '../Fetches/Stunneds/AllAdverts';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setData } from '../../redux/AddEdit/actions';
 
 const PersonalAreaBody = () => {
 
   const dispatch = useDispatch();
+
+  const tokenBearer = useSelector(state => state.myReducer2?.isToken.token);
 
   const [isList, setIsList] = useState({
     isOpen1: false,
@@ -90,7 +92,7 @@ const PersonalAreaBody = () => {
       active: !prev.active,
     }));
     try {
-      AllAdverts(setData, dispatch);
+      AllAdverts(setData, dispatch, tokenBearer);
     } catch {
       console.log("fetch data GET cards error");
     } finally {
