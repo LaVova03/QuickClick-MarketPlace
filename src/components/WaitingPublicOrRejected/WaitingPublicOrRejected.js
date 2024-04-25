@@ -2,7 +2,7 @@ import './WaitingPublicOrRejected.scss';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { setEditWindow } from '../../redux/Main/actions';
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard }) => {
 
@@ -17,9 +17,9 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard }) => {
         localStorage.setItem('setIdCard', id);
     }
 
-    // useEffect(() => {
-    //     console.log(isFullImages)
-    // }, [isFullImages])
+    useEffect(() => {
+        console.log(isFullImages)
+    }, [isFullImages])
 
     return (
         <div className='personal__category__wrap'>

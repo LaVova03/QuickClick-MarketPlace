@@ -1,11 +1,10 @@
-import { SET_DATA, SHOW_SUCCESSFUL_WINDOW, SET_ID_CARD, SET_IMAGES, SET_EDIT_IMAGES, RESET_IMAGES, SAVE_BEARER } from './actionTypes';
+import { SET_DATA, SHOW_SUCCESSFUL_WINDOW, SET_ID_CARD, SET_IMAGES, SET_EDIT_IMAGES, RESET_IMAGES } from './actionTypes';
 
 const initialState = {
     isData: null,
     isIdCard: null,
     isSuccessfulWindow: false,
     isImages: [],
-    isToken: '',
 };
 
 const myReducer2 = (state = initialState, action) => {
@@ -42,10 +41,10 @@ const myReducer2 = (state = initialState, action) => {
                 ...state,
                 isImages: newImages,
             };
-        case SAVE_BEARER:
+        case RESET_IMAGES:
             return {
                 ...state,
-                isToken: action.payload,
+                isImages: [],
             };
         default:
             return state;

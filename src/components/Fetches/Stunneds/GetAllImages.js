@@ -10,9 +10,9 @@ const GetAllImages = async (data, dispatch, token) => {
         }
     };
 
-    try {
-        const imagesFilesArray = [];
+    const imagesFilesArray = [];
 
+    try {
         for (const item of data) {
             const id = item.id;
 
@@ -22,11 +22,12 @@ const GetAllImages = async (data, dispatch, token) => {
                 imagesFilesArray.push(response.data);
             }
         }
-
-        dispatch(resetImages());
-        dispatch(setImages(imagesFilesArray));
     } catch (error) {
         console.log("Ошибка при выполнении GET-запроса всех картинок объявления:", error);
+    } finally {
+        console.log(imagesFilesArray)
+        dispatch(resetImages());
+        dispatch(setImages(imagesFilesArray));
     }
 };
 

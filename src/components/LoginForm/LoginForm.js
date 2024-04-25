@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { setAddCard, setEditWindow } from "../../redux/Main/actions";
 import FetchLogin from '../Fetches/LoginPage/FetchLogin';
 import FetchRegistration from '../Fetches/LoginPage/FetchRegistration';
-import { saveBearer } from '../../redux/AddEdit/actions';
 
 const LoginForm = () => {
   const [isRepeatPassword, setRepeatPassword] = useState("");
@@ -115,7 +114,7 @@ const LoginForm = () => {
   };
 
   const deleteToken = () => {
-    dispatch(saveBearer(''))
+    sessionStorage.removeItem('login');
     setIsShowExit(false);
   };
 
@@ -131,7 +130,7 @@ const LoginForm = () => {
     if (registration) {
       FetchRegistration(email, password, dispatch)
     } else {
-      FetchLogin(email, password, dispatch, setIsShowExit);
+      FetchLogin(email, password, setIsShowExit, dispatch);
     }
   };
 

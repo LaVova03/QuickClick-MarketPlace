@@ -1,16 +1,12 @@
-import React, { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { useSelector } from "react-redux";
 
 const PrivateRoute = ({ redirectPath = '/login' }) => {
 
-    const tokenBearer = useSelector(state => state.myReducer2?.isToken);
+    const isTokenBearer = useSelector(state => state.myReducer?.isTokenBearer);
 
-    useEffect(() => {
-    }, [tokenBearer])
-
-    if (!tokenBearer) {
+    if (!isTokenBearer) {
         return <Navigate to={redirectPath} replace />;
     }
     return <Outlet />;

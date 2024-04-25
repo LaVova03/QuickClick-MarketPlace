@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 
 const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, idFotoEdit, token) => {
-
+    // console.log(idFotoEdit)
     const file = new FormData();
     idFotoEdit?.forEach((base64String, index) => {
         const byteCharacters = atob(base64String);
@@ -25,18 +25,24 @@ const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, idFot
         "firstPriceDisplayed": isNewCard.firstPriceDisplayed,
         "currency": isNewCard.currency,
         "address": isNewCard.address.region,
-        "userId": id,
-    }
+    };
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
 
     try {
-        const response = await axios.put(`${API_MAIN_URL}adverts/${id}`, user);
-        if (response && file) {
-            const responseFile = await axios.post(`http://localhost:8080/v1.0/images/${response.data.id}`, file, {
+        const response = await axios.put(`${API_MAIN_URL}adverts/${id}`, user, config);
+        if (response && file.length > 0) {
+            const responseFile = await axios.post(`${API_MAIN_URL}/images/${response.data.id}`, file, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
                 }
             });
+
             if (responseFile) {
                 localStorage.setItem('update', id)
             }

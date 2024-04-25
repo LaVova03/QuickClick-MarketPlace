@@ -1,3 +1,5 @@
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./PersonalAreaBody.scss";
 import React, { useState, useEffect } from "react";
 import Plus from "../../assets/personal__area/Plus.png";
@@ -9,13 +11,15 @@ import PersonalData from "../PersonalData/PersonalData";
 import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
 import AllAdverts from '../Fetches/Stunneds/AllAdverts';
 import { useDispatch, useSelector } from 'react-redux';
-import { setData } from '../../redux/AddEdit/actions';
+import { setData, showSuccessfulModal } from '../../redux/AddEdit/actions';
 
 const PersonalAreaBody = () => {
 
   const dispatch = useDispatch();
 
-  const tokenBearer = useSelector(state => state.myReducer2?.isToken.token);
+  const tokenBearer = sessionStorage.getItem('login');
+  const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
+  const localStorageDelete = localStorage.getItem('delete');
 
   const [isList, setIsList] = useState({
     isOpen1: false,
@@ -85,6 +89,16 @@ const PersonalAreaBody = () => {
       }));
     }
   }, [isList]);
+
+  useEffect(() => {
+    if (isSuccessfulWindow && localStorageDelete) {
+      notifyError('Оголошення видалено.')
+      setTimeout(() => {
+        dispatch(showSuccessfulModal())
+      }, 0)
+      localStorage.removeItem('delete');
+    }
+  }, [isSuccessfulWindow, localStorageDelete, dispatch])
 
   const fetchGetGoods = async () => {
     setLoading((prev) => ({
@@ -164,6 +178,12 @@ const PersonalAreaBody = () => {
       ...prev,
       isOpen3: !prev.isOpen3,
     }));
+  };
+
+  const notifyError = (message) => {
+    toast.error(message, {
+      position: "top-right",
+    });
   };
 
   return (
@@ -318,6 +338,7 @@ const PersonalAreaBody = () => {
           <img src={Msg} alt="logo" />
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

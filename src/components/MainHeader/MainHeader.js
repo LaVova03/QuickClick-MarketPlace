@@ -1,6 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
 import './MainHeader.scss';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setBurgerMenu, setLanguage, setAddCard, setEditWindow } from '../../redux/Main/actions';
@@ -8,25 +8,14 @@ import MainBurgerMenu from '../../components/MainBurgerMenu/MainBurgerMenu';
 import Logo from '../../assets/mainHeader/logo.png';
 
 const MainHeader = () => {
-
     const isFlagSet = useSelector(state => state.myReducer?.isFlagSet);
     const isLanguage = useSelector(state => state.myReducer?.isLanguage);
     const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
-    const tokenBearer = useSelector(state => state.myReducer2?.isToken.token);
+    const isTokenBearer = useSelector(state => state.myReducer?.isTokenBearer);
 
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
-
-    const [isPersonalPlace, setPersonalPlace] = useState(false);
-
-    useEffect(() => {
-        if (tokenBearer) {
-            setPersonalPlace(true);
-        } else {
-            setPersonalPlace(false);
-        }
-    }, [tokenBearer]);
 
     const handleButtonClick = () => {
         dispatch(setBurgerMenu());
@@ -40,8 +29,7 @@ const MainHeader = () => {
     const handleNavigatePersonalPlace = () => navigate("/personal_area");
 
     const searchToken = () => {
-        if (tokenBearer.length > 0) {
-            console.log(tokenBearer)
+        if (isTokenBearer) {
             navigate("/add_card");
         } else {
             dispatch(setAddCard());
@@ -83,7 +71,7 @@ const MainHeader = () => {
                     <button id='main__header__heart'><div></div></button>
                     <button
                         id='main__header__user'
-                        onClick={!isPersonalPlace ? handleNavigateLogin : handleNavigatePersonalPlace}>
+                        onClick={!isTokenBearer ? handleNavigateLogin : handleNavigatePersonalPlace}>
                         <div></div>
                     </button>
                     <div className='main__wrap__lang'>

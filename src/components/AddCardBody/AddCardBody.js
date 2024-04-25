@@ -24,8 +24,8 @@ const AddCardBody = () => {
     const isData = useSelector(state => state.myReducer2?.isIdCard);
     let isFullImages = useSelector(state => state.myReducer2?.isImages);
     const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
-    const tokenBearer = useSelector(state => state.myReducer2?.isToken.token);
 
+    const tokenBearer = sessionStorage.getItem('login');
     const isLocalHostiId = localStorage.getItem('setIdCard');
     const isUpdateId = localStorage.getItem('update');
     const isDelete = localStorage.getItem('delete');
@@ -159,17 +159,11 @@ const AddCardBody = () => {
             dispatch(setEditWindow());
         }
 
-        if (isSuccessfulWindow) {
+        if (isSuccessfulWindow && isEditWindow && isUpdateId) {
             notifyError(isEditWindow && isUpdateId ? 'Оголошення відредактовано' : 'Оголошення створено.')
             setTimeout(() => {
                 dispatch(showSuccessfulModal())
             }, 0)
-        } else if (isSuccessfulWindow && isDelete) {
-            notifyError('Оголошення видалено.')
-            setTimeout(() => {
-                dispatch(showSuccessfulModal())
-            }, 0)
-            localStorage.removeItem('delete');
         }
         if (isLocalHostiId || isUpdateId) {
             fetchActiveStunneds(dispatch, isLocalHostiId, tokenBearer);
@@ -282,7 +276,7 @@ const AddCardBody = () => {
                     dispatch(setEditWindow());
                     navigate("/personal_area");
                 } else {
-                    AddCard(isNewCard, isPhoto, showSuccessfulModal, dispatch);
+                    AddCard(isNewCard, isPhoto, showSuccessfulModal, dispatch, tokenBearer);
                     resetCard();
                 }
             }
@@ -293,8 +287,7 @@ const AddCardBody = () => {
         const updatedPhotos = [...isPhoto];
         updatedPhotos.splice(indexPhoto, 1);
         setPhoto(updatedPhotos);
-        const indexAdvert = localStorage.getItem('setIdCard')
-        DeletePhoto(indexPhoto, indexAdvert, showSuccessfulModal, dispatch)
+        DeletePhoto(indexPhoto, showSuccessfulModal, dispatch, tokenBearer)
     };
 
     const notifyError = (message) => {
@@ -367,8 +360,7 @@ const AddCardBody = () => {
                                         <img className='add__img'
                                             src={
                                                 isEditWindow ?
-                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][0]
-                                                    }`
+                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][0]}`
                                                     :
                                                     isPhoto &&
                                                     isPhoto[0] &&
@@ -818,7 +810,7 @@ const AddCardBody = () => {
                             <button
                                 id={'edit__delete'}
                                 onClick={() => {
-                                    DeleteAdverts(isLocalHostiId, showSuccessfulModal, dispatch);
+                                    DeleteAdverts(isLocalHostiId, showSuccessfulModal, dispatch, tokenBearer);
                                     navigate('/personal_area')
                                 }}>Видалити
                             </button>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 
-const addCard = async (obj, isPhoto, showSuccessfulModal, dispatch) => {
+const addCard = async (obj, isPhoto, showSuccessfulModal, dispatch, token) => {
     const jsonAddress = {
         ...obj,
         address: JSON.stringify(obj.address)
@@ -12,20 +12,31 @@ const addCard = async (obj, isPhoto, showSuccessfulModal, dispatch) => {
         file.append(`file`, item);
     });
 
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+
     try {
-        const responseData = await axios.post(`${API_MAIN_URL}adverts`, jsonAddress);
-        if (responseData) {
-            await axios.post(`http://localhost:8080/v1.0/images/image/${responseData.data.id}`, file, {
+        const response = await axios.post(`${API_MAIN_URL}adverts`, jsonAddress, config);
+
+        if (response.data) {
+            console.log(response.data)
+
+            await axios.post(`${API_MAIN_URL}images/${response.data.id}`, file, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
-            dispatch(showSuccessfulModal());
+
         } else {
-            console.log("Ошибка при выполнении POST-запроса для добавления картинок в созданную карточку товара");
+            console.log('error create photo')
         }
+        dispatch(showSuccessfulModal());
     } catch (error) {
-        console.log("Ошибка при выполнении POST-запроса для создания карточки товара:", error);
+        console.error("Ошибка при выполнении POST-запроса для создания карточки товара:", error);
     }
 }
 
