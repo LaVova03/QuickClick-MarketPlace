@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 
 const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, idFotoEdit, token) => {
-    // console.log(idFotoEdit)
+
     const file = new FormData();
     idFotoEdit?.forEach((base64String, index) => {
         const byteCharacters = atob(base64String);
@@ -35,8 +35,9 @@ const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, idFot
 
     try {
         const response = await axios.put(`${API_MAIN_URL}adverts/${id}`, user, config);
-        if (response && file.length > 0) {
-            const responseFile = await axios.post(`${API_MAIN_URL}/images/${response.data.id}`, file, {
+        if (response.data) {
+            console.log(response.data)
+            const responseFile = await axios.post(`${API_MAIN_URL}images/${response.data.id}`, file, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -48,7 +49,7 @@ const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, idFot
             }
             dispatch(showSuccessfulModal());
         } else {
-            console.log("Ошибка при выполнении POST-запроса для добавления картинок в созданную карточку товара");
+            console.log("error edit photo");
         }
     } catch (error) {
         console.log("fetch data PUT cards error:", error);

@@ -28,6 +28,7 @@ const LoginForm = () => {
 
   const isAddCardModal = useSelector((state) => state.myReducer?.isAddModal);
   const isEditWindow = useSelector((state) => state.myReducer?.isEditWindow);
+  const isTokenBearer = useSelector(state => state.myReducer?.isTokenBearer);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -128,9 +129,9 @@ const LoginForm = () => {
 
   const handleSubmit = (email, password) => {
     if (registration) {
-      FetchRegistration(email, password, dispatch)
+      FetchRegistration(email, password, setIsShowExit, dispatch, isTokenBearer)
     } else {
-      FetchLogin(email, password, setIsShowExit, dispatch);
+      FetchLogin(email, password, setIsShowExit, dispatch, isTokenBearer);
     }
   };
 

@@ -28,7 +28,7 @@ const MainHeader = () => {
     const handleNavigateLogin = () => navigate("/login");
     const handleNavigatePersonalPlace = () => navigate("/personal_area");
 
-    const searchToken = () => {
+    const searchToken = (e) => {
         if (isTokenBearer) {
             navigate("/add_card");
         } else {

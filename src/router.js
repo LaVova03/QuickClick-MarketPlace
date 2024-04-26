@@ -9,6 +9,7 @@ import PageIsNotFound from './containers/PageIsNotFound/PageIsNotFound';
 import { useSelector } from 'react-redux';
 
 const AppRouter = () => {
+
     const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
     const path = isEditWindow ? "/edit_card" : "/add_card";
 

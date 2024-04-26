@@ -13,7 +13,6 @@ const AllAdverts = async (setData, dispatch, token) => {
     try {
         const response = await axios.get(`${API_MAIN_URL}adverts`, config);
         if (response) {
-            console.log(response.data)
             GetAllImages(response.data, dispatch, token)
             dispatch(setData());
             dispatch(setData(response.data));

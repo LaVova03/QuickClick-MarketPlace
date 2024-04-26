@@ -3,9 +3,9 @@ import { API_MAIN_URL } from '../../../constants/Constants';
 import fetchLogin from './FetchLogin';
 import { BEARER } from "../../../constants/Constants";
 
-const createCard = async (email, password) => {
+const FetchRegistration = async (email, password, setIsShowExit, dispatch, isTokenBearer) => {
     const data = {
-        name: 'User',
+        name: email,
         email: email,
         password: password,
     }
@@ -19,11 +19,11 @@ const createCard = async (email, password) => {
             }
         );
         if (response.data) {
-            fetchLogin(email, password)
+            fetchLogin(email, password, setIsShowExit, dispatch, isTokenBearer)
         }
     } catch (error) {
         console.log("Ошибка при выполнении POST-запроса для создания аккаунта:", error);
     }
 }
 
-export default createCard;
+export default FetchRegistration;

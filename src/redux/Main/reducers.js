@@ -37,6 +37,7 @@ const myReducer = (state = initialState, action) => {
                 isEditWindow: !state.isEditWindow,
             };
         case SET_TOKEN_BEARER:
+            console.log(state.isTokenBearer)
             return {
                 ...state,
                 isTokenBearer: !state.isTokenBearer,
