@@ -25,6 +25,7 @@ const GetAllImages = async (data, dispatch, token) => {
     } catch (error) {
         console.log("Ошибка при выполнении GET-запроса всех картинок объявления:", error);
     } finally {
+        console.log(imagesFilesArray)
         dispatch(resetImages());
         dispatch(setImages(imagesFilesArray));
     }

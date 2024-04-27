@@ -22,8 +22,6 @@ const addCard = async (obj, isPhoto, showSuccessfulModal, dispatch, token) => {
         const response = await axios.post(`${API_MAIN_URL}adverts`, jsonAddress, config);
 
         if (response.data) {
-            console.log(response.data)
-
             await axios.post(`${API_MAIN_URL}images/${response.data.id}`, file, {
                 headers: {
                     'Content-Type': 'multipart/form-data',

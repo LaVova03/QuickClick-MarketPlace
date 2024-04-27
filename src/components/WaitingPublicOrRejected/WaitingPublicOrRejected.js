@@ -12,9 +12,11 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard }) => {
     const isData = useSelector(state => state.myReducer2?.isData);
     const isFullImages = useSelector(state => state.myReducer2?.isImages);
 
-    const addLocalstorage = (id) => {
+    const addLocalstorage = (id, index) => {
         localStorage.removeItem('setIdCard');
+        localStorage.removeItem('indexCard');
         localStorage.setItem('setIdCard', id);
+        localStorage.setItem('indexCard', index);
     }
 
     // useEffect(() => {
@@ -46,7 +48,7 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard }) => {
                                 <li><button>Переглянути</button></li>
                                 <li><button onClick={() => {
                                     setIdCard(el.id);
-                                    addLocalstorage(el.id)
+                                    addLocalstorage(el.id, index)
                                     dispatch(setEditWindow());
                                     navigate("/edit_card");
                                 }}>

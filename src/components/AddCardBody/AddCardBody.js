@@ -27,6 +27,7 @@ const AddCardBody = () => {
 
     const tokenBearer = sessionStorage.getItem('login');
     const isLocalHostiId = localStorage.getItem('setIdCard');
+    const indexCard = localStorage.getItem('indexCard');
     const isUpdateId = localStorage.getItem('update');
     const isDelete = localStorage.getItem('delete');
 
@@ -48,6 +49,7 @@ const AddCardBody = () => {
     const [isCategory, setIsCategory] = useState(false);
     const [isAddress, setIsAddress] = useState(false);
     const [isPhoto, setPhoto] = useState([]);
+    const [photoUrl, addPhotoUrl] = useState([]);
     const [isNewCard, setNewCard] = useState(
         {
             title: isEditWindow ? isData?.title : '',
@@ -91,6 +93,30 @@ const AddCardBody = () => {
     }, [isCategoryRedux]);
 
     useEffect(() => {
+        const newPhotoUrls = [];
+
+        // Обработка файлов, загруженных пользователем
+        isPhoto?.forEach((file) => {
+            const url = URL.createObjectURL(file);
+            newPhotoUrls.push(url);
+        });
+
+        // Обработка файлов, полученных из чаркодов
+        isFullImages[indexCard]?.forEach((base64String, index) => {
+            const byteCharacters = atob(base64String);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'image/jpeg' });
+            const url = URL.createObjectURL(blob);
+            newPhotoUrls.unshift(url);
+        });
+        addPhotoUrl(newPhotoUrls)
+    }, [indexCard, isPhoto]);
+
+    useEffect(() => {
         if (isEditWindow) {
             setNewCard({
                 title: isEditWindow ? isData?.title : '',
@@ -124,11 +150,6 @@ const AddCardBody = () => {
         if (!isFullImages && !isDonloadPictures) {
             setDonloadPictures(true);
         }
-
-        // if (isFullImages) {
-        //     setPhoto(isFullImages);
-        //     dispatch(resetImages());
-        // }
 
         if (isPhoto.length > 0) {
             setDonloadPictures(false);
@@ -178,23 +199,23 @@ const AddCardBody = () => {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        if (isEditWindow) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                const base64String = event.target.result;
-                let cod = '';
-                let found64 = false;
+        // if (isEditWindow) {
+        //     const reader = new FileReader();
+        //     reader.onload = function (event) {
+        //         const base64String = event.target.result;
+        //         let cod = '';
+        //         let found64 = false;
 
-                for (let i = 0; i < base64String.length; i++) {
-                    if (found64 || (base64String[i - 3] === '6' && base64String[i - 2] === '4' && base64String[i - 1] === ',')) {
-                        found64 = true;
-                        cod += base64String[i];
-                    }
-                }
-                dispatch(setEditImages(isLocalHostiId, cod));
-            };
-            reader.readAsDataURL(file);
-        }
+        //         for (let i = 0; i < base64String.length; i++) {
+        //             if (found64 || (base64String[i - 3] === '6' && base64String[i - 2] === '4' && base64String[i - 1] === ',')) {
+        //                 found64 = true;
+        //                 cod += base64String[i];
+        //             }
+        //         }
+        //         dispatch(setEditImages(isLocalHostiId, cod));
+        //     };
+        //     reader.readAsDataURL(file);
+        // }
         setPhoto([...isPhoto, file]);
         setPhotoEmpty(false)
     };
@@ -271,8 +292,7 @@ const AddCardBody = () => {
             const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
             if (allFieldsEmpty && !photoEmpty) {
                 if (isEditWindow) {
-                    const idFotoEdit = isFullImages[isLocalHostiId]
-                    EditCard(isNewCard, isLocalHostiId, showSuccessfulModal, dispatch, idFotoEdit, tokenBearer);
+                    EditCard(isNewCard, isLocalHostiId, showSuccessfulModal, dispatch, tokenBearer, photoUrl);
                     dispatch(setEditWindow());
                     navigate("/personal_area");
                 } else {
@@ -355,16 +375,23 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {((isPhoto[0] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][0] && isEditWindow)) ? (
+                                {(photoUrl[0]) ? (
                                     <div className='add__photo'>
                                         <img className='add__img'
                                             src={
-                                                isEditWindow ?
-                                                    `data:image/*;base64,${isFullImages[isLocalHostiId][0]}`
-                                                    :
-                                                    isPhoto &&
-                                                    isPhoto[0] &&
-                                                    URL.createObjectURL(isPhoto[0])
+                                                // isEditWindow ?
+                                                //     (`data:image/*;base64,${isFullImages[indexCard][0]}`
+                                                //         ||
+                                                //         (isPhoto &&
+                                                //             isPhoto[0] &&
+                                                //             URL.createObjectURL(isPhoto[0])
+                                                //         )
+                                                //     )
+                                                //     :
+                                                // isPhoto &&
+                                                // isPhoto[0] &&
+                                                // URL.createObjectURL(isPhoto[0])
+                                                photoUrl[0]
                                             }
                                             alt="logo" />
                                         <button
@@ -394,18 +421,19 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {((isPhoto[1] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][1] && isEditWindow)) ?
+                                {(photoUrl[1]) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
                                                 src={
-                                                    isEditWindow ?
-                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][1]
-                                                        }`
-                                                        :
-                                                        isPhoto &&
-                                                        isPhoto[1] &&
-                                                        URL.createObjectURL(isPhoto[1])
+                                                    // isEditWindow ?
+                                                    //     `data:image/*;base64,${isFullImages[indexCard][1]
+                                                    //     }`
+                                                    //     :
+                                                    // isPhoto &&
+                                                    // isPhoto[1] &&
+                                                    // URL.createObjectURL(isPhoto[1])
+                                                    photoUrl[1]
                                                 }
                                                 alt="logo" />
                                             <button
@@ -435,18 +463,19 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {((isPhoto[2] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][2] && isEditWindow)) ?
+                                {(photoUrl[2]) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
                                                 src={
-                                                    isEditWindow ?
-                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][2]
-                                                        }`
-                                                        :
-                                                        isPhoto &&
-                                                        isPhoto[2] &&
-                                                        URL.createObjectURL(isPhoto[2])
+                                                    // isEditWindow ?
+                                                    //     `data:image/*;base64,${isFullImages[indexCard][2]
+                                                    //     }`
+                                                    //     :
+                                                    // isPhoto &&
+                                                    // isPhoto[2] &&
+                                                    // URL.createObjectURL(isPhoto[2])
+                                                    photoUrl[2]
                                                 }
                                                 alt="logo" />
                                             <button
@@ -476,18 +505,19 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {((isPhoto[3] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][3] && isEditWindow)) ?
+                                {(photoUrl[3]) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
                                                 src={
-                                                    isEditWindow ?
-                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][3]
-                                                        }`
-                                                        :
-                                                        isPhoto &&
-                                                        isPhoto[3] &&
-                                                        URL.createObjectURL(isPhoto[3])
+                                                    // isEditWindow ?
+                                                    //     `data:image/*;base64,${isFullImages[indexCard][3]
+                                                    //     }`
+                                                    //     :
+                                                    // isPhoto &&
+                                                    // isPhoto[3] &&
+                                                    // URL.createObjectURL(isPhoto[3])
+                                                    photoUrl[3]
                                                 }
                                                 alt="logo" />
                                             <button
@@ -517,18 +547,19 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {((isPhoto[4] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][4] && isEditWindow)) ?
+                                {(photoUrl[4]) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
                                                 src={
-                                                    isEditWindow ?
-                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][4]
-                                                        }`
-                                                        :
-                                                        isPhoto &&
-                                                        isPhoto[4] &&
-                                                        URL.createObjectURL(isPhoto[4])
+                                                    // isEditWindow ?
+                                                    //     `data:image/*;base64,${isFullImages[indexCard][4]
+                                                    //     }`
+                                                    //     :
+                                                    // isPhoto &&
+                                                    // isPhoto[4] &&
+                                                    // URL.createObjectURL(isPhoto[4])
+                                                    photoUrl[4]
                                                 }
                                                 alt="logo" />
                                             <button
@@ -558,18 +589,19 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {((isPhoto[5] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][5] && isEditWindow)) ?
+                                {(photoUrl[5]) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
                                                 src={
-                                                    isEditWindow ?
-                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][5]
-                                                        }`
-                                                        :
-                                                        isPhoto &&
-                                                        isPhoto[5] &&
-                                                        URL.createObjectURL(isPhoto[5])
+                                                    // isEditWindow ?
+                                                    //     `data:image/*;base64,${isFullImages[indexCard][5]
+                                                    //     }`
+                                                    //     :
+                                                    // isPhoto &&
+                                                    // isPhoto[5] &&
+                                                    // URL.createObjectURL(isPhoto[5])
+                                                    photoUrl[5]
                                                 }
                                                 alt="logo" />
                                             <button
@@ -599,18 +631,19 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {((isPhoto[6] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][6] && isEditWindow)) ?
+                                {(photoUrl[6]) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
                                                 src={
-                                                    isEditWindow ?
-                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][6]
-                                                        }`
-                                                        :
-                                                        isPhoto &&
-                                                        isPhoto[6] &&
-                                                        URL.createObjectURL(isPhoto[6])
+                                                    // isEditWindow ?
+                                                    //     `data:image/*;base64,${isFullImages[indexCard][6]
+                                                    //     }`
+                                                    //     :
+                                                    // isPhoto &&
+                                                    // isPhoto[6] &&
+                                                    // URL.createObjectURL(isPhoto[6])
+                                                    photoUrl[6]
                                                 }
                                                 alt="logo" />
                                             <button
@@ -640,17 +673,18 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {((isPhoto[7] && !isEditWindow) || (isFullImages[isLocalHostiId] && isFullImages[isLocalHostiId][7] && isEditWindow)) ?
+                                {(photoUrl[7]) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
                                                 src={
-                                                    isEditWindow ?
-                                                        `data:image/*;base64,${isFullImages[isLocalHostiId][7]}`
-                                                        :
-                                                        isPhoto &&
-                                                        isPhoto[7] &&
-                                                        URL.createObjectURL(isPhoto[7])
+                                                    // isEditWindow ?
+                                                    //     `data:image/*;base64,${isFullImages[indexCard][7]}`
+                                                    //     :
+                                                    // isPhoto &&
+                                                    // isPhoto[7] &&
+                                                    // URL.createObjectURL(isPhoto[7])
+                                                    photoUrl[7]
                                                 }
                                                 alt="logo" />
                                             <button

@@ -13,7 +13,6 @@ const fetchLogin = async (email, password, setIsShowExit, dispatch, isTokenBeare
             setIsShowExit(true);
             sessionStorage.setItem('login', response.data.accessToken);
             if (!isTokenBearer) {
-                console.log(isTokenBearer)
                 dispatch(setTokenBearer())
             }
         }

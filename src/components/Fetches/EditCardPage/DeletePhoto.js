@@ -12,7 +12,7 @@ const DeletePhoto = async (indexPhoto, showSuccessfulModal, dispatch, token) => 
     const idAdvert = localStorage.getItem('setIdCard');
 
     try {
-        // console.log(idAdvert, indexPhoto)
+        console.log(idAdvert, indexPhoto)
         const response = await axios.delete(`${API_MAIN_URL}images/${idAdvert}/${indexPhoto + 1}`, config);
         if (response.data) {
             const responseImages = await axios.get(`${API_MAIN_URL}images/${idAdvert}`);
