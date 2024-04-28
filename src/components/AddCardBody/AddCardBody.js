@@ -11,8 +11,7 @@ import EditCard from '../Fetches/EditCardPage/EditCardPage';
 import Vector from '../../assets/add__card/Vector.png';
 import { useNavigate } from 'react-router-dom';
 import { setEditWindow } from '../../redux/Main/actions';
-import { resetImages } from '../../redux/AddEdit/actions';
-import { showSuccessfulModal, setEditImages } from '../../redux/AddEdit/actions';
+import { showSuccessfulModal } from '../../redux/AddEdit/actions';
 import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
 import DeleteAdverts from '../Fetches/EditCardPage/DeleteAdverts';
 import DeletePhoto from '../Fetches/EditCardPage/DeletePhoto';
@@ -50,6 +49,7 @@ const AddCardBody = () => {
     const [isAddress, setIsAddress] = useState(false);
     const [isPhoto, setPhoto] = useState([]);
     const [photoUrl, addPhotoUrl] = useState([]);
+    const [photoForServer, setPhotoForServer] = useState([]);
     const [isNewCard, setNewCard] = useState(
         {
             title: isEditWindow ? isData?.title : '',
@@ -93,56 +93,60 @@ const AddCardBody = () => {
     }, [isCategoryRedux]);
 
     useEffect(() => {
-        const newPhotoUrls = [];
+        if (isEditWindow) {
+            const newPhotoUrls = [];
 
-        // Обработка файлов, загруженных пользователем
-        isPhoto?.forEach((file) => {
-            const url = URL.createObjectURL(file);
-            newPhotoUrls.push(url);
-        });
+            // Обработка файлов, загруженных пользователем
+            isPhoto?.forEach((file) => {
+                const url = URL.createObjectURL(file);
+                newPhotoUrls.push(url);
+            });
 
-        // Обработка файлов, полученных из чаркодов
-        isFullImages[indexCard]?.forEach((base64String, index) => {
-            const byteCharacters = atob(base64String);
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: 'image/jpeg' });
-            const url = URL.createObjectURL(blob);
-            newPhotoUrls.unshift(url);
-        });
-        addPhotoUrl(newPhotoUrls)
-    }, [indexCard, isPhoto]);
+            // Обработка файлов, полученных из чаркодов
+            isFullImages[indexCard]?.forEach((base64String, index) => {
+                const byteCharacters = atob(base64String);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], { type: 'image/jpeg' });
+                const url = URL.createObjectURL(blob);
+                newPhotoUrls.unshift(url);
+            });
+            addPhotoUrl(newPhotoUrls)
+        }
+    }, [indexCard, isPhoto, isFullImages, isEditWindow]);
 
     useEffect(() => {
-        if (isEditWindow) {
-            setNewCard({
-                title: isEditWindow ? isData?.title : '',
-                category: isEditWindow ? isData?.category : '',
-                description: isEditWindow ? isData?.description : '',
-                address: {
-                    region: isEditWindow ? isData?.address : '',
-                    city: isEditWindow ? '.' : '',
-                },
-                phone: isEditWindow ? isData?.phone : '',
-                price: isEditWindow ? isData?.price : '',
-                firstPriceDisplayed: isEditWindow ? isData?.firstPriceDisplayed : false,
-                currency: isEditWindow ? isData?.currency : '',
-            });
-            setInputCategory(isEditWindow ? isData?.category : '');
 
-            setProductNameEmpty({
-                title: isData?.title ? false : null,
-                category: isData?.category ? false : null,
-                description: isData?.description ? false : null,
-                address: isData?.address ? false : null,
-                phone: isData?.phone ? false : null,
-                price: isData?.price ? false : null,
-                currency: isData?.currency ? false : null,
-            })
-        }
+    })
+
+    useEffect(() => {
+        setNewCard({
+            title: isEditWindow ? isData?.title : '',
+            category: isEditWindow ? isData?.category : '',
+            description: isEditWindow ? isData?.description : '',
+            address: {
+                region: isEditWindow ? isData?.address : '',
+                city: isEditWindow ? '.' : '',
+            },
+            phone: isEditWindow ? isData?.phone : '',
+            price: isEditWindow ? isData?.price : '',
+            firstPriceDisplayed: isEditWindow ? isData?.firstPriceDisplayed : false,
+            currency: isEditWindow ? isData?.currency : '',
+        });
+        setInputCategory(isEditWindow ? isData?.category : '');
+
+        setProductNameEmpty({
+            title: isData?.title ? false : null,
+            category: isData?.category ? false : null,
+            description: isData?.description ? false : null,
+            address: isData?.address ? false : null,
+            phone: isData?.phone ? false : null,
+            price: isData?.price ? false : null,
+            currency: isData?.currency ? false : null,
+        })
 
     }, [isData, isEditWindow, isFullImages, dispatch]);
 
@@ -180,8 +184,8 @@ const AddCardBody = () => {
             dispatch(setEditWindow());
         }
 
-        if (isSuccessfulWindow && isEditWindow && isUpdateId) {
-            notifyError(isEditWindow && isUpdateId ? 'Оголошення відредактовано' : 'Оголошення створено.')
+        if (isSuccessfulWindow) {
+            notifyError(isEditWindow ? 'Оголошення відредактовано' : 'Оголошення створено.')
             setTimeout(() => {
                 dispatch(showSuccessfulModal())
             }, 0)
@@ -199,23 +203,7 @@ const AddCardBody = () => {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        // if (isEditWindow) {
-        //     const reader = new FileReader();
-        //     reader.onload = function (event) {
-        //         const base64String = event.target.result;
-        //         let cod = '';
-        //         let found64 = false;
-
-        //         for (let i = 0; i < base64String.length; i++) {
-        //             if (found64 || (base64String[i - 3] === '6' && base64String[i - 2] === '4' && base64String[i - 1] === ',')) {
-        //                 found64 = true;
-        //                 cod += base64String[i];
-        //             }
-        //         }
-        //         dispatch(setEditImages(isLocalHostiId, cod));
-        //     };
-        //     reader.readAsDataURL(file);
-        // }
+        setPhotoForServer([...photoForServer, file])
         setPhoto([...isPhoto, file]);
         setPhotoEmpty(false)
     };
@@ -247,6 +235,7 @@ const AddCardBody = () => {
         });
         setInputCategory('');
         setPhoto([]);
+        setPhotoForServer([]);
     };
 
     const submitCard = () => {
@@ -292,7 +281,7 @@ const AddCardBody = () => {
             const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
             if (allFieldsEmpty && !photoEmpty) {
                 if (isEditWindow) {
-                    EditCard(isNewCard, isLocalHostiId, showSuccessfulModal, dispatch, tokenBearer, photoUrl);
+                    EditCard(isNewCard, isLocalHostiId, showSuccessfulModal, dispatch, tokenBearer, photoForServer, isData);
                     dispatch(setEditWindow());
                     navigate("/personal_area");
                 } else {
@@ -375,24 +364,10 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {(photoUrl[0]) ? (
+                                {((photoUrl[0] && isEditWindow) || (isPhoto[0])) ? (
                                     <div className='add__photo'>
                                         <img className='add__img'
-                                            src={
-                                                // isEditWindow ?
-                                                //     (`data:image/*;base64,${isFullImages[indexCard][0]}`
-                                                //         ||
-                                                //         (isPhoto &&
-                                                //             isPhoto[0] &&
-                                                //             URL.createObjectURL(isPhoto[0])
-                                                //         )
-                                                //     )
-                                                //     :
-                                                // isPhoto &&
-                                                // isPhoto[0] &&
-                                                // URL.createObjectURL(isPhoto[0])
-                                                photoUrl[0]
-                                            }
+                                            src={isEditWindow && !isPhoto[0] ? photoUrl[0] : (isPhoto && isPhoto[0]) ? URL.createObjectURL(isPhoto[0]) : ''}
                                             alt="logo" />
                                         <button
                                             className='add__trash'
@@ -421,20 +396,11 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {(photoUrl[1]) ?
+                                {((photoUrl[1] && isEditWindow) || (isPhoto[1])) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={
-                                                    // isEditWindow ?
-                                                    //     `data:image/*;base64,${isFullImages[indexCard][1]
-                                                    //     }`
-                                                    //     :
-                                                    // isPhoto &&
-                                                    // isPhoto[1] &&
-                                                    // URL.createObjectURL(isPhoto[1])
-                                                    photoUrl[1]
-                                                }
+                                                src={isEditWindow && !isPhoto[1] ? photoUrl[1] : (isPhoto && isPhoto[1]) ? URL.createObjectURL(isPhoto[1]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
@@ -463,20 +429,11 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {(photoUrl[2]) ?
+                                {((photoUrl[2] && isEditWindow) || (isPhoto[2])) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={
-                                                    // isEditWindow ?
-                                                    //     `data:image/*;base64,${isFullImages[indexCard][2]
-                                                    //     }`
-                                                    //     :
-                                                    // isPhoto &&
-                                                    // isPhoto[2] &&
-                                                    // URL.createObjectURL(isPhoto[2])
-                                                    photoUrl[2]
-                                                }
+                                                src={isEditWindow && !isPhoto[2] ? photoUrl[2] : (isPhoto && isPhoto[2]) ? URL.createObjectURL(isPhoto[2]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
@@ -505,20 +462,11 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {(photoUrl[3]) ?
+                                {((photoUrl[3] && isEditWindow) || (isPhoto[3])) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={
-                                                    // isEditWindow ?
-                                                    //     `data:image/*;base64,${isFullImages[indexCard][3]
-                                                    //     }`
-                                                    //     :
-                                                    // isPhoto &&
-                                                    // isPhoto[3] &&
-                                                    // URL.createObjectURL(isPhoto[3])
-                                                    photoUrl[3]
-                                                }
+                                                src={isEditWindow && !isPhoto[3] ? photoUrl[3] : (isPhoto && isPhoto[3]) ? URL.createObjectURL(isPhoto[3]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
@@ -547,20 +495,11 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {(photoUrl[4]) ?
+                                {((photoUrl[4] && isEditWindow) || (isPhoto[4])) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={
-                                                    // isEditWindow ?
-                                                    //     `data:image/*;base64,${isFullImages[indexCard][4]
-                                                    //     }`
-                                                    //     :
-                                                    // isPhoto &&
-                                                    // isPhoto[4] &&
-                                                    // URL.createObjectURL(isPhoto[4])
-                                                    photoUrl[4]
-                                                }
+                                                src={isEditWindow && !isPhoto[4] ? photoUrl[4] : (isPhoto && isPhoto[4]) ? URL.createObjectURL(isPhoto[4]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
@@ -589,20 +528,11 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {(photoUrl[5]) ?
+                                {((photoUrl[5] && isEditWindow) || (isPhoto[5])) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={
-                                                    // isEditWindow ?
-                                                    //     `data:image/*;base64,${isFullImages[indexCard][5]
-                                                    //     }`
-                                                    //     :
-                                                    // isPhoto &&
-                                                    // isPhoto[5] &&
-                                                    // URL.createObjectURL(isPhoto[5])
-                                                    photoUrl[5]
-                                                }
+                                                src={isEditWindow && !isPhoto[5] ? photoUrl[5] : (isPhoto && isPhoto[5]) ? URL.createObjectURL(isPhoto[5]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
@@ -631,20 +561,11 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {(photoUrl[6]) ?
+                                {((photoUrl[6] && isEditWindow) || (isPhoto[6])) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={
-                                                    // isEditWindow ?
-                                                    //     `data:image/*;base64,${isFullImages[indexCard][6]
-                                                    //     }`
-                                                    //     :
-                                                    // isPhoto &&
-                                                    // isPhoto[6] &&
-                                                    // URL.createObjectURL(isPhoto[6])
-                                                    photoUrl[6]
-                                                }
+                                                src={isEditWindow && !isPhoto[6] ? photoUrl[6] : (isPhoto && isPhoto[6]) ? URL.createObjectURL(isPhoto[6]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
@@ -673,19 +594,11 @@ const AddCardBody = () => {
                         {isDonloadPictures ?
                             <label>loading...</label> :
                             <div>
-                                {(photoUrl[7]) ?
+                                {((photoUrl[7] && isEditWindow) || (isPhoto[7])) ?
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={
-                                                    // isEditWindow ?
-                                                    //     `data:image/*;base64,${isFullImages[indexCard][7]}`
-                                                    //     :
-                                                    // isPhoto &&
-                                                    // isPhoto[7] &&
-                                                    // URL.createObjectURL(isPhoto[7])
-                                                    photoUrl[7]
-                                                }
+                                                src={isEditWindow && !isPhoto[7] ? photoUrl[7] : (isPhoto && isPhoto[7]) ? URL.createObjectURL(isPhoto[7]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
