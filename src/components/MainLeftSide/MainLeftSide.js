@@ -17,19 +17,15 @@ import Toy from '../../assets/mainLeftSide/toy.png';
 import { useDispatch } from 'react-redux';
 import { addCategory } from '../../redux/Main/actions';
 
-const MainLeftSide = ({ isCategory }) => {
+const MainLeftSide = ({ isCategory, setInputCategory }) => {
 
     const [isOnFormPage, setIsOnFormPage] = useState(false);
 
     useEffect(() => {
-        setIsOnFormPage(window.location.pathname === '/add_card');
+        setIsOnFormPage(window.location.pathname === '/add_card' || window.location.pathname === '/edit_card');
     }, [isCategory])
 
     const dispatch = useDispatch();
-
-    const handleCategoryClick = (isCategoryRedux) => {
-        dispatch(addCategory(isCategoryRedux));
-    };
 
     const arr = [
         {
@@ -88,7 +84,38 @@ const MainLeftSide = ({ isCategory }) => {
             img: Delivery,
             chapter: 'Доставка',
         },
-    ]
+    ];
+
+    const categoryMap = {
+        'Авто': 'AUTO',
+        'Одяг': 'CLOTHES',
+        'Квіти': 'FLOWERS',
+        'Іграшки': 'TOYS',
+        'Тварини': 'ANIMALS',
+        'Житло': 'DWELLING',
+        'Меблі': 'FURNITURE',
+        'Рослини': 'PLANTS',
+        'Посуд': 'DISHES',
+        'Техніка': 'MACHINERY',
+        'Робота': 'WORK',
+        'Краса': 'BEAUTY',
+        'Оренда': 'RENT',
+        'Доставка': 'DELIVERY',
+    };
+
+    const checkCategory = (item) => {
+        Object.keys(categoryMap).filter((el) => {
+            if (el === item) {
+                const latinCategory = categoryMap[el];
+                handleCategoryClick(latinCategory);
+            }
+            return false;
+        });
+    }
+
+    const handleCategoryClick = (isCategoryRedux) => {
+        dispatch(addCategory(isCategoryRedux));
+    };
 
     return (
         <div className={isOnFormPage ? 'add__categorys__wrap' : 'main__leftside__wrap'}>
@@ -100,7 +127,11 @@ const MainLeftSide = ({ isCategory }) => {
                                 <li key={j}>
                                     {key === 'chapter' ? <div className='main__leftside__text'>{el[key]}</div> :
                                         <button
-                                            onClick={isCategory ? () => { handleCategoryClick(el.chapter) } : null}
+                                            onClick={isCategory ? () => {
+                                                checkCategory(el.chapter);
+                                                setInputCategory(el.chapter);
+                                            }
+                                                : null}
                                             className='main__leftside__logo'
                                         >
                                             <img src={el[key]}

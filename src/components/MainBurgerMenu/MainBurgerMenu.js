@@ -1,53 +1,41 @@
 import './MainBurgerMenu.scss';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setBurgerMenu } from '../../redux/Main/actions';
+import FetchLogout from '../Fetches/LoginPage/FetchLogOut';
 
-const MainBurgerMenu = ({ isFlagSet }) => {
-
-    const dispatch = useDispatch();
-
+const MainBurgerMenu = ({ isFlagSet, handleButtonClick }) => {
     const navigate = useNavigate();
 
-    const closeBurger = () => {
-        dispatch(setBurgerMenu())
-    }
-
     const deleteToken = () => {
-        sessionStorage.removeItem("isShowExit");
-        const item = sessionStorage.getItem("isShowExit");
-        if (!item) {
-            navigate("/")
-        }
-    }
+        FetchLogout();
+        navigate("/");
+    };
 
     return (
         <div className={!isFlagSet ? 'main__burgermenu__close' : 'main__burgermenu__wrap'}>
             <ul>
-                <li><button onClick={() => closeBurger()}>
+                <li><button onClick={handleButtonClick}>
                     Про нас
                 </button></li>
-                <li><button onClick={() => closeBurger()}>
+                <li><button onClick={handleButtonClick}>
                     Контакти
                 </button></li>
-                <li><button onClick={() => closeBurger()}>
+                <li><button onClick={handleButtonClick}>
                     Оплата та доставка
                 </button></li>
-                <li><button onClick={() => closeBurger()}>
+                <li><button onClick={handleButtonClick}>
                     Питання та відповіді
                 </button></li>
-                <li><button onClick={() => closeBurger()}>
+                <li><button onClick={handleButtonClick}>
                     Умови використання
                 </button></li>
-                <li><button
-                    onClick={() => {
-                        navigate("/personal_area");
-                        closeBurger();
-                    }}>
-                    Особистий кабінет</button></li>
                 <li><button onClick={() => {
-                    closeBurger();
+                    navigate("/personal_area");
+                    handleButtonClick();
+                }}>
+                    Особистий кабінет
+                </button></li>
+                <li><button onClick={() => {
+                    handleButtonClick();
                     deleteToken();
                 }}>
                     Вийти

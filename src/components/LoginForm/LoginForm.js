@@ -6,8 +6,9 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector, useDispatch } from "react-redux";
-import { setAddCard } from "../../redux/Main/actions";
-import fetchPostLogin from '../FetchLogin/FetchLogin';
+import { setAddCard, setEditWindow } from "../../redux/Main/actions";
+import FetchLogin from '../Fetches/LoginPage/FetchLogin';
+import FetchRegistration from '../Fetches/LoginPage/FetchRegistration';
 
 const LoginForm = () => {
   const [isRepeatPassword, setRepeatPassword] = useState("");
@@ -25,21 +26,16 @@ const LoginForm = () => {
     email: false,
   });
 
-  const isAddCard = useSelector((state) => state.myReducer?.isAddModal);
+  const isAddCardModal = useSelector((state) => state.myReducer?.isAddModal);
+  const isEditWindow = useSelector((state) => state.myReducer?.isEditWindow);
+  const isTokenBearer = useSelector(state => state.myReducer?.isTokenBearer);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isAddCard) {
+    if (isAddCardModal) {
       notifyError("Для створення оголошення потрібно зареєструватися");
     }
-  }, [isAddCard, dispatch]);
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("isShowExit");
-    if (token) {
-      setIsShowExit(true);
-    }
-  }, [isShowExit]);
+  }, [isAddCardModal, dispatch]);
 
   const notifyError = (message) => {
     toast.error(message, {
@@ -50,7 +46,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    if (isAddCard) {
+    if (isAddCardModal) {
       dispatch(setAddCard());
     }
     navigate("/");
@@ -119,7 +115,7 @@ const LoginForm = () => {
   };
 
   const deleteToken = () => {
-    sessionStorage.removeItem("isShowExit");
+    sessionStorage.removeItem('login');
     setIsShowExit(false);
   };
 
@@ -131,13 +127,12 @@ const LoginForm = () => {
     }
   };
 
-  const handleSubmit = async (email, password) => {
-    try {
-      await fetchPostLogin(email, password);
-      console.log(email, password)
-    } catch (error) {
-      console.error('Ошибка при попытке входа:', error);
-    };
+  const handleSubmit = (email, password) => {
+    if (registration) {
+      FetchRegistration(email, password, setIsShowExit, dispatch, isTokenBearer, navigate)
+    } else {
+      FetchLogin(email, password, setIsShowExit, dispatch, isTokenBearer, navigate);
+    }
   };
 
   return (
@@ -177,10 +172,11 @@ const LoginForm = () => {
             resultPassword &&
             (isLogin.phone ? resultPhone : resultEmail)
           ) {
-            sessionStorage.setItem("isShowExit", "true");
             handleSubmit(values.email, values.password);
-            setIsShowExit(true);
-            navigate("/");
+            if (isEditWindow) {
+              dispatch(setEditWindow());
+              navigate("/add_card");
+            }
             resetForm();
             setResRegex((prevState) => ({
               ...prevState,
@@ -189,7 +185,7 @@ const LoginForm = () => {
             }));
             setEmptyFields([]);
             setRepeatPassword([]);
-            if (isAddCard) {
+            if (isAddCardModal) {
               dispatch(setAddCard());
             }
           }

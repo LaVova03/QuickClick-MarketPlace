@@ -99,6 +99,7 @@ $text-btn-active: #06611a;
 
 .PersonalAreaBody__wrap > div > div {
   width: 100%;
+  min-width: max-content;
   display: flex;
   justify-content: space-between;
 }

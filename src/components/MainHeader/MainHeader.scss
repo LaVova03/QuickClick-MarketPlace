@@ -104,8 +104,10 @@ $lang-text-color: #cdffd8;
     border: 0;
     cursor: pointer;
     background-color: inherit;
+    border-radius: 40px;
     img {
       width: 9em;
+      min-width: 240px;
       transition: 0.1s;
     }
     img:hover {
@@ -114,7 +116,7 @@ $lang-text-color: #cdffd8;
     }
   }
   button:active {
-    box-shadow: -2px 2px 2px $lang-text-color;
+    box-shadow: 0px 0px 5px 5px $lang-text-color;
   }
 }
 

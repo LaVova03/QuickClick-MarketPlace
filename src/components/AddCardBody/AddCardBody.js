@@ -1,11 +1,39 @@
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import './AddCardBody.scss';
 import React, { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Categorys from '../MainLeftSide/MainLeftSide';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PlacingAnOrder from '../PlacingAnOrder/PlacingAnOrder';
-import axios from 'axios';
+import AddCard from '../Fetches/CreateCardsPage/CraateCard';
+import EditCard from '../Fetches/EditCardPage/EditCardPage';
+import Vector from '../../assets/add__card/Vector.png';
+import { useNavigate } from 'react-router-dom';
+import { setEditWindow } from '../../redux/Main/actions';
+import { showSuccessfulModal, setData } from '../../redux/AddEdit/actions';
+import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
+import DeleteAdverts from '../Fetches/EditCardPage/DeleteAdverts';
+import DeletePhoto from '../Fetches/EditCardPage/DeletePhoto';
+import AllAdverts from '../Fetches/Stunneds/AllAdverts';
 
 const AddCardBody = () => {
+
+    const isCategoryRedux = useSelector(state => state.myReducer?.isCategoryRedux);
+    const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
+    const isData = useSelector(state => state.myReducer2?.isIdCard);
+    let isFullImages = useSelector(state => state.myReducer2?.isImages);
+    const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
+
+    const tokenBearer = sessionStorage.getItem('login');
+    const isLocalHostiId = localStorage.getItem('setIdCard');
+    const indexCard = localStorage.getItem('indexCard');
+    const isUpdateId = localStorage.getItem('update');
+    const isDelete = localStorage.getItem('delete');
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const fileInputRefs = {
         one: useRef(null),
@@ -20,35 +48,46 @@ const AddCardBody = () => {
 
     const [isCategory, setIsCategory] = useState(false);
     const [isAddress, setIsAddress] = useState(false);
+    const [isPhoto, setPhoto] = useState([]);
+    const [photoUrl, addPhotoUrl] = useState([]);
+    const [photoForServer, setPhotoForServer] = useState([]);
     const [isNewCard, setNewCard] = useState(
         {
-            productName: '',
-            category: '',
-            discription: '',
-            photo: [],
-            location: {
-                region: '',
-                city: '',
-                postAddress: '',
+            title: isEditWindow ? isData?.title : '',
+            category: isEditWindow ? isData?.category : '',
+            description: isEditWindow ? isData?.description : '',
+            address: {
+                region: isEditWindow ? isData?.address : '',
+                city: isEditWindow ? '.' : '',
             },
-            phone: '',
-            price: '',
+            phone: isEditWindow ? isData?.phone : '',
+            price: isEditWindow ? isData?.price : '',
+            ...(isEditWindow && { firstPriceDisplayed: isData?.firstPriceDisplayed }),
+            currency: isEditWindow ? isData?.currency : '',
         }
     );
 
     const [productNameEmpty, setProductNameEmpty] = useState(
         {
-            productName: null,
+            title: null,
             category: null,
-            discription: null,
-            photo: null,
-            location: null,
+            description: null,
+            address: null,
             phone: null,
             price: null,
+            currency: null,
         }
     );
 
-    const isCategoryRedux = useSelector(state => state.myReducer?.isCategoryRedux);
+    const [photoEmpty, setPhotoEmpty] = useState(null);
+    const [isOptions, setOptions] = useState(false);
+    const [isInputCategory, setInputCategory] = useState(isEditWindow ? isData?.category : '');
+    const [isDonloadPictures, setDonloadPictures] = useState(false);
+
+    useEffect(() => {
+        if (isEditWindow && isLocalHostiId)
+            AllAdverts(setData, dispatch, tokenBearer);
+    }, [isLocalHostiId, isEditWindow, dispatch, tokenBearer])
 
     useEffect(() => {
         setNewCard((prevState) => ({
@@ -56,7 +95,72 @@ const AddCardBody = () => {
             category: isCategoryRedux,
         }));
         setIsCategory(false);
+
     }, [isCategoryRedux]);
+
+    useEffect(() => {
+        if (isEditWindow) {
+            const newPhotoUrls = [];
+
+            // Обработка файлов, загруженных пользователем
+            isPhoto?.forEach((file) => {
+                const url = URL.createObjectURL(file);
+                newPhotoUrls.push(url);
+            });
+
+            // Обработка файлов, полученных из чаркодов
+            isFullImages[indexCard]?.forEach((base64String, index) => {
+                const byteCharacters = atob(base64String);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], { type: 'image/jpeg' });
+                const url = URL.createObjectURL(blob);
+                newPhotoUrls.unshift(url);
+            });
+            addPhotoUrl(newPhotoUrls)
+        }
+    }, [indexCard, isPhoto, isFullImages, isEditWindow]);
+
+    useEffect(() => {
+        setNewCard({
+            title: isEditWindow ? isData?.title : '',
+            category: isEditWindow ? isData?.category : '',
+            description: isEditWindow ? isData?.description : '',
+            address: {
+                region: isEditWindow ? isData?.address : '',
+                city: isEditWindow ? '.' : '',
+            },
+            phone: isEditWindow ? isData?.phone : '',
+            price: isEditWindow ? isData?.price : '',
+            firstPriceDisplayed: isEditWindow ? isData?.firstPriceDisplayed : false,
+            currency: isEditWindow ? isData?.currency : '',
+        });
+        setInputCategory(isEditWindow ? isData?.category : '');
+
+        setProductNameEmpty({
+            title: isData?.title ? false : null,
+            category: isData?.category ? false : null,
+            description: isData?.description ? false : null,
+            address: isData?.address ? false : null,
+            phone: isData?.phone ? false : null,
+            price: isData?.price ? false : null,
+            currency: isData?.currency ? false : null,
+        })
+
+    }, [isData, isEditWindow, isFullImages, dispatch]);
+
+    useEffect(() => {
+        if (!isFullImages && !isDonloadPictures) {
+            setDonloadPictures(true);
+        }
+
+        if (isPhoto.length > 0) {
+            setDonloadPictures(false);
+        }
+    }, [dispatch, isPhoto, isDonloadPictures, isFullImages, tokenBearer]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -77,12 +181,33 @@ const AddCardBody = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (location.pathname !== '/edit_card' && isEditWindow) {
+            dispatch(setEditWindow());
+        }
+
+        if (isSuccessfulWindow) {
+            notifyError(isEditWindow ? 'Оголошення відредактовано' : 'Оголошення створено.')
+            setTimeout(() => {
+                dispatch(showSuccessfulModal())
+            }, 0)
+        }
+        if (isLocalHostiId || isUpdateId) {
+            fetchActiveStunneds(dispatch, isLocalHostiId, tokenBearer);
+            localStorage.removeItem('update');
+        }
+        if (!isLocalHostiId && isEditWindow) {
+            navigate('/personal_area');
+        }
+
+    }, [location, dispatch, isEditWindow, isSuccessfulWindow, isLocalHostiId, isUpdateId,
+        navigate, isDelete, tokenBearer]);
+
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        setNewCard(prevState => ({
-            ...prevState,
-            photo: [...prevState.photo, file]
-        }))
+        setPhotoForServer([...photoForServer, file])
+        setPhoto([...isPhoto, file]);
+        setPhotoEmpty(false)
     };
 
     const handleButtonClick = (fileInputRef) => {
@@ -99,22 +224,24 @@ const AddCardBody = () => {
 
     const resetCard = () => {
         setNewCard({
-            productName: '',
+            title: '',
             category: '',
-            discription: '',
-            photo: [],
-            location: {
+            description: '',
+            address: {
                 region: '',
                 city: '',
-                postAddress: '',
             },
             phone: '',
             price: '',
+            currency: '',
         });
+        setInputCategory('');
+        setPhoto([]);
+        setPhotoForServer([]);
     };
 
-    const addCard = () => {
-        let location = false;
+    const submitCard = () => {
+        let address = false;
         for (let key in isNewCard) {
             if (isNewCard[key].length === 0) {
                 setProductNameEmpty((prevState) => ({
@@ -129,81 +256,71 @@ const AddCardBody = () => {
             }
         }
 
-        for (let key in isNewCard.location) {
-            if (isNewCard.location[key].length === 0) {
-                location = true;
+        if (isPhoto.length === 0) {
+            setPhotoEmpty(true)
+        } else {
+            setPhotoEmpty(false)
+        }
+        for (let key in isNewCard.address) {
+            if (isNewCard.address[key].length === 0) {
+                address = true;
             }
         }
 
-        if (location) {
+        if (address) {
             setProductNameEmpty((prevState) => ({
                 ...prevState,
-                location: true,
+                address: true,
             }))
         } else {
             setProductNameEmpty((prevState) => ({
                 ...prevState,
-                location: false,
+                address: false,
             }))
         }
 
         setTimeout(() => {
             const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
-            if (allFieldsEmpty) {
-                console.log(productNameEmpty, allFieldsEmpty, isNewCard)
-                resetCard()
+            if (allFieldsEmpty && !photoEmpty) {
+                if (isEditWindow) {
+                    EditCard(isNewCard, isLocalHostiId, showSuccessfulModal, dispatch, tokenBearer, photoForServer, isData);
+                    dispatch(setEditWindow());
+                    navigate("/personal_area");
+                } else {
+                    AddCard(isNewCard, isPhoto, showSuccessfulModal, dispatch, tokenBearer);
+                    resetCard();
+                }
             }
         }, 0)
     };
 
-    const deletePhoto = (num) => {
-        const updatedPhotos = [...isNewCard.photo];
-        updatedPhotos.splice(num, 1);
-        setNewCard(prevState => ({
-            ...prevState,
-            photo: updatedPhotos
-        }));
-        console.log(updatedPhotos);
+    const deletePhoto = (indexPhoto) => {
+        const updatedPhotos = [...isPhoto];
+        updatedPhotos.splice(indexPhoto, 1);
+        setPhoto(updatedPhotos);
+        DeletePhoto(indexPhoto, showSuccessfulModal, dispatch, tokenBearer)
     };
 
-    const submitForm = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8080/v1.0/adverts',
-                {
-                    "title": "Big dog",
-                    "description": "description a toy Big dog",
-                    "category": "TOYS",
-                    "status": "PUBLISHED",
-                    "phone": "+380507778855",
-                    "price": "100.00",
-                    "firstPriceDisplayed": "true",
-                    "currency": "EUR",
-                    "address": "Dania",
-                }
-            );
-            console.log(response.data);
-        } catch (error) {
-            console.log("Ошибка при выполнении POST-запроса для создания карточки товара:", error);
-        } finally {
-            console.log("End");
-        }
+    const notifyError = (message) => {
+        toast.error(message, {
+            position: "top-right",
+        });
     };
 
     return (
         <div className='AddCardBody__wrap'>
             <div className='add__left__side'>
-                <div >Створити оголошення</div>
+                <div >{isEditWindow ? "Редагувати оголошення" : "Створити оголошення"}</div>
                 <label >Заповніть основні дані про товар*</label><br />
                 <input
-                    className={`add__input__name${productNameEmpty.productName ? '__empty' : ''}`}
+                    className={`add__input__name${productNameEmpty.title ? '__empty' : ''}`}
                     type="text"
-                    name="productName"
+                    name="title"
                     placeholder='Назва товару'
-                    value={isNewCard.productName || ''}
+                    value={isNewCard.title || ''}
                     onChange={(e) => {
-                        setProductNameEmpty((prevState) => ({ ...prevState, productName: false }))
-                        setNewCard({ ...isNewCard, productName: e.target.value });
+                        setProductNameEmpty((prevState) => ({ ...prevState, title: false }))
+                        setNewCard({ ...isNewCard, title: e.target.value });
                     }}
                 />
                 <br />
@@ -212,7 +329,7 @@ const AddCardBody = () => {
                     type="text"
                     name="category"
                     placeholder='Оберіть категорію'
-                    value={isNewCard.category || ''}
+                    value={isInputCategory || ''}
                     onClick={() => {
                         showCategorys()
                         setProductNameEmpty((prevState) => ({ ...prevState, category: false }))
@@ -223,267 +340,307 @@ const AddCardBody = () => {
                 />
                 <br />
                 <textarea
-                    className={`add__textarea__discription${productNameEmpty.discription ? '__empty' : ''}`}
+                    className={`add__textarea__description${productNameEmpty.description ? '__empty' : ''}`}
                     cols="50"
                     rows="8"
                     placeholder='Додайте опис'
-                    name="discription"
-                    value={isNewCard.discription || ''}
+                    name="description"
+                    value={isNewCard.description || ''}
                     onChange={(e) => {
-                        setProductNameEmpty((prevState) => ({ ...prevState, discription: false }))
-                        setNewCard({ ...isNewCard, discription: e.target.value });
+                        setProductNameEmpty((prevState) => ({ ...prevState, description: false }))
+                        setNewCard({ ...isNewCard, description: e.target.value });
                     }}
                 />
             </div>
             <div className='add__center__side'>
                 <label >Додати фото*</label><br />
                 <div className={isCategory ? 'add__categorys' : 'add__categorys__none'}>
-                    <Categorys isCategory={isCategory} />
+                    <Categorys isCategory={isCategory} setInputCategory={setInputCategory} isEditWindow={isEditWindow} />
                 </div>
                 <div className={isAddress ? 'add__address' : 'add__address__none'}>
                     <PlacingAnOrder setIsAddress={setIsAddress} isNewCard={isNewCard} setNewCard={setNewCard} />
                 </div>
                 <ul>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
-                        <div>
-                            {isNewCard.photo[0] ?
-                                <>
+
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((photoUrl[0] && isEditWindow) || (isPhoto[0])) ? (
                                     <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[0])} alt="logo" />
+                                        <img className='add__img'
+                                            src={isEditWindow && !isPhoto[0] ? photoUrl[0] : (isPhoto && isPhoto[0]) ? URL.createObjectURL(isPhoto[0]) : ''}
+                                            alt="logo" />
                                         <button
                                             className='add__trash'
                                             onClick={() => deletePhoto(0)}
                                         />
                                     </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.one}
-                                        onChange={(e) => handleFileChange(e, 0)}
-                                    />
-                                    <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
-                                        handleButtonClick(fileInputRefs.one)
-                                    }} />
-                                </>
-                            }
-                        </div>
-                    </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
-                        <div>
-                            {isNewCard.photo[1] ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[1])} alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(1)}
+                                ) : (
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.one}
+                                            onChange={(e) => handleFileChange(e, 0)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.two}
-                                        onChange={(e) => handleFileChange(e, 1)}
-                                    />
-                                    <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
-                                        handleButtonClick(fileInputRefs.two)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.one)
+                                        }} />
+                                    </>
+                                )}
+                            </div>
+                        }
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
-                        <div>
-                            {isNewCard.photo[2] ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[2])} alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(2)}
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((photoUrl[1] && isEditWindow) || (isPhoto[1])) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={isEditWindow && !isPhoto[1] ? photoUrl[1] : (isPhoto && isPhoto[1]) ? URL.createObjectURL(isPhoto[1]) : ''}
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(1)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.two}
+                                            onChange={(e) => handleFileChange(e, 1)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.three}
-                                        onChange={(e) => handleFileChange(e, 2)}
-                                    />
-                                    <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
-                                        handleButtonClick(fileInputRefs.three)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.two)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
-                        <div>
-                            {isNewCard.photo[3] ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[3])} alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(3)}
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((photoUrl[2] && isEditWindow) || (isPhoto[2])) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={isEditWindow && !isPhoto[2] ? photoUrl[2] : (isPhoto && isPhoto[2]) ? URL.createObjectURL(isPhoto[2]) : ''}
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(2)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.three}
+                                            onChange={(e) => handleFileChange(e, 2)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.four}
-                                        onChange={(e) => handleFileChange(e, 3)}
-                                    />
-                                    <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
-                                        handleButtonClick(fileInputRefs.four)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.three)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
-                        <div>
-                            {isNewCard.photo[4] ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[4])} alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(4)}
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((photoUrl[3] && isEditWindow) || (isPhoto[3])) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={isEditWindow && !isPhoto[3] ? photoUrl[3] : (isPhoto && isPhoto[3]) ? URL.createObjectURL(isPhoto[3]) : ''}
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(3)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.four}
+                                            onChange={(e) => handleFileChange(e, 3)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.five}
-                                        onChange={(e) => handleFileChange(e, 4)}
-                                    />
-                                    <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
-                                        handleButtonClick(fileInputRefs.five)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.four)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
-                        <div>
-                            {isNewCard.photo[5] ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[5])} alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(5)}
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((photoUrl[4] && isEditWindow) || (isPhoto[4])) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={isEditWindow && !isPhoto[4] ? photoUrl[4] : (isPhoto && isPhoto[4]) ? URL.createObjectURL(isPhoto[4]) : ''}
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(4)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.five}
+                                            onChange={(e) => handleFileChange(e, 4)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.six}
-                                        onChange={(e) => handleFileChange(e, 5)}
-                                    />
-                                    <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
-                                        handleButtonClick(fileInputRefs.six)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.five)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
-                        <div>
-                            {isNewCard.photo[6] ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[6])} alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(6)}
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((photoUrl[5] && isEditWindow) || (isPhoto[5])) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={isEditWindow && !isPhoto[5] ? photoUrl[5] : (isPhoto && isPhoto[5]) ? URL.createObjectURL(isPhoto[5]) : ''}
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(5)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.six}
+                                            onChange={(e) => handleFileChange(e, 5)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.seven}
-                                        onChange={(e) => handleFileChange(e, 6)}
-                                    />
-                                    <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
-                                        handleButtonClick(fileInputRefs.seven)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.six)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
                     </li>
-                    <li className={`add__input__photo${productNameEmpty.photo ? '__empty' : ''}`}>
-                        <div>
-                            {isNewCard.photo[7] ?
-                                <>
-                                    <div className='add__photo'>
-                                        <img className='add__img' src={URL.createObjectURL(isNewCard.photo[7])} alt="logo" />
-                                        <button
-                                            className='add__trash'
-                                            onClick={() => deletePhoto(7)}
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((photoUrl[6] && isEditWindow) || (isPhoto[6])) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={isEditWindow && !isPhoto[6] ? photoUrl[6] : (isPhoto && isPhoto[6]) ? URL.createObjectURL(isPhoto[6]) : ''}
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(6)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.seven}
+                                            onChange={(e) => handleFileChange(e, 6)}
                                         />
-                                    </div>
-                                </> :
-                                <>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRefs.eight}
-                                        onChange={(e) => handleFileChange(e, 7)}
-                                    />
-                                    <button onClick={() => {
-                                        setProductNameEmpty((prevState) => ({ ...prevState, photo: false }))
-                                        handleButtonClick(fileInputRefs.eight)
-                                    }} />
-                                </>
-                            }
-                        </div>
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.seven)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
+                    </li>
+                    <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
+                        {isDonloadPictures ?
+                            <label>loading...</label> :
+                            <div>
+                                {((photoUrl[7] && isEditWindow) || (isPhoto[7])) ?
+                                    <>
+                                        <div className='add__photo'>
+                                            <img className='add__img'
+                                                src={isEditWindow && !isPhoto[7] ? photoUrl[7] : (isPhoto && isPhoto[7]) ? URL.createObjectURL(isPhoto[7]) : ''}
+                                                alt="logo" />
+                                            <button
+                                                className='add__trash'
+                                                onClick={() => deletePhoto(7)}
+                                            />
+                                        </div>
+                                    </> :
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRefs.eight}
+                                            onChange={(e) => handleFileChange(e, 7)}
+                                        />
+                                        <button onClick={() => {
+                                            setPhotoEmpty(false);
+                                            handleButtonClick(fileInputRefs.eight)
+                                        }} />
+                                    </>
+                                }
+                            </div>
+                        }
                     </li>
                 </ul>
             </div>
             <div className='add__right__side'>
                 <label >Місцезнаходження товару*</label><br />
                 <input
-                    className={`add__input__adress${productNameEmpty.location ? '__empty' : ''}`}
+                    className={`add__input__adress${productNameEmpty.address ? '__empty' : ''}`}
                     type="text"
-                    name="location"
+                    name="address"
                     placeholder='Адреса відправки'
-                    value={`${isNewCard.location.region}${isNewCard.location.city}${isNewCard.location.postAddress}` || ''}
+                    value={`${isNewCard.address?.region}${isNewCard.address?.city}` || ''}
                     onClick={() => {
                         showAdress()
-                        setProductNameEmpty((prevState) => ({ ...prevState, location: false }))
+                        setProductNameEmpty((prevState) => ({ ...prevState, address: false }))
                     }}
                     onChange={() => {
-                        setProductNameEmpty((prevState) => ({ ...prevState, location: false }))
+                        setProductNameEmpty((prevState) => ({ ...prevState, address: false }))
                     }}
                 />
                 <br />
@@ -511,9 +668,111 @@ const AddCardBody = () => {
                         setProductNameEmpty((prevState) => ({ ...prevState, price: false }))
                         setNewCard({ ...isNewCard, price: e.target.value });
                     }}
-                /><br />
-                <button onClick={submitForm}>Опублікувати</button>
+                />
+                <button
+                    className={isNewCard.currency ? 'add__select__option'
+                        : productNameEmpty.currency ? "add__select__empty" : 'add__select'}
+                    onClick={() => {
+                        setOptions((prev) => !prev);
+                        setProductNameEmpty((prev) => ({
+                            ...prev,
+                            currency: null,
+                        }))
+                    }}
+                >{isNewCard.currency === "UAH" ? 'грн'
+                    : isNewCard.currency === "USD" ? 'usd'
+                        : isNewCard.currency === "EUR" ? 'eur'
+                            : 'Валюта*'}
+                    <div><img id={isOptions ? "add_vector_down" : null} alt='logo' src={Vector} /></div>
+                </button>
+                {isOptions ?
+                    <div className='add__options__wrap'>
+                        <button
+                            className='add__select'
+                            onClick={() => {
+                                setOptions(false);
+                                setProductNameEmpty((prevState) => ({ ...prevState, currency: false }))
+                                setNewCard((prevState) => ({
+                                    ...prevState,
+                                    currency: "UAH",
+                                }))
+                            }}
+                        >грн
+                        </button>
+                        <button
+                            className='add__select'
+                            onClick={() => {
+                                setOptions(false);
+                                setProductNameEmpty((prevState) => ({ ...prevState, currency: false }))
+                                setNewCard((prevState) => ({
+                                    ...prevState,
+                                    currency: "USD",
+                                }))
+                            }}
+                        >usd
+                        </button>
+                        <button
+                            className='add__select'
+                            onClick={() => {
+                                setOptions(false);
+                                setProductNameEmpty((prevState) => ({ ...prevState, currency: false }))
+                                setNewCard((prevState) => ({
+                                    ...prevState,
+                                    currency: "EUR",
+                                }))
+                            }}
+                        >eur
+                        </button>
+                    </div> : null
+                }
+                {isEditWindow ?
+                    <div className="edit__check__wrap">
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setNewCard(prevState => ({
+                                    ...prevState,
+                                    firstPriceDisplayed: !prevState.firstPriceDisplayed
+                                }));
+                            }}
+                            className={`edit__checkbox${isNewCard.firstPriceDisplayed ? '__active' : ''}`}>
+                        </button>
+                        <label>
+                            Відображати акцію на сторінці
+                        </label>
+                    </div>
+                    : null
+                }
+                <div className="add__submit__wrap">
+                    {isEditWindow ?
+                        <button
+                            id={'edit__cancel'}
+                            onClick={() => navigate('/personal_area')}>Повернутися
+                        </button> : null
+                    }
+                    <button
+                        id={isOptions ? 'add_submit_none' : 'add_submit'}
+                        onClick={submitCard}>{isEditWindow ? 'Оновити' : 'Опублікувати'}
+                    </button>
+                    {isEditWindow ?
+                        <>
+                            <button
+                                id={'edit__delete'}
+                                onClick={() => {
+                                    DeleteAdverts(isLocalHostiId, showSuccessfulModal, dispatch, tokenBearer);
+                                    navigate('/personal_area')
+                                }}>Видалити
+                            </button>
+                            <button
+                                id={'edit__archive'}
+                                onClick={() => alert('Архів')}>Архівувати
+                            </button>
+                        </>
+                        : null
+                    }
+                </div>
             </div>
+            <ToastContainer />
         </div>
     )
 }

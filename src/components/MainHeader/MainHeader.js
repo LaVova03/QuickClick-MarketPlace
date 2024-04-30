@@ -1,27 +1,17 @@
 import 'react-toastify/dist/ReactToastify.css';
 import './MainHeader.scss';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setBurgerMenu, setLanguage, setAddCard } from '../../redux/Main/actions';
+import { setBurgerMenu, setLanguage, setAddCard, setEditWindow } from '../../redux/Main/actions';
 import MainBurgerMenu from '../../components/MainBurgerMenu/MainBurgerMenu';
 import Logo from '../../assets/mainHeader/logo.png';
 
 const MainHeader = () => {
-
-    const [isPersonalPlace, setPersonalPlace] = useState(false);
-
-    useEffect(() => {
-        const token = sessionStorage.getItem('isShowExit');
-        if (token) {
-            setPersonalPlace(true);
-        } else {
-            setPersonalPlace(false);
-        }
-    }, [isPersonalPlace]);
-
     const isFlagSet = useSelector(state => state.myReducer?.isFlagSet);
     const isLanguage = useSelector(state => state.myReducer?.isLanguage);
+    const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
+    const login = sessionStorage.getItem('login');
 
     const dispatch = useDispatch();
 
@@ -39,10 +29,11 @@ const MainHeader = () => {
     const handleNavigatePersonalPlace = () => navigate("/personal_area");
 
     const searchToken = () => {
-        if (sessionStorage.getItem('isShowExit')) {
+        if (login) {
             navigate("/add_card");
         } else {
             dispatch(setAddCard());
+            dispatch(setEditWindow());
             navigate("/login");
         }
     }
@@ -55,7 +46,11 @@ const MainHeader = () => {
         <div className='main__header__wrap'>
             <div className='main__header__position'>
                 <div className='main__header__wrapleft'>
-                    <button onClick={handleButtonClick} className={`burger-icon${isFlagSet ? 'active' : ''}`}>
+                    <button
+                        onClick={() => {
+                            handleButtonClick();
+                        }}
+                        className={`burger-icon${isFlagSet ? 'active' : ''}`}>
                         <div className="bar"></div>
                         <div className="bar"></div>
                         <div className="bar"></div>
@@ -76,7 +71,7 @@ const MainHeader = () => {
                     <button id='main__header__heart'><div></div></button>
                     <button
                         id='main__header__user'
-                        onClick={!isPersonalPlace ? handleNavigateLogin : handleNavigatePersonalPlace}>
+                        onClick={!login ? handleNavigateLogin : handleNavigatePersonalPlace}>
                         <div></div>
                     </button>
                     <div className='main__wrap__lang'>
@@ -87,10 +82,15 @@ const MainHeader = () => {
                         </button>
                         <label>{isLanguage ? 'UK' : 'ENG'}</label>
                     </div>
-                    <button onClick={searchToken}>Додати оголошення</button>
+                    <button onClick={() => {
+                        searchToken();
+                        if (isEditWindow) {
+                            dispatch(setEditWindow());
+                        }
+                    }}>Додати оголошення</button>
                 </div>
             </div>
-            < MainBurgerMenu isFlagSet={isFlagSet} />
+            < MainBurgerMenu isFlagSet={isFlagSet} handleButtonClick={handleButtonClick} />
         </div >
     )
 }

@@ -1,12 +1,22 @@
-import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import PropTypes from 'prop-types';
+import { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { setEditWindow } from './redux/Main/actions';
 
 const PrivateRoute = ({ redirectPath = '/login' }) => {
-    if (!sessionStorage.getItem('isShowExit')) {
-        return <Navigate to={redirectPath} replace />;
-    }
-    return <Outlet />;
+
+    const login = sessionStorage.getItem('login');
+    const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (login && !isEditWindow) {
+            dispatch(setEditWindow())
+        }
+    }, [login, isEditWindow, dispatch])
+
+    return login ? <Outlet /> : <Navigate to={redirectPath} replace />;
 };
 
 PrivateRoute.propTypes = {
