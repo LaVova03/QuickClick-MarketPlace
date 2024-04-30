@@ -17,7 +17,7 @@ const PageIsNotFound = () => {
             dispatch(setEditWindow());
             navigate('/edit_card');
         }
-    }, [location, isEditWindow])
+    }, [location, isEditWindow, dispatch, navigate])
 
     return (
         <div>
