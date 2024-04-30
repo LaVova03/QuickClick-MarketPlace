@@ -4,6 +4,8 @@ import { setImages, resetImages } from '../../../redux/AddEdit/actions';
 
 const GetAllImages = async (data, dispatch, token) => {
 
+    const localId = localStorage.getItem('setIdCard');
+
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -11,7 +13,6 @@ const GetAllImages = async (data, dispatch, token) => {
     };
 
     const imagesFilesArray = [];
-
     try {
         for (const item of data) {
             const id = item.id;
@@ -20,6 +21,12 @@ const GetAllImages = async (data, dispatch, token) => {
 
             if (response.data) {
                 imagesFilesArray.push(response.data);
+            }
+        }
+        if (localId) {
+            const responstId = await axios.get(`${API_MAIN_URL}images/ids/${localId}`, config)
+            if (responstId.status === 200) {
+                console.log(responstId.data)
             }
         }
     } catch (error) {

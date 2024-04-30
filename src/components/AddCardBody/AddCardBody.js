@@ -11,10 +11,11 @@ import EditCard from '../Fetches/EditCardPage/EditCardPage';
 import Vector from '../../assets/add__card/Vector.png';
 import { useNavigate } from 'react-router-dom';
 import { setEditWindow } from '../../redux/Main/actions';
-import { showSuccessfulModal } from '../../redux/AddEdit/actions';
+import { showSuccessfulModal, setData } from '../../redux/AddEdit/actions';
 import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
 import DeleteAdverts from '../Fetches/EditCardPage/DeleteAdverts';
 import DeletePhoto from '../Fetches/EditCardPage/DeletePhoto';
+import AllAdverts from '../Fetches/Stunneds/AllAdverts';
 
 const AddCardBody = () => {
 
@@ -84,6 +85,11 @@ const AddCardBody = () => {
     const [isDonloadPictures, setDonloadPictures] = useState(false);
 
     useEffect(() => {
+        if (isEditWindow && isLocalHostiId)
+            AllAdverts(setData, dispatch, tokenBearer);
+    }, [isLocalHostiId, isEditWindow, dispatch, tokenBearer])
+
+    useEffect(() => {
         setNewCard((prevState) => ({
             ...prevState,
             category: isCategoryRedux,
@@ -117,10 +123,6 @@ const AddCardBody = () => {
             addPhotoUrl(newPhotoUrls)
         }
     }, [indexCard, isPhoto, isFullImages, isEditWindow]);
-
-    useEffect(() => {
-
-    })
 
     useEffect(() => {
         setNewCard({

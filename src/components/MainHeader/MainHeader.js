@@ -11,7 +11,7 @@ const MainHeader = () => {
     const isFlagSet = useSelector(state => state.myReducer?.isFlagSet);
     const isLanguage = useSelector(state => state.myReducer?.isLanguage);
     const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
-    const isTokenBearer = useSelector(state => state.myReducer?.isTokenBearer);
+    const login = sessionStorage.getItem('login');
 
     const dispatch = useDispatch();
 
@@ -28,8 +28,8 @@ const MainHeader = () => {
     const handleNavigateLogin = () => navigate("/login");
     const handleNavigatePersonalPlace = () => navigate("/personal_area");
 
-    const searchToken = (e) => {
-        if (isTokenBearer) {
+    const searchToken = () => {
+        if (login) {
             navigate("/add_card");
         } else {
             dispatch(setAddCard());
@@ -71,7 +71,7 @@ const MainHeader = () => {
                     <button id='main__header__heart'><div></div></button>
                     <button
                         id='main__header__user'
-                        onClick={!isTokenBearer ? handleNavigateLogin : handleNavigatePersonalPlace}>
+                        onClick={!login ? handleNavigateLogin : handleNavigatePersonalPlace}>
                         <div></div>
                     </button>
                     <div className='main__wrap__lang'>

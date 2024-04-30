@@ -35,6 +35,7 @@ const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, token
     try {
         const response = await axios.put(`${API_MAIN_URL}adverts/${id}`, user, config);
         if (response.data && photoForServer.length > 0) {
+            console.log(response.data)
             const responseFile = await axios.post(`${API_MAIN_URL}images/${response.data.id}`, file, {
                 headers: {
                     'Content-Type': 'multipart/form-data',

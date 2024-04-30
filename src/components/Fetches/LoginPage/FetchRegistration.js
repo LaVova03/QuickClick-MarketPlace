@@ -2,8 +2,12 @@ import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 import fetchLogin from './FetchLogin';
 import { BEARER } from "../../../constants/Constants";
+import { useNavigate } from "react-router-dom";
 
 const FetchRegistration = async (email, password, setIsShowExit, dispatch, isTokenBearer) => {
+
+    const navigate = useNavigate();
+
     const data = {
         name: email,
         email: email,
@@ -19,7 +23,7 @@ const FetchRegistration = async (email, password, setIsShowExit, dispatch, isTok
             }
         );
         if (response.data) {
-            fetchLogin(email, password, setIsShowExit, dispatch, isTokenBearer)
+            fetchLogin(email, password, setIsShowExit, dispatch, isTokenBearer, navigate)
         }
     } catch (error) {
         console.log("Ошибка при выполнении POST-запроса для создания аккаунта:", error);

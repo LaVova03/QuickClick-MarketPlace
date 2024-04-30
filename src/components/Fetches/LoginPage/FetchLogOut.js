@@ -6,6 +6,8 @@ const FetchLogout = async () => {
         const response = await axios.post(`${API_MAIN_URL}auth/logout`);
         if (response.data) {
             sessionStorage.removeItem('login');
+            localStorage.removeItem('setIdCard');
+            localStorage.removeItem('indexCard');
         }
     } catch (error) {
         console.log("Ошибка при выполнении POST-запроса для выхода из аккаунта:", error);

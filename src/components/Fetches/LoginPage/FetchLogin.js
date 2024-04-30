@@ -1,8 +1,8 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
-import { setTokenBearer } from "../../../redux/Main/actions";
 
-const fetchLogin = async (email, password, setIsShowExit, dispatch, isTokenBearer) => {
+const fetchLogin = async (email, password, setIsShowExit, dispatch, isTokenBearer, navigate) => {
+    
     try {
         const response = await axios.post(`${API_MAIN_URL}auth/login`,
             {
@@ -12,8 +12,9 @@ const fetchLogin = async (email, password, setIsShowExit, dispatch, isTokenBeare
         if (response.data) {
             setIsShowExit(true);
             sessionStorage.setItem('login', response.data.accessToken);
-            if (!isTokenBearer) {
-                dispatch(setTokenBearer())
+            const local = sessionStorage.getItem('login')
+            if (local) {
+                navigate("/");
             }
         }
     } catch (error) {

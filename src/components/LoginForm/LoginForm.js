@@ -129,9 +129,9 @@ const LoginForm = () => {
 
   const handleSubmit = (email, password) => {
     if (registration) {
-      FetchRegistration(email, password, setIsShowExit, dispatch, isTokenBearer)
+      FetchRegistration(email, password, setIsShowExit, dispatch, isTokenBearer, navigate)
     } else {
-      FetchLogin(email, password, setIsShowExit, dispatch, isTokenBearer);
+      FetchLogin(email, password, setIsShowExit, dispatch, isTokenBearer, navigate);
     }
   };
 
@@ -176,8 +176,6 @@ const LoginForm = () => {
             if (isEditWindow) {
               dispatch(setEditWindow());
               navigate("/add_card");
-            } else {
-              navigate("/");
             }
             resetForm();
             setResRegex((prevState) => ({
