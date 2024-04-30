@@ -102,3 +102,26 @@ $label-color: #b4b4b4;
   line-height: 160%;
   align-items: center;
 }
+
+.personal__category__wrap {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.personal__category__wrap.visible {
+  opacity: 1;
+}
+
+.personal__category__wrap {
+  opacity: 0;
+  animation: fadeInOut 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

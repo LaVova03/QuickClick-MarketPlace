@@ -2,11 +2,8 @@ import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 import fetchLogin from './FetchLogin';
 import { BEARER } from "../../../constants/Constants";
-import { useNavigate } from "react-router-dom";
 
-const FetchRegistration = async (email, password, setIsShowExit, dispatch, isTokenBearer) => {
-
-    const navigate = useNavigate();
+const FetchRegistration = async (email, password, setIsShowExit, dispatch, isTokenBearer, navigate) => {
 
     const data = {
         name: email,

@@ -335,7 +335,7 @@ const PersonalAreaBody = () => {
         ) : isList.isOpen3 ? (
           <PersonalData />
         ) : (
-          <img src={Msg} alt="logo" />
+          <img className="personal__center__man" src={Msg} alt="logo" />
         )}
       </div>
       <ToastContainer />
