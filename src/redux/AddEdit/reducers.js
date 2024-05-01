@@ -1,10 +1,15 @@
-import { SET_DATA, SHOW_SUCCESSFUL_WINDOW, SET_ID_CARD, SET_IMAGES, SET_EDIT_IMAGES, RESET_IMAGES } from './actionTypes';
+import {
+    SET_DATA, SHOW_SUCCESSFUL_WINDOW, SET_ID_CARD, SET_IMAGES, SET_EDIT_IMAGES,
+    RESET_IMAGES, SET_ALL_ID_IMAGES, SET_DATA_FOR_DELETE
+} from './actionTypes';
 
 const initialState = {
     isData: null,
     isIdCard: null,
     isSuccessfulWindow: false,
     isImages: [],
+    isAllIdimages: [],
+    isDataforDelete: [],
 };
 
 const myReducer2 = (state = initialState, action) => {
@@ -45,6 +50,16 @@ const myReducer2 = (state = initialState, action) => {
             return {
                 ...state,
                 isImages: [],
+            };
+        case SET_ALL_ID_IMAGES:
+            return {
+                ...state,
+                isAllIdimages: action.payload
+            };
+        case SET_DATA_FOR_DELETE:
+            return {
+                ...state,
+                isDataforDelete: action.payload
             };
         default:
             return state;

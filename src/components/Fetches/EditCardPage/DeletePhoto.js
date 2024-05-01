@@ -1,7 +1,8 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
+import GetAllImages from "../Stunneds/GetAllImages";
 
-const DeletePhoto = async (indexPhoto, showSuccessfulModal, dispatch, token) => {
+const DeletePhoto = async (idPhoto, showSuccessfulModal, dispatch, token, isDataforDelete) => {
 
     const config = {
         headers: {
@@ -12,14 +13,12 @@ const DeletePhoto = async (indexPhoto, showSuccessfulModal, dispatch, token) => 
     const idAdvert = localStorage.getItem('setIdCard');
 
     try {
-        console.log(idAdvert, indexPhoto)
-        const response = await axios.delete(`${API_MAIN_URL}images/${idAdvert}/${indexPhoto + 1}`, config);
+        const response = await axios.delete(`${API_MAIN_URL}images/${idAdvert}/${idPhoto}`, config);
         if (response.data) {
-            const responseImages = await axios.get(`${API_MAIN_URL}images/${idAdvert}`);
-            if (responseImages.data) {
-                console.log(responseImages.data)
+            GetAllImages(isDataforDelete, dispatch, token)
+            setTimeout(() => {
                 dispatch(showSuccessfulModal());
-            }
+            }, 500)
         }
     } catch (error) {
         console.log("fetch data DELETE photo error:", error);

@@ -338,7 +338,9 @@ const PersonalAreaBody = () => {
           <img className="personal__center__man" src={Msg} alt="logo" />
         )}
       </div>
-      <ToastContainer />
+      <ToastContainer
+        style={{ position: 'fixed', right: '0 !important', width: 'max-content' }}
+      />
     </div>
   );
 };

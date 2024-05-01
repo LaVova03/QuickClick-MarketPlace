@@ -24,6 +24,8 @@ const AddCardBody = () => {
     const isData = useSelector(state => state.myReducer2?.isIdCard);
     let isFullImages = useSelector(state => state.myReducer2?.isImages);
     const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
+    const isAllIdimages = useSelector(state => state.myReducer2.isAllIdimages);
+    const isDataforDelete = useSelector(state => state.myReducer2.isDataforDelete)
 
     const tokenBearer = sessionStorage.getItem('login');
     const isLocalHostiId = localStorage.getItem('setIdCard');
@@ -86,8 +88,11 @@ const AddCardBody = () => {
 
     useEffect(() => {
         if (isEditWindow && isLocalHostiId)
-            AllAdverts(setData, dispatch, tokenBearer);
+            AllAdverts(setData, dispatch, tokenBearer, setDonloadPictures);
     }, [isLocalHostiId, isEditWindow, dispatch, tokenBearer])
+
+    useEffect(() => {
+    }, [isAllIdimages])
 
     useEffect(() => {
         setNewCard((prevState) => ({
@@ -118,7 +123,7 @@ const AddCardBody = () => {
                 const byteArray = new Uint8Array(byteNumbers);
                 const blob = new Blob([byteArray], { type: 'image/jpeg' });
                 const url = URL.createObjectURL(blob);
-                newPhotoUrls.unshift(url);
+                newPhotoUrls.push(url);
             });
             addPhotoUrl(newPhotoUrls)
         }
@@ -153,16 +158,6 @@ const AddCardBody = () => {
     }, [isData, isEditWindow, isFullImages, dispatch]);
 
     useEffect(() => {
-        if (!isFullImages && !isDonloadPictures) {
-            setDonloadPictures(true);
-        }
-
-        if (isPhoto.length > 0) {
-            setDonloadPictures(false);
-        }
-    }, [dispatch, isPhoto, isDonloadPictures, isFullImages, tokenBearer]);
-
-    useEffect(() => {
         const handleClickOutside = (event) => {
             if (!event.target.closest('.add__input__category')) {
                 setIsCategory(false);
@@ -188,9 +183,7 @@ const AddCardBody = () => {
 
         if (isSuccessfulWindow) {
             notifyError(isEditWindow ? 'Оголошення відредактовано' : 'Оголошення створено.')
-            setTimeout(() => {
-                dispatch(showSuccessfulModal())
-            }, 0)
+            dispatch(showSuccessfulModal());
         }
         if (isLocalHostiId || isUpdateId) {
             fetchActiveStunneds(dispatch, isLocalHostiId, tokenBearer);
@@ -283,7 +276,8 @@ const AddCardBody = () => {
             const allFieldsEmpty = Object.values(productNameEmpty).every(value => value === false);
             if (allFieldsEmpty && !photoEmpty) {
                 if (isEditWindow) {
-                    EditCard(isNewCard, isLocalHostiId, showSuccessfulModal, dispatch, tokenBearer, photoForServer, isData);
+                    EditCard(isNewCard, isLocalHostiId, showSuccessfulModal, dispatch,
+                        tokenBearer, photoForServer, isData);
                     dispatch(setEditWindow());
                     navigate("/personal_area");
                 } else {
@@ -294,11 +288,11 @@ const AddCardBody = () => {
         }, 0)
     };
 
-    const deletePhoto = (indexPhoto) => {
+    const deletePhoto = (idPhoto) => {
         const updatedPhotos = [...isPhoto];
-        updatedPhotos.splice(indexPhoto, 1);
+        updatedPhotos.splice(idPhoto, 1);
         setPhoto(updatedPhotos);
-        DeletePhoto(indexPhoto, showSuccessfulModal, dispatch, tokenBearer)
+        DeletePhoto(idPhoto, showSuccessfulModal, dispatch, tokenBearer, isDataforDelete)
     };
 
     const notifyError = (message) => {
@@ -369,11 +363,11 @@ const AddCardBody = () => {
                                 {((photoUrl[0] && isEditWindow) || (isPhoto[0])) ? (
                                     <div className='add__photo'>
                                         <img className='add__img'
-                                            src={isEditWindow && !isPhoto[0] ? photoUrl[0] : (isPhoto && isPhoto[0]) ? URL.createObjectURL(isPhoto[0]) : ''}
+                                            src={isEditWindow ? photoUrl[0] : (isPhoto && isPhoto[0]) ? URL.createObjectURL(isPhoto[0]) : ''}
                                             alt="logo" />
                                         <button
                                             className='add__trash'
-                                            onClick={() => deletePhoto(0)}
+                                            onClick={() => deletePhoto(isAllIdimages[0])}
                                         />
                                     </div>
                                 ) : (
@@ -402,11 +396,11 @@ const AddCardBody = () => {
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={isEditWindow && !isPhoto[1] ? photoUrl[1] : (isPhoto && isPhoto[1]) ? URL.createObjectURL(isPhoto[1]) : ''}
+                                                src={isEditWindow ? photoUrl[1] : (isPhoto && isPhoto[1]) ? URL.createObjectURL(isPhoto[1]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
-                                                onClick={() => deletePhoto(1)}
+                                                onClick={() => deletePhoto(isAllIdimages[1])}
                                             />
                                         </div>
                                     </> :
@@ -435,11 +429,11 @@ const AddCardBody = () => {
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={isEditWindow && !isPhoto[2] ? photoUrl[2] : (isPhoto && isPhoto[2]) ? URL.createObjectURL(isPhoto[2]) : ''}
+                                                src={isEditWindow ? photoUrl[2] : (isPhoto && isPhoto[2]) ? URL.createObjectURL(isPhoto[2]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
-                                                onClick={() => deletePhoto(2)}
+                                                onClick={() => deletePhoto(isAllIdimages[2])}
                                             />
                                         </div>
                                     </> :
@@ -468,11 +462,11 @@ const AddCardBody = () => {
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={isEditWindow && !isPhoto[3] ? photoUrl[3] : (isPhoto && isPhoto[3]) ? URL.createObjectURL(isPhoto[3]) : ''}
+                                                src={isEditWindow ? photoUrl[3] : (isPhoto && isPhoto[3]) ? URL.createObjectURL(isPhoto[3]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
-                                                onClick={() => deletePhoto(3)}
+                                                onClick={() => deletePhoto(isAllIdimages[3])}
                                             />
                                         </div>
                                     </> :
@@ -501,11 +495,11 @@ const AddCardBody = () => {
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={isEditWindow && !isPhoto[4] ? photoUrl[4] : (isPhoto && isPhoto[4]) ? URL.createObjectURL(isPhoto[4]) : ''}
+                                                src={isEditWindow ? photoUrl[4] : (isPhoto && isPhoto[4]) ? URL.createObjectURL(isPhoto[4]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
-                                                onClick={() => deletePhoto(4)}
+                                                onClick={() => deletePhoto(isAllIdimages[4])}
                                             />
                                         </div>
                                     </> :
@@ -534,11 +528,11 @@ const AddCardBody = () => {
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={isEditWindow && !isPhoto[5] ? photoUrl[5] : (isPhoto && isPhoto[5]) ? URL.createObjectURL(isPhoto[5]) : ''}
+                                                src={isEditWindow ? photoUrl[5] : (isPhoto && isPhoto[5]) ? URL.createObjectURL(isPhoto[5]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
-                                                onClick={() => deletePhoto(5)}
+                                                onClick={() => deletePhoto(isAllIdimages[5])}
                                             />
                                         </div>
                                     </> :
@@ -567,11 +561,11 @@ const AddCardBody = () => {
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={isEditWindow && !isPhoto[6] ? photoUrl[6] : (isPhoto && isPhoto[6]) ? URL.createObjectURL(isPhoto[6]) : ''}
+                                                src={isEditWindow ? photoUrl[6] : (isPhoto && isPhoto[6]) ? URL.createObjectURL(isPhoto[6]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
-                                                onClick={() => deletePhoto(6)}
+                                                onClick={() => deletePhoto(isAllIdimages[6])}
                                             />
                                         </div>
                                     </> :
@@ -600,11 +594,11 @@ const AddCardBody = () => {
                                     <>
                                         <div className='add__photo'>
                                             <img className='add__img'
-                                                src={isEditWindow && !isPhoto[7] ? photoUrl[7] : (isPhoto && isPhoto[7]) ? URL.createObjectURL(isPhoto[7]) : ''}
+                                                src={isEditWindow ? photoUrl[7] : (isPhoto && isPhoto[7]) ? URL.createObjectURL(isPhoto[7]) : ''}
                                                 alt="logo" />
                                             <button
                                                 className='add__trash'
-                                                onClick={() => deletePhoto(7)}
+                                                onClick={() => deletePhoto(isAllIdimages[7])}
                                             />
                                         </div>
                                     </> :
@@ -772,7 +766,9 @@ const AddCardBody = () => {
                     }
                 </div>
             </div>
-            <ToastContainer />
+            <ToastContainer
+                style={{ position: 'fixed', right: '0 !important', width: 'max-content' }}
+            />
         </div>
     )
 }

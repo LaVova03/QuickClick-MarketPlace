@@ -3,7 +3,6 @@ import { API_MAIN_URL } from '../../../constants/Constants';
 import AllAdverts from "../Stunneds/AllAdverts";
 import { setData } from "../../../redux/AddEdit/actions";
 
-
 const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, token, photoForServer) => {
     // console.log(isData)
     const file = new FormData();
@@ -35,7 +34,6 @@ const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, token
     try {
         const response = await axios.put(`${API_MAIN_URL}adverts/${id}`, user, config);
         if (response.data && photoForServer.length > 0) {
-            console.log(response.data)
             const responseFile = await axios.post(`${API_MAIN_URL}images/${response.data.id}`, file, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -49,7 +47,9 @@ const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, token
         } else {
             console.log("error edit photo");
         }
-        dispatch(showSuccessfulModal());
+        if (response.status === 200) {
+            dispatch(showSuccessfulModal());
+        }
     } catch (error) {
         console.log("fetch data PUT cards error:", error);
     }
