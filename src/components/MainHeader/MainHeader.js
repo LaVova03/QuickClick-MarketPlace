@@ -87,7 +87,8 @@ const MainHeader = () => {
                         if (isEditWindow) {
                             dispatch(setEditWindow());
                         }
-                    }}>Додати оголошення</button>
+                    }
+                    }>Додати оголошення</button>
                 </div>
             </div>
             < MainBurgerMenu isFlagSet={isFlagSet} handleButtonClick={handleButtonClick} />

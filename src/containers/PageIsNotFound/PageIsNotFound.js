@@ -17,6 +17,10 @@ const PageIsNotFound = () => {
             dispatch(setEditWindow());
             navigate('/edit_card');
         }
+        if (location.pathname === '/add_card' && isEditWindow) {
+            dispatch(setEditWindow());
+            navigate('/add_card');
+        }
     }, [location, isEditWindow, dispatch, navigate])
 
     return (
