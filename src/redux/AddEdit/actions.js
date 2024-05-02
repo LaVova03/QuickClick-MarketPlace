@@ -1,6 +1,6 @@
 import {
     SET_DATA, SET_ID_CARD, SHOW_SUCCESSFUL_WINDOW, SET_IMAGES, SET_EDIT_IMAGES, RESET_IMAGES, SET_ALL_ID_IMAGES,
-    SET_DATA_FOR_DELETE
+    SET_DATA_FOR_DELETE, SET_DOWNLOAD_PICTURES
 } from './actionTypes';
 
 export const setData = (data) => ({
@@ -39,4 +39,8 @@ export const setAllIdImages = (data) => ({
 export const setDataForDelete = (data) => ({
     type: SET_DATA_FOR_DELETE,
     payload: data
+});
+
+export const setDownloadPictures = () => ({
+    type: SET_DOWNLOAD_PICTURES,
 });

@@ -129,7 +129,6 @@ const LoginForm = () => {
 
   const handleSubmit = (email, password) => {
     if (registration) {
-      console.log('1')
       FetchRegistration(email, password, setIsShowExit, dispatch, isTokenBearer, navigate)
     } else {
       FetchLogin(email, password, setIsShowExit, dispatch, isTokenBearer, navigate);

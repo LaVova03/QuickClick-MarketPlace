@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 import { setImages, resetImages, setAllIdImages } from '../../../redux/AddEdit/actions';
 
-const GetAllImages = async (data, dispatch, token, setDonloadPictures) => {
+const GetAllImages = async (data, dispatch, token) => {
 
     const localId = localStorage.getItem('setIdCard');
 
@@ -26,7 +26,7 @@ const GetAllImages = async (data, dispatch, token, setDonloadPictures) => {
         if (localId) {
             const responstId = await axios.get(`${API_MAIN_URL}images/ids/${localId}`, config)
             if (responstId.status === 200) {
-                dispatch(setAllIdImages(responstId.data))
+                dispatch(setAllIdImages(responstId.data));
             }
         }
     } catch (error) {
@@ -34,7 +34,6 @@ const GetAllImages = async (data, dispatch, token, setDonloadPictures) => {
     } finally {
         dispatch(resetImages());
         dispatch(setImages(imagesFilesArray));
-        setDonloadPictures(false);
     }
 };
 

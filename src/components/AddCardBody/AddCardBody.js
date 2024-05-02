@@ -25,7 +25,8 @@ const AddCardBody = () => {
     let isFullImages = useSelector(state => state.myReducer2?.isImages);
     const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
     const isAllIdimages = useSelector(state => state.myReducer2.isAllIdimages);
-    const isDataforDelete = useSelector(state => state.myReducer2.isDataforDelete)
+    const isDataforDelete = useSelector(state => state.myReducer2.isDataforDelete);
+    const isDownloadPictures = useSelector(state => state.myReducer2.isDownloadPictures);
 
     const tokenBearer = sessionStorage.getItem('login');
     const isLocalHostiId = localStorage.getItem('setIdCard');
@@ -84,15 +85,15 @@ const AddCardBody = () => {
     const [photoEmpty, setPhotoEmpty] = useState(null);
     const [isOptions, setOptions] = useState(false);
     const [isInputCategory, setInputCategory] = useState(isEditWindow ? isData?.category : '');
-    const [isDonloadPictures, setDonloadPictures] = useState(false);
 
     useEffect(() => {
-        if (isEditWindow && isLocalHostiId)
-            AllAdverts(setData, dispatch, tokenBearer, setDonloadPictures);
+        if (isEditWindow && isLocalHostiId) {
+            AllAdverts(setData, dispatch, tokenBearer);
+        }
     }, [isLocalHostiId, isEditWindow, dispatch, tokenBearer])
 
     useEffect(() => {
-    }, [isAllIdimages])
+    }, [isAllIdimages, isDownloadPictures])
 
     useEffect(() => {
         setNewCard((prevState) => ({
@@ -107,12 +108,6 @@ const AddCardBody = () => {
         if (isEditWindow) {
             const newPhotoUrls = [];
 
-            // Обработка файлов, загруженных пользователем
-            isPhoto?.forEach((file) => {
-                const url = URL.createObjectURL(file);
-                newPhotoUrls.push(url);
-            });
-
             // Обработка файлов, полученных из чаркодов
             isFullImages[indexCard]?.forEach((base64String, index) => {
                 const byteCharacters = atob(base64String);
@@ -125,6 +120,13 @@ const AddCardBody = () => {
                 const url = URL.createObjectURL(blob);
                 newPhotoUrls.push(url);
             });
+
+            // Обработка файлов, загруженных пользователем
+            isPhoto?.forEach((file) => {
+                const url = URL.createObjectURL(file);
+                newPhotoUrls.push(url);
+            });
+
             addPhotoUrl(newPhotoUrls)
         }
     }, [indexCard, isPhoto, isFullImages, isEditWindow]);
@@ -357,7 +359,7 @@ const AddCardBody = () => {
                 <ul>
 
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        {isDonloadPictures ?
+                        {isDownloadPictures && isEditWindow ?
                             <label>loading...</label> :
                             <div>
                                 {((photoUrl[0] && isEditWindow) || (isPhoto[0])) ? (
@@ -389,7 +391,7 @@ const AddCardBody = () => {
                         }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        {isDonloadPictures ?
+                        {isDownloadPictures && isEditWindow ?
                             <label>loading...</label> :
                             <div>
                                 {((photoUrl[1] && isEditWindow) || (isPhoto[1])) ?
@@ -422,7 +424,7 @@ const AddCardBody = () => {
                         }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        {isDonloadPictures ?
+                        {isDownloadPictures && isEditWindow ?
                             <label>loading...</label> :
                             <div>
                                 {((photoUrl[2] && isEditWindow) || (isPhoto[2])) ?
@@ -455,7 +457,7 @@ const AddCardBody = () => {
                         }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        {isDonloadPictures ?
+                        {isDownloadPictures && isEditWindow ?
                             <label>loading...</label> :
                             <div>
                                 {((photoUrl[3] && isEditWindow) || (isPhoto[3])) ?
@@ -488,7 +490,7 @@ const AddCardBody = () => {
                         }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        {isDonloadPictures ?
+                        {isDownloadPictures && isEditWindow ?
                             <label>loading...</label> :
                             <div>
                                 {((photoUrl[4] && isEditWindow) || (isPhoto[4])) ?
@@ -521,7 +523,7 @@ const AddCardBody = () => {
                         }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        {isDonloadPictures ?
+                        {isDownloadPictures && isEditWindow ?
                             <label>loading...</label> :
                             <div>
                                 {((photoUrl[5] && isEditWindow) || (isPhoto[5])) ?
@@ -554,7 +556,7 @@ const AddCardBody = () => {
                         }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        {isDonloadPictures ?
+                        {isDownloadPictures && isEditWindow ?
                             <label>loading...</label> :
                             <div>
                                 {((photoUrl[6] && isEditWindow) || (isPhoto[6])) ?
@@ -587,7 +589,7 @@ const AddCardBody = () => {
                         }
                     </li>
                     <li className={`add__input__photo${photoEmpty ? '__empty' : ''}`}>
-                        {isDonloadPictures ?
+                        {isDownloadPictures && isEditWindow ?
                             <label>loading...</label> :
                             <div>
                                 {((photoUrl[7] && isEditWindow) || (isPhoto[7])) ?

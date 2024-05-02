@@ -1,6 +1,6 @@
 import {
     SET_DATA, SHOW_SUCCESSFUL_WINDOW, SET_ID_CARD, SET_IMAGES, SET_EDIT_IMAGES,
-    RESET_IMAGES, SET_ALL_ID_IMAGES, SET_DATA_FOR_DELETE
+    RESET_IMAGES, SET_ALL_ID_IMAGES, SET_DATA_FOR_DELETE, SET_DOWNLOAD_PICTURES
 } from './actionTypes';
 
 const initialState = {
@@ -10,6 +10,7 @@ const initialState = {
     isImages: [],
     isAllIdimages: [],
     isDataforDelete: [],
+    isDownloadPictures: false,
 };
 
 const myReducer2 = (state = initialState, action) => {
@@ -60,6 +61,11 @@ const myReducer2 = (state = initialState, action) => {
             return {
                 ...state,
                 isDataforDelete: action.payload
+            };
+        case SET_DOWNLOAD_PICTURES:
+            return {
+                ...state,
+                isDownloadPictures: !state.isDownloadPictures,
             };
         default:
             return state;
