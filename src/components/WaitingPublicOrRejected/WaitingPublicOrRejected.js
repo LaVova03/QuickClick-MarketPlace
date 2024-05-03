@@ -9,6 +9,7 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard, isArchive }) 
 
     const dispatch = useDispatch();
     const isData = useSelector(state => state.myReducer2?.isData);
+    const isArchiveData = useSelector(state => state.myReducer2?.isArchiveData);
     const isFullImages = useSelector(state => state.myReducer2?.isImages);
 
     const addLocalstorage = (id, index) => {
@@ -22,11 +23,11 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard, isArchive }) 
         <div className='personal__category__wrap'>
             <label>{isActive ? 'Ваші активні оголошення' : isWaiting ? 'Очікують публікації'
                 : isArchive ? 'Архів оголошень'
-                : 'Відхилені публікації'}
+                    : 'Відхилені публікації'}
             </label>
-            {isActive ?
+            {isActive || isArchive ?
                 <>
-                    {isFullImages && isData?.map((el, index) => {
+                    {isFullImages && (isActive ? isData : isArchiveData)?.map((el, index) => {
                         return (
                             <ul key={el.id} >
                                 <li>
