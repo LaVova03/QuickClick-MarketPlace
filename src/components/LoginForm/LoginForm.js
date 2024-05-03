@@ -345,21 +345,21 @@ const LoginForm = () => {
               </div>
             ) : registration ? (
               <div className="login__checkbox">
+                <button
+                  className={`checkbox${values.agree ? "__checked" : ""}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setFieldValue("agree", !values.agree);
+                  }}
+                ></button>
                 <label>
-                  <button
-                    className={`checkbox${values.agree ? "__checked" : ""}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setFieldValue("agree", !values.agree);
-                    }}
-                  ></button>
                   Створюючи профіль на QuickQlick, ви погоджуєтеся з умовами
                   використання
                 </label>
                 <ErrorMessage name="agree" component="div" />
               </div>
             ) : null}
-            <label className="login__lbl__remember">
+            <div className="login_wrap_remember">
               <button
                 className={`checkbox${values.remember ? "__checked" : ""}`}
                 onClick={(e) => {
@@ -367,8 +367,10 @@ const LoginForm = () => {
                   setFieldValue("remember", !values.remember);
                 }}
               ></button>
-              Запам’ятати мене
-            </label>
+              <label className="login__lbl__remember">
+                Запам’ятати мене
+              </label>
+            </div>
             <ErrorMessage name="remember" component="div" />
             <button
               type="submit"

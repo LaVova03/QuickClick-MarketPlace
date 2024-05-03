@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { setEditWindow } from '../../redux/Main/actions';
 
-const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard }) => {
+const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard, isArchive }) => {
 
     const navigate = useNavigate();
 
@@ -20,7 +20,10 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard }) => {
 
     return (
         <div className='personal__category__wrap'>
-            <label>{isActive ? 'Ваші активні оголошення' : isWaiting ? 'Очікують публікації' : 'Відхилені публікації'}</label>
+            <label>{isActive ? 'Ваші активні оголошення' : isWaiting ? 'Очікують публікації'
+                : isArchive ? 'Архів оголошень'
+                : 'Відхилені публікації'}
+            </label>
             {isActive ?
                 <>
                     {isFullImages && isData?.map((el, index) => {

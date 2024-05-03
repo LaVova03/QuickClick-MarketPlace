@@ -2,12 +2,13 @@ import './MainBurgerMenu.scss';
 import { useNavigate } from 'react-router-dom';
 import FetchLogout from '../Fetches/LoginPage/FetchLogOut';
 
-const MainBurgerMenu = ({ isFlagSet, handleButtonClick }) => {
+const MainBurgerMenu = ({ isFlagSet, handleButtonClick, setPerson }) => {
     const navigate = useNavigate();
 
     const deleteToken = () => {
         FetchLogout();
         navigate("/");
+        setPerson(false);
     };
 
     return (

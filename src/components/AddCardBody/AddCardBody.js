@@ -16,6 +16,7 @@ import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
 import DeleteAdverts from '../Fetches/EditCardPage/DeleteAdverts';
 import DeletePhoto from '../Fetches/EditCardPage/DeletePhoto';
 import AllAdverts from '../Fetches/Stunneds/AllAdverts';
+import ArchiveAdverts from "../Fetches/EditCardPage/ArchiveAdverts";
 
 const AddCardBody = () => {
 
@@ -33,6 +34,7 @@ const AddCardBody = () => {
     const indexCard = localStorage.getItem('indexCard');
     const isUpdateId = localStorage.getItem('update');
     const isDelete = localStorage.getItem('delete');
+    const isArchive = localStorage.getItem('archive');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -183,7 +185,13 @@ const AddCardBody = () => {
             dispatch(setEditWindow());
         }
 
-        if (isSuccessfulWindow) {
+        if (isArchive) {
+            localStorage.removeItem('archive');
+            notifyError('Оголошення відправлено в архів');
+            dispatch(showSuccessfulModal());
+        }
+
+        if (isSuccessfulWindow && !isArchive) {
             notifyError(isEditWindow ? 'Оголошення відредактовано' : 'Оголошення створено.')
             dispatch(showSuccessfulModal());
         }
@@ -196,7 +204,7 @@ const AddCardBody = () => {
         }
 
     }, [location, dispatch, isEditWindow, isSuccessfulWindow, isLocalHostiId, isUpdateId,
-        navigate, isDelete, tokenBearer]);
+        navigate, isDelete, tokenBearer, isArchive]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -761,7 +769,7 @@ const AddCardBody = () => {
                             </button>
                             <button
                                 id={'edit__archive'}
-                                onClick={() => alert('Архів')}>Архівувати
+                                onClick={() => ArchiveAdverts(isLocalHostiId, tokenBearer, dispatch, showSuccessfulModal)}>Архівувати
                             </button>
                         </>
                         : null

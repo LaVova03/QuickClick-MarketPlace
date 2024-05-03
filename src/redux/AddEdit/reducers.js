@@ -10,7 +10,6 @@ const initialState = {
     isImages: [],
     isAllIdimages: [],
     isDataforDelete: [],
-    isDownloadPictures: false,
 };
 
 const myReducer2 = (state = initialState, action) => {

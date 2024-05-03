@@ -1,6 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
 import './MainHeader.scss';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setBurgerMenu, setLanguage, setAddCard, setEditWindow } from '../../redux/Main/actions';
@@ -16,6 +16,14 @@ const MainHeader = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
+
+    const [isPerson, setPerson] = useState(false);
+
+    useEffect(() => {
+        if (login) {
+            setPerson(true)
+        }
+    }, [login])
 
     const handleButtonClick = () => {
         dispatch(setBurgerMenu());
@@ -70,7 +78,7 @@ const MainHeader = () => {
                 <div className='main__headre__right'>
                     <button id='main__header__heart'><div></div></button>
                     <button
-                        id='main__header__user'
+                        id={isPerson ? 'main__header__person' : 'main__header__user'}
                         onClick={!login ? handleNavigateLogin : handleNavigatePersonalPlace}>
                         <div></div>
                     </button>
@@ -91,7 +99,7 @@ const MainHeader = () => {
                     }>Додати оголошення</button>
                 </div>
             </div>
-            < MainBurgerMenu isFlagSet={isFlagSet} handleButtonClick={handleButtonClick} />
+            < MainBurgerMenu isFlagSet={isFlagSet} handleButtonClick={handleButtonClick} setPerson={setPerson} />
         </div >
     )
 }

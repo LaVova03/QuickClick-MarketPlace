@@ -6,442 +6,457 @@ $disable-background: rgb(114, 114, 114);
 $disable-color: rgb(32, 28, 28);
 
 .login__form__wrap {
-    display: flex;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  flex-shrink: 0;
+  background: $hover-color;
+  justify-content: center;
+  form {
+    position: relative;
+    display: block;
     align-items: center;
-    height: 100vh;
+    text-align: center;
+    width: 28em;
+    height: 36em;
+    padding: 8vh 0 11vh 0;
     flex-shrink: 0;
-    background: $hover-color;
-    justify-content: center;
-    form {
-        position: relative;
-        display: block;
-        align-items: center;
-        text-align: center;
-        width: 28em;
-        height: 36em;
-        padding: 8vh 0 11vh 0;
-        flex-shrink: 0;
-        border-radius: 40px;
-        background: $backgroud-form-color;
-        max-height: 99vh;
-        span {
-            color: $backgroud-form-btn;
-            text-align: center;
-            font-family: Montserrat;
-            font-size: 18px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: 120%;
-        }
-        .login__btn__wrap {
-            display: flex;
-            width: 70%;
-            justify-content: space-between;
-            margin: 0 auto;
-            button {
-                display: flex;
-                width: 48%;
-                height: 45px;
-                padding: 19px 26px 19px 26px;
-                justify-content: center;
-                align-items: center;
-                border-radius: 40px;
-                background: $backgroud-form-btn;
-                border: 0;
-                margin: 12px 0 15px;
-                color: $hover-color;
-                text-align: center;
-                font-family: Montserrat;
-                font-size: 14px;
-                font-style: normal;
-                font-weight: 700;
-                line-height: 120%;
-                cursor: pointer;
-            }
-            .login__btn__desable {
-                display: flex;
-                width: 48%;
-                height: 45px;
-                padding: 19px 26px 19px 26px;
-                justify-content: center;
-                align-items: center;
-                margin: 12px 0 15px;
-                gap: 8px;
-                border-radius: 40px;
-                border: 0;
-                background: $disable-background;
-                color: $disable-color;
-                text-align: center;
-                font-family: Montserrat;
-                font-size: 14px;
-                font-style: normal;
-                font-weight: 700;
-                line-height: 120%;
-                cursor: pointer;
-            }
-        }
-
-        .login__btn__wrap button:hover {
-            background: $visited-color;
-            color: $backgroud-form-color;
-        }
-
-        .login__btn__wrap button:active {
-            background: $hover-color;
-            color: $backgroud-form-btn;
-        }
-
-        .login__btn__wrap button:visited {
-            background: $backgroud-form-btn;
-            color: $backgroud-form-color;
-        }
-
-        .login__btn__desable:hover {
-            background: $disable-background !important;
-            color: $disable-color !important;
-        }
-
-        .login__btn__desable:active {
-            background: $disable-background !important;
-            color: $disable-color !important;
-        }
-
-        .login__btn__desable:visited {
-            background: $disable-background !important;
-            color: $disable-color !important;
-        }
-
-        input:-webkit-autofill,
-        input {
-            display: flex;
-            width: 100%;
-            height: 40px;
-            padding: 0 5%;
-            margin: 0 auto 0;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-            border-radius: 40px;
-            border: 1px solid $hover-color;
-            background-color: $backgroud-form-color;
-            color: $hover-color;
-            font-family: Montserrat;
-            font-size: 16px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 140%;
-            transition: background-color 5000s ease-in-out 0s;
-            &:focus {
-                outline: none;
-            }
-        }
-        input:-webkit-autofill {
-            -webkit-text-fill-color: $hover-color;
-        }
+    border-radius: 40px;
+    background: $backgroud-form-color;
+    max-height: 99vh;
+    span {
+      color: $backgroud-form-btn;
+      text-align: center;
+      font-family: Montserrat;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 120%;
     }
+    .login__btn__wrap {
+      display: flex;
+      width: 70%;
+      justify-content: space-between;
+      margin: 0 auto;
+      button {
+        display: flex;
+        width: 48%;
+        height: 45px;
+        padding: 19px 26px 19px 26px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 40px;
+        background: $backgroud-form-btn;
+        border: 0;
+        margin: 12px 0 15px;
+        color: $hover-color;
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%;
+        cursor: pointer;
+        transition: 500ms;
+      }
+      .login__btn__desable {
+        display: flex;
+        width: 48%;
+        height: 45px;
+        padding: 19px 26px 19px 26px;
+        justify-content: center;
+        align-items: center;
+        margin: 12px 0 15px;
+        gap: 8px;
+        border-radius: 40px;
+        border: 0;
+        background: $disable-background;
+        color: $disable-color;
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%;
+        cursor: pointer;
+      }
+    }
+
+    .login__btn__wrap button:hover {
+      background: $visited-color;
+      color: $backgroud-form-color;
+    }
+
+    .login__btn__wrap button:active {
+      background: $hover-color;
+      color: $backgroud-form-btn;
+    }
+
+    .login__btn__wrap button:visited {
+      background: $backgroud-form-btn;
+      color: $backgroud-form-color;
+    }
+
+    .login__btn__desable:hover {
+      background: $disable-background !important;
+      color: $disable-color !important;
+    }
+
+    .login__btn__desable:active {
+      background: $disable-background !important;
+      color: $disable-color !important;
+    }
+
+    .login__btn__desable:visited {
+      background: $disable-background !important;
+      color: $disable-color !important;
+    }
+
+    input:-webkit-autofill,
+    input {
+      display: flex;
+      width: 100%;
+      height: 40px;
+      padding: 0 5%;
+      margin: 0 auto 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      border-radius: 40px;
+      border: 1px solid $hover-color;
+      background-color: $backgroud-form-color;
+      color: $hover-color;
+      font-family: Montserrat;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 140%;
+      transition: background-color 5000s ease-in-out 0s;
+      &:focus {
+        outline: none;
+      }
+    }
+    input:-webkit-autofill {
+      -webkit-text-fill-color: $hover-color;
+    }
+  }
 }
 
 .login__btn__google {
-    display: flex;
-    justify-content: center;
-    width: 70%;
-    height: 45px;
-    margin: 0px auto 15px;
-    padding: 0 40px;
-    align-items: center;
-    gap: 8px;
-    border-radius: 40px;
-    border: 0;
-    background: $backgroud-form-btn;
-    color: $hover-color;
-    font-family: Montserrat;
-    font-size: 14px;
-    white-space: nowrap;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  width: 70%;
+  height: 45px;
+  margin: 0px auto 15px;
+  padding: 0 40px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 40px;
+  border: 0;
+  background: $backgroud-form-btn;
+  color: $hover-color;
+  font-family: Montserrat;
+  font-size: 14px;
+  white-space: nowrap;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  cursor: pointer;
+  transition: 300ms;
 }
 
 .login__submit:hover,
 .login__btn__google:hover {
-    background: $hover-color;
-    color: $backgroud-form-btn;
+  background: $hover-color;
+  color: $backgroud-form-btn;
 }
 
 .login__submit:active,
 .login__btn__google:active {
-    color: $backgroud-form-color;
-    background: $backgroud-form-btn;
+  color: $backgroud-form-color;
+  background: $backgroud-form-btn;
 }
 
 .login__submit:visited,
 .login__btn__google:visited {
-    color: $backgroud-form-color;
-    background: $visited-color;
+  color: $backgroud-form-color;
+  background: $visited-color;
 }
 
 .login__google {
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
-    background: $hover-color;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  background: $hover-color;
+  border-radius: 50%;
+  transition: 300ms;
 }
 
 .login__btn__back {
-    position: relative;
-    left: -37%;
-    margin: 0 24px 0;
-    border: 0;
-    top: -17px;
-    background-image: url(../../assets/login__page/btn-left.png);
-    background-size: contain;
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
-    background-color: inherit;
-    cursor: pointer;
+  position: relative;
+  left: -37%;
+  margin: 0 24px 0;
+  border: 0;
+  top: -17px;
+  background-image: url(../../assets/login__page/btn-left.png);
+  background-size: contain;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  background-color: inherit;
+  cursor: pointer;
+  transition: 300ms;
 }
 
 .login__btn__back:hover {
-    background-image: url(../../assets/login__page/left-hover.png);
+  background-image: url(../../assets/login__page/left-hover.png);
 }
 
 .login__btn__back:active {
-    background-image: url(../../assets/login__page/left-active.png);
+  background-image: url(../../assets/login__page/left-active.png);
 }
 
 .login__submit {
-    display: flex;
-    width: 70%;
-    height: 45px;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    gap: 8px;
-    border-radius: 40px;
-    border: 0;
-    background: $backgroud-form-btn;
-    color: $hover-color;
-    text-align: center;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%;
-    cursor: pointer;
+  display: flex;
+  width: 70%;
+  height: 45px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  gap: 8px;
+  border-radius: 40px;
+  border: 0;
+  background: $backgroud-form-btn;
+  color: $hover-color;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  cursor: pointer;
+  transition: 500ms;
 }
 
 .login__sumbmit__disabled {
-    display: flex;
-    width: 70%;
-    height: 45px;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    gap: 8px;
-    border-radius: 40px;
-    border: 0;
-    background: $disable-background;
-    color: $disable-color;
-    text-align: center;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%;
-    cursor: pointer;
+  display: flex;
+  width: 70%;
+  height: 45px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  gap: 8px;
+  border-radius: 40px;
+  border: 0;
+  background: $disable-background;
+  color: $disable-color;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  cursor: pointer;
 }
 
 .login__lbl__remember,
 .login__forgot__pasword {
+  width: max-content;
+  height: 25px;
+  color: $backgroud-form-btn;
+  font-family: Montserrat;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
+  margin: 0 0 15px 0;
+  border: 0;
+  background-color: inherit;
+  position: relative;
+  left: 14%;
+  cursor: pointer;
+  label {
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+    display: flex;
+    width: 315px;
+    height: 39px;
+    justify-content: left;
+    color: $backgroud-form-btn;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+  }
+  #login__forgot__btn {
+    background-color: inherit;
+    border: 0;
+    cursor: pointer;
+    display: flex;
     width: max-content;
-    height: 25px;
+    height: 39px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
     color: $backgroud-form-btn;
     font-family: Montserrat;
     font-size: 15px;
     font-style: normal;
     font-weight: 500;
     line-height: 120%;
-    margin: 0 0 15px 0;
-    border: 0;
-    background-color: inherit;
-    position: relative;
-    left: 14%;
-    cursor: pointer;
-    label {
-        font-family: Montserrat;
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 140%;
-        display: flex;
-        width: 315px;
-        height: 39px;
-        justify-content: left;
-        color: $backgroud-form-btn;
-        font-family: Montserrat;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 120%;
-    }
-    #login__forgot__btn {
-        background-color: inherit;
-        border: 0;
-        cursor: pointer;
-        display: flex;
-        width: max-content;
-        height: 39px;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        color: $backgroud-form-btn;
-        font-family: Montserrat;
-        font-size: 15px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 120%;
-    }
+  }
+}
+
+.login_wrap_remember {
+  display: flex;
+  width: 70%;
+  margin: 0 auto;
 }
 
 .login__forgot__pasword:hover {
-    color: $hover-color;
+  color: $hover-color;
 }
 
 .login__forgot__pasword:active {
-    filter: blur(0.6px);
-    -webkit-filter: blur(0.6px);
+  filter: blur(0.6px);
+  -webkit-filter: blur(0.6px);
 }
 
 .login__lbl__remember {
-    font-size: 12px !important;
-    width: 315px !important;
-    justify-content: left;
-    display: flex;
-    margin-left: 4px;
-    align-items: center;
+  font-size: 12px !important;
+  width: max-content;
+  justify-content: left;
+  display: flex;
+  margin-left: 4px;
+  align-items: center;
+  cursor: default;
+  position: static;
 }
 
 .login__checkbox {
-    display: block;
-    align-items: center;
-    text-align: left;
-    width: 70%;
-    margin: 12px auto 12px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  width: 70%;
+  margin: 12px auto 12px;
+  color: $backgroud-form-btn;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
+  label {
+    display: flex;
     color: $backgroud-form-btn;
     font-family: Montserrat;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
     line-height: 120%;
-    label {
-        display: flex;
-        color: $backgroud-form-btn;
-        font-family: Montserrat;
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 120%;
-        align-items: center;
-    }
+    align-items: center;
+  }
 }
 
 .checkbox__checked,
 .checkbox {
-    background-color: inherit !important;
-    width: 26px !important;
-    height: 26px !important;
-    flex-shrink: 0 !important;
-    border-radius: 8px !important;
-    border: 2px solid $backgroud-form-btn !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    margin: 0 16px 0 0 !important;
-    -webkit-border-radius: 8px !important;
-    -moz-border-radius: 8px !important;
-    -ms-border-radius: 8px !important;
-    -o-border-radius: 8px !important;
+  background-color: inherit !important;
+  width: 26px !important;
+  height: 26px !important;
+  flex-shrink: 0 !important;
+  border-radius: 8px !important;
+  border: 2px solid $backgroud-form-btn !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  margin: 0 16px 0 0 !important;
+  -webkit-border-radius: 8px !important;
+  -moz-border-radius: 8px !important;
+  -ms-border-radius: 8px !important;
+  -o-border-radius: 8px !important;
+  transition: 300ms;
 }
 
 .checkbox:hover {
-    border: 2px solid $hover-color !important;
+  border: 2px solid $hover-color !important;
 }
 
 .checkbox:active {
-    background-image: url(../../assets/login__page/check-focus.png);
-    background-size: 26px;
-    background-repeat: no-repeat;
-    background-position: center;
+  background-image: url(../../assets/login__page/check-focus.png);
+  background-size: 26px;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .checkbox__checked {
-    background-image: url(../../assets/login__page/check-active.png);
-    background-size: 26px;
-    background-repeat: no-repeat;
-    background-position: center;
-    border: 2px solid $hover-color !important;
+  background-image: url(../../assets/login__page/check-active.png);
+  background-size: 26px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 2px solid $hover-color !important;
 }
 
 .login__wrap__repeat__password,
 .login__wrap__email,
 .login__wrap__password {
-    width: 70%;
-    margin: 0 auto 15px;
-    position: relative;
+  width: 70%;
+  margin: 0 auto 15px;
+  position: relative;
 }
 
 .login__eye__close {
-    position: absolute;
-    background-image: url(../../assets/login__page/close-eye.png);
-    background-size: 20px 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 2em;
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-    border: 0;
-    background-color: inherit;
+  position: absolute;
+  background-image: url(../../assets/login__page/close-eye.png);
+  background-size: 20px 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2em;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border: 0;
+  background-color: inherit;
 }
 
 .login__eye__open {
-    position: absolute;
-    background-image: url(../../assets/login__page/open-eye.png);
-    background-size: 20px 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 2em;
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-    border: 0;
-    background-color: inherit;
+  position: absolute;
+  background-image: url(../../assets/login__page/open-eye.png);
+  background-size: 20px 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2em;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border: 0;
+  background-color: inherit;
 }
 
 .login__google {
-    background-image: url(../../assets/login__page/IconsGmail.png);
-    width: 22px;
-    height: 22px;
-    flex-shrink: 0;
-    display: flex;
-    background-size: 22px 22px;
-    background-repeat: no-repeat;
-    background-color: inherit;
-    align-items: center;
-    justify-content: center;
+  background-image: url(../../assets/login__page/IconsGmail.png);
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: flex;
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
+  background-color: inherit;
+  align-items: center;
+  justify-content: center;
 }
 
 .login__btn__google:hover {
-    .login__google {
-        background-image: url(../../assets/login__page/GmailHover.png);
-    }
+  .login__google {
+    background-image: url(../../assets/login__page/GmailHover.png);
+  }
 }
 
 .login__btn__google:active {
-    .login__google {
-        background-image: url(../../assets/login__page/IconsGmail.png);
-    }
+  .login__google {
+    background-image: url(../../assets/login__page/IconsGmail.png);
+  }
 }

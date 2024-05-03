@@ -34,6 +34,7 @@ const PersonalAreaBody = () => {
     four: false,
     five: false,
     six: false,
+    seven: false,
   });
   const [isIdCard, setIdCard] = useState("");
   const [isLoading, setLoading] = useState({
@@ -52,6 +53,7 @@ const PersonalAreaBody = () => {
         four: false,
         five: false,
         six: false,
+        seven: false,
       });
     }
   }, [isList]);
@@ -78,14 +80,15 @@ const PersonalAreaBody = () => {
         one: false,
         two: false,
         three: false,
+        four: false,
       }));
     }
     if (list2) {
       setPart((prev) => ({
         ...prev,
-        four: false,
         five: false,
         six: false,
+        seven: false,
       }));
     }
   }, [isList]);
@@ -245,6 +248,14 @@ const PersonalAreaBody = () => {
                 Відхилені
               </button>
             </li>
+            <li>
+              <button
+                onClick={() => setCategory("four")}
+                className={`personal__part${isPart.four ? "__green" : ""}`}
+              >
+                Архів оголошень
+              </button>
+            </li>
           </ul>
         </li>
         <li>
@@ -272,24 +283,24 @@ const PersonalAreaBody = () => {
           >
             <li>
               <button
-                onClick={() => setCategory("four")}
-                className={`personal__part${isPart.four ? "__green" : ""}`}
+                onClick={() => setCategory("five")}
+                className={`personal__part${isPart.five ? "__green" : ""}`}
               >
                 Вхідні
               </button>
             </li>
             <li>
               <button
-                onClick={() => setCategory("five")}
-                className={`personal__part${isPart.five ? "__green" : ""}`}
+                onClick={() => setCategory("six")}
+                className={`personal__part${isPart.six ? "__green" : ""}`}
               >
                 Вихідні
               </button>
             </li>
             <li>
               <button
-                onClick={() => setCategory("six")}
-                className={`personal__part${isPart.six ? "__green" : ""}`}
+                onClick={() => setCategory("seven")}
+                className={`personal__part${isPart.seven ? "__green" : ""}`}
               >
                 Архів
               </button>
@@ -326,11 +337,13 @@ const PersonalAreaBody = () => {
           <WaitingPublicOrRejected isWaiting />
         ) : isCategory === "three" && isList.isOpen1 ? (
           <WaitingPublicOrRejected />
-        ) : isCategory === "four" && isList.isOpen2 ? (
-          <PersonalMessages isEntrance />
+        ) : isCategory === "four" && isList.isOpen1 ? (
+          <WaitingPublicOrRejected isArchive/>
         ) : isCategory === "five" && isList.isOpen2 ? (
-          <PersonalMessages isExit />
+          <PersonalMessages isEntrance />
         ) : isCategory === "six" && isList.isOpen2 ? (
+          <PersonalMessages isExit />
+        ) : isCategory === "seven" && isList.isOpen2 ? (
           <PersonalMessages />
         ) : isList.isOpen3 ? (
           <PersonalData />
