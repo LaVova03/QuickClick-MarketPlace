@@ -1,14 +1,17 @@
 import './MainBurgerMenu.scss';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import FetchLogout from '../Fetches/LoginPage/FetchLogOut';
+import { setPerson } from '../../redux/Main/actions';
 
-const MainBurgerMenu = ({ isFlagSet, handleButtonClick, setPerson }) => {
+const MainBurgerMenu = ({ isFlagSet, handleButtonClick }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const deleteToken = () => {
         FetchLogout();
         navigate("/");
-        setPerson(false);
+        dispatch(setPerson(false));
     };
 
     return (

@@ -15,7 +15,7 @@ import { showSuccessfulModal, setData } from '../../redux/AddEdit/actions';
 import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
 import DeleteAdverts from '../Fetches/EditCardPage/DeleteAdverts';
 import DeletePhoto from '../Fetches/EditCardPage/DeletePhoto';
-import AllAdverts from '../Fetches/Stunneds/AllAdverts';
+import AllPersonAdverts from '../Fetches/Stunneds/AllPersonAdverts';
 import ArchiveAdverts from "../Fetches/EditCardPage/ArchiveAdverts";
 
 const AddCardBody = () => {
@@ -90,7 +90,8 @@ const AddCardBody = () => {
 
     useEffect(() => {
         if (isEditWindow && isLocalHostiId) {
-            AllAdverts(setData, dispatch, tokenBearer);
+            const part = localStorage.getItem('part');
+            AllPersonAdverts(setData, dispatch, tokenBearer, part);
         }
     }, [isLocalHostiId, isEditWindow, dispatch, tokenBearer])
 

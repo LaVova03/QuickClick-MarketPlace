@@ -1,9 +1,9 @@
 import 'react-toastify/dist/ReactToastify.css';
 import './MainHeader.scss';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setBurgerMenu, setLanguage, setAddCard, setEditWindow } from '../../redux/Main/actions';
+import { setBurgerMenu, setLanguage, setAddCard, setEditWindow, setPerson } from '../../redux/Main/actions';
 import MainBurgerMenu from '../../components/MainBurgerMenu/MainBurgerMenu';
 import Logo from '../../assets/mainHeader/logo.png';
 
@@ -11,19 +11,18 @@ const MainHeader = () => {
     const isFlagSet = useSelector(state => state.myReducer?.isFlagSet);
     const isLanguage = useSelector(state => state.myReducer?.isLanguage);
     const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
+    const isPerson = useSelector(state => state.myReducer?.isPerson);
     const login = sessionStorage.getItem('login');
 
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
-    const [isPerson, setPerson] = useState(false);
-
     useEffect(() => {
         if (login) {
-            setPerson(true)
+            dispatch(setPerson(true));
         }
-    }, [login])
+    }, [login, dispatch]);
 
     const handleButtonClick = () => {
         dispatch(setBurgerMenu());
@@ -99,7 +98,7 @@ const MainHeader = () => {
                     }>Додати оголошення</button>
                 </div>
             </div>
-            < MainBurgerMenu isFlagSet={isFlagSet} handleButtonClick={handleButtonClick} setPerson={setPerson} />
+            < MainBurgerMenu isFlagSet={isFlagSet} handleButtonClick={handleButtonClick} />
         </div >
     )
 }

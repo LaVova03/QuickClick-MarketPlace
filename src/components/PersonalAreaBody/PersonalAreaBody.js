@@ -9,13 +9,17 @@ import WaitingPublicOrRejected from "../WaitingPublicOrRejected/WaitingPublicOrR
 import PersonalMessages from "../../components/PersonalMessages/PersonalMessages";
 import PersonalData from "../PersonalData/PersonalData";
 import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
-import AllAdverts from '../Fetches/Stunneds/AllAdverts';
+import AllPersonAdverts from '../Fetches/Stunneds/AllPersonAdverts';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData, showSuccessfulModal } from '../../redux/AddEdit/actions';
+import { setPerson } from '../../redux/Main/actions';
+import { useNavigate } from 'react-router-dom';
+import FetchLogout from '../Fetches/LoginPage/FetchLogOut';
 
 const PersonalAreaBody = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const tokenBearer = sessionStorage.getItem('login');
   const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
@@ -25,6 +29,7 @@ const PersonalAreaBody = () => {
     isOpen1: false,
     isOpen2: false,
     isOpen3: false,
+    isOpen4: false,
   });
 
   const [isPart, setPart] = useState({
@@ -103,13 +108,14 @@ const PersonalAreaBody = () => {
     }
   }, [isSuccessfulWindow, localStorageDelete, dispatch])
 
-  const fetchGetGoods = async () => {
+  const fetchGetGoods = async (part) => {
+    localStorage.setItem('part', part)
     setLoading((prev) => ({
       ...prev,
       active: !prev.active,
     }));
     try {
-      AllAdverts(setData, dispatch, tokenBearer);
+      AllPersonAdverts(setData, dispatch, tokenBearer, part);
     } catch {
       console.log("fetch data GET cards error");
     } finally {
@@ -189,6 +195,12 @@ const PersonalAreaBody = () => {
     });
   };
 
+  const LogOut = () => {
+    FetchLogout();
+    navigate("/");
+    dispatch(setPerson(false));
+  }
+
   return (
     <div className="PersonalAreaBody__wrap">
       <div>
@@ -225,7 +237,7 @@ const PersonalAreaBody = () => {
               <button
                 onClick={() => {
                   setCategory("one");
-                  fetchGetGoods();
+                  fetchGetGoods("active");
                 }}
                 className={`personal__part${isPart.one ? "__green" : ""}`}
               >
@@ -250,7 +262,10 @@ const PersonalAreaBody = () => {
             </li>
             <li>
               <button
-                onClick={() => setCategory("four")}
+                onClick={() => {
+                  setCategory("four");
+                  fetchGetGoods("archive");
+                }}
                 className={`personal__part${isPart.four ? "__green" : ""}`}
               >
                 Архів оголошень
@@ -307,7 +322,7 @@ const PersonalAreaBody = () => {
             </li>
           </ul>
         </li>
-        <li>
+        <li id="personal__btn__data">
           <label
             className={
               !isList.isOpen3
@@ -324,7 +339,20 @@ const PersonalAreaBody = () => {
             </button>
           </label>
         </li>
-      </ul>
+        <li>
+          <label
+            id="personal__btn__exit"
+            className="personal__color__black"
+          >
+            Вихід
+            <button
+              className="personal__bnt__plus"
+              onClick={() => LogOut()}
+            >
+            </button>
+          </label>
+        </li>
+      </ul >
       <div className="personal__center__img">
         {isLoading.active ? (
           <div id="personal__loading__active">Loading...</div>
@@ -338,7 +366,10 @@ const PersonalAreaBody = () => {
         ) : isCategory === "three" && isList.isOpen1 ? (
           <WaitingPublicOrRejected />
         ) : isCategory === "four" && isList.isOpen1 ? (
-          <WaitingPublicOrRejected isArchive/>
+          <WaitingPublicOrRejected
+            isArchive
+            setIdCard={setIdCard}
+          />
         ) : isCategory === "five" && isList.isOpen2 ? (
           <PersonalMessages isEntrance />
         ) : isCategory === "six" && isList.isOpen2 ? (
@@ -354,7 +385,7 @@ const PersonalAreaBody = () => {
       <ToastContainer
         style={{ position: 'fixed', right: '0 !important', width: 'max-content' }}
       />
-    </div>
+    </div >
   );
 };
 

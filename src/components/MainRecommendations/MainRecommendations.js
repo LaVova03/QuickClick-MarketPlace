@@ -1,5 +1,6 @@
 import './MainRecommendations.scss';
 import React from 'react';
+// import AllAdverts from '../Fetches/Stunneds/AllAdverts';
 import Img1 from '../../assets/main__сards/newcar.png';
 import Img2 from '../../assets/main__сards/armchair.png';
 import Img3 from '../../assets/main__сards/sofa.png';
@@ -62,6 +63,10 @@ const MainRecommendations = () => {
     ];
 
     const randomItems = arr.sort(() => 0.5 - Math.random()).slice(0, 10);
+
+    // useEffect(()=>{
+    //     AllAdverts();
+    // })
 
     return (
         <div className='main__recommendations__wrap'>

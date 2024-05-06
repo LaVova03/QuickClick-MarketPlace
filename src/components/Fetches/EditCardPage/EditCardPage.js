@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
-import AllAdverts from "../Stunneds/AllAdverts";
+import AllPersonAdverts from "../Stunneds/AllPersonAdverts";
 import { setData } from "../../../redux/AddEdit/actions";
 
 const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, token, photoForServer) => {
@@ -42,7 +42,7 @@ const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, token
             });
             if (responseFile) {
                 localStorage.setItem('update', id);
-                AllAdverts(setData, dispatch, token);
+                AllPersonAdverts(setData, dispatch, token);
             }
         } else {
             console.log("error edit photo");

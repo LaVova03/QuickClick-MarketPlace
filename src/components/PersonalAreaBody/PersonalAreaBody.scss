@@ -91,6 +91,10 @@ $text-btn-active: #06611a;
   }
 }
 
+#personal__btn__exit:active {
+  color: $open-text-color;
+}
+
 .PersonalAreaBody__wrap > div {
   display: block;
   justify-content: space-between;
@@ -174,7 +178,7 @@ $text-btn-active: #06611a;
   width: 52vw;
   min-height: 21vw;
   height: max-content;
-  margin-bottom: 30px;
+  margin-bottom: 120px;
   text-align: center;
   img {
     margin: 0 auto;
@@ -362,6 +366,10 @@ $text-btn-active: #06611a;
 .personal__data__wrap {
   opacity: 0;
   animation: fadeInOut 0.5s ease-in-out forwards;
+}
+
+#personal__btn__data {
+  margin-bottom: 20px;
 }
 
 @keyframes fadeInOut {

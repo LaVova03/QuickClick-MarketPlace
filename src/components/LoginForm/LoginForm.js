@@ -20,6 +20,7 @@ const LoginForm = () => {
   const [resRegex, setResRegex] = useState({
     email: true,
     password: true,
+    isRepeatPassword: false,
   });
   const [isLogin, setIsLogin] = useState({
     phone: false,
@@ -119,19 +120,32 @@ const LoginForm = () => {
     setIsShowExit(false);
   };
 
-  const searchPassword = () => {
+  useEffect(() => {
     if (password === isRepeatPassword) {
-      return true;
-    } else {
-      return false;
+      setResRegex((prev) => ({
+        ...prev,
+        isRepeatPassword: true
+      }))
+    } else if ((password && isRepeatPassword.length > 0) && password !== isRepeatPassword) {
+      setResRegex((prev) => ({
+        ...prev,
+        isRepeatPassword: null
+      }))
+    } else if (isRepeatPassword.length === 0) {
+      setResRegex((prev) => ({
+        ...prev,
+        isRepeatPassword: false
+      }))
     }
-  };
+  }, [password, isRepeatPassword, resRegex.isRepeatPassword])
 
   const handleSubmit = (email, password) => {
-    if (registration) {
+    if (registration && resRegex.isRepeatPassword === true) {
       FetchRegistration(email, password, setIsShowExit, dispatch, isTokenBearer, navigate)
+    } else if (!registration) {
+      FetchLogin(email, password, setIsShowExit, dispatch, isTokenBearer, navigate, notifyError);
     } else {
-      FetchLogin(email, password, setIsShowExit, dispatch, isTokenBearer, navigate);
+      notifyError('Паролі не співпадають, спробуйте ще раз')
     }
   };
 
@@ -177,14 +191,18 @@ const LoginForm = () => {
               dispatch(setEditWindow());
               navigate("/add_card");
             }
-            resetForm();
-            setResRegex((prevState) => ({
-              ...prevState,
-              password: true,
-              email: true,
-            }));
+            if (!registration ? resRegex.email && resRegex.password
+              : resRegex.email && resRegex.password && resRegex.isRepeatPassword) {
+              resetForm();
+              setResRegex((prevState) => ({
+                ...prevState,
+                password: true,
+                email: true,
+                isRepeatPassword: false,
+              }));
+              setRepeatPassword('');
+            }
             setEmptyFields([]);
-            setRepeatPassword([]);
             if (isAddCardModal) {
               dispatch(setAddCard());
             }
@@ -320,8 +338,7 @@ const LoginForm = () => {
                   autoComplete="repeat__password"
                   style={{
                     border:
-                      emptyFields.includes("repeat-password") ||
-                        !searchPassword()
+                      emptyFields.includes("repeat-password") || resRegex.isRepeatPassword === null
                         ? "1px solid #FF5858"
                         : "",
                   }}
