@@ -70,7 +70,7 @@ const PersonalData = () => {
         </div>
         <div>
           <div>
-            <label>Зміна паролю</label>
+            <label id="personal_data_label">Зміна паролю</label>
             <input type="text" placeholder="Старий пароль*" />
             <input type="text" placeholder="Новий пароль*" />
             <input type="text" placeholder="Повторіть пароль*" />

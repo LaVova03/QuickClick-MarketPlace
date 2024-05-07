@@ -77,7 +77,7 @@ const MainHeader = () => {
                 <div className='main__headre__right'>
                     <button id='main__header__heart'><div></div></button>
                     <button
-                        id={isPerson ? 'main__header__person' : 'main__header__user'}
+                        id={!isPerson ? 'main__header__person' : 'main__header__user'}
                         onClick={!login ? handleNavigateLogin : handleNavigatePersonalPlace}>
                         <div></div>
                     </button>

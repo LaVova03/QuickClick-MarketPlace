@@ -690,10 +690,10 @@ const AddCardBody = () => {
                             : 'Валюта*'}
                     <div><img id={isOptions ? "add_vector_down" : null} alt='logo' src={Vector} /></div>
                 </button>
-                {isOptions ?
+                {isOptions || !isOptions ?
                     <div className='add__options__wrap'>
                         <button
-                            className='add__select'
+                            className={!isOptions? 'add__select_none':'add__select'}
                             onClick={() => {
                                 setOptions(false);
                                 setProductNameEmpty((prevState) => ({ ...prevState, currency: false }))
@@ -705,7 +705,7 @@ const AddCardBody = () => {
                         >грн
                         </button>
                         <button
-                            className='add__select'
+                                className={!isOptions? 'add__select_none':'add__select'}
                             onClick={() => {
                                 setOptions(false);
                                 setProductNameEmpty((prevState) => ({ ...prevState, currency: false }))
@@ -717,7 +717,7 @@ const AddCardBody = () => {
                         >usd
                         </button>
                         <button
-                            className='add__select'
+                          className={!isOptions? 'add__select_none':'add__select'}
                             onClick={() => {
                                 setOptions(false);
                                 setProductNameEmpty((prevState) => ({ ...prevState, currency: false }))
