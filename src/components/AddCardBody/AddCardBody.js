@@ -756,7 +756,7 @@ const AddCardBody = () => {
                         </button> : null
                     }
                     <button
-                        id={isOptions ? 'add_submit_none' : 'add_submit'}
+                        id={isOptions && !isEditWindow ? 'add_submit_none' : 'add_submit'}
                         onClick={submitCard}>{isEditWindow ? 'Оновити' : 'Опублікувати'}
                     </button>
                     {isEditWindow ?
