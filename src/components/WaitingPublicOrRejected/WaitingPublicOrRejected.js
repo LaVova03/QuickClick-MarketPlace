@@ -49,7 +49,15 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard, isArchive }) 
                                 <li>{el.description}</li>
                                 <li>{el.currency}</li>
                                 <li>{el.firstPrice}</li>
-                                <li><button>Переглянути</button></li>
+                                <li>
+                                    <button
+                                        onClick={() => {
+                                            addLocalstorage(el.id, index);
+                                            navigate('/view_product')
+                                        }}
+                                    >Переглянути
+                                    </button>
+                                </li>
                                 <li><button onClick={() => {
                                     setIdCard(el.id);
                                     addLocalstorage(el.id, index)

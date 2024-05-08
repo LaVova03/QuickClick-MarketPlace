@@ -7,6 +7,7 @@ import PersonalArea from './containers/PersonalArea/PersonalArea';
 import AddCard from './containers/AddCard/AddCard';
 import ForgotPasswordModal from "./components/ForgotPasswordModal/ForgotPasswordModal";
 import PageIsNotFound from './containers/PageIsNotFound/PageIsNotFound';
+import ViewProduct from "./containers/ViewProduct/ViewProduct";
 import StaticContainer from "./containers/StaticContainer/StaticContainer";
 import { useSelector } from 'react-redux';
 
@@ -25,6 +26,7 @@ const AppRouter = () => {
                         <Route>
                             <Route path="/login" element={<Login />} />
                             <Route path="/forgot_password" element={<ForgotPasswordModal />} />
+                            <Route path="/view_product" element={<ViewProduct />} />
                         </Route>
 
                         <Route element={<PrivateRoute />}>

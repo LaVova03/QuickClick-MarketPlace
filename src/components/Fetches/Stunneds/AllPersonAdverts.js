@@ -18,7 +18,6 @@ const AllPersonAdverts = async (setData, dispatch, token, part) => {
         const archived = [];
         const comments = [];
         if (response.status === 200) {
-            console.log(response.data)
             response.data.forEach(el => {
                 if (el.status === "PUBLISHED") {
                     published.push(el);
