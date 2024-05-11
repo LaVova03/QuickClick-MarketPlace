@@ -3,125 +3,124 @@ $font-color: #00881e;
 $main-color: #00380d;
 
 .main__slider__wrap {
-    position: relative;
-    width: 63%;
-    height: max-content;
-    flex-shrink: 0;
-    border-radius: 40px;
-    margin: 40px 2vw 60px;
-    float: left;
-    img {
-        width: 100%;
-        height: auto;
-        overflow: hidden;
-    }
+  position: relative;
+  width: 63%;
+  height: max-content;
+  flex-shrink: 0;
+  border-radius: 40px;
+  margin: 40px 2vw 60px;
+  float: left;
+  img {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
 }
 
-.main__wrap__slider{
-position: relative;
+.main__wrap__slider {
+  position: relative;
 }
 
 #mainslider__btn__left {
-    background-image: url(../../assets/mainSlider/arrow-left.png);
-    width: 56px;
-    height: 56px;
-    background-color: inherit;
-    border: 0;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 24px;
-    transition: 0.3s;
+  background-image: url(../../assets/mainSlider/arrow-left.png);
+  width: 56px;
+  height: 56px;
+  background-color: inherit;
+  border: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 24px;
+  transition: 0.3s;
 }
 
 #mainslider__btn__left:hover {
-    background-image: url(../../assets/mainSlider/left-hover.png);
+  background-image: url(../../assets/mainSlider/left-hover.png);
 }
 
 #mainslider__btn__left:active {
-    background-image: url(../../assets/mainSlider/left-active.png);
+  background-image: url(../../assets/mainSlider/left-active.png);
 }
 
 #mainslider__btn__right {
-    background-image: url(../../assets/mainSlider/arrow-right.png);
-    width: 56px;
-    height: 56px;
-    background-color: inherit;
-    border: 0;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 24px;
-    transition: 0.3s;
+  background-image: url(../../assets/mainSlider/arrow-right.png);
+  width: 56px;
+  height: 56px;
+  background-color: inherit;
+  border: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 24px;
+  transition: 0.3s;
 }
 
 #mainslider__btn__right:hover {
-    background-image: url(../../assets/mainSlider/right-hover.png);
+  background-image: url(../../assets/mainSlider/right-hover.png);
 }
 
 #mainslider__btn__right:active {
-    background-image: url(../../assets/mainSlider/right-active.png);
+  background-image: url(../../assets/mainSlider/right-active.png);
 }
 
 .main__first__slide,
 .main__second__slide,
 .main__third__slide {
-    position: relative;
+  position: relative;
 }
 
 .mainslider__div__onslider {
-    display: block;
-    position: absolute;
-    bottom: 15%;
-    left: 11%;
-    width: 72vh;
-    span {
-        color: $background-color;
-        font-family: Montserrat;
-        font-size: 2vw;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 120%;
-    }
-    button {
-        display: flex;
-        width: 224px;
-        height: 64px;
-        padding: 19px 26px 19px 27px;
-        margin-top: 16px;
-        justify-content: center;
-        align-items: center;
-        border-radius: 40px;
-        border: 0;
-        background: $font-color;
-        flex-direction: column;
-        justify-content: center;
-        flex-shrink: 0;
-        color: $background-color;
-        text-align: center;
-        font-family: Montserrat;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 120%;
-        transition: 0.3s;
-    }
+  display: block;
+  position: absolute;
+  bottom: 15%;
+  left: 11%;
+  width: 72vh;
+  span {
+    color: $background-color;
+    font-family: Montserrat;
+    font-size: 2vw;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+  }
+  button {
+    display: flex;
+    width: 224px;
+    height: 64px;
+    padding: 19px 26px 19px 27px;
+    margin-top: 16px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    border: 0;
+    background: $font-color;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    color: $background-color;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    transition: 0.3s;
+  }
 
-    button:hover {
-        color: $main-color;
-    }
+  button:hover {
+    color: $main-color;
+  }
 
-    button:active {
-        color: $background-color;
-        background: $main-color;
-    }
+  button:active {
+    color: $background-color;
+    background: $main-color;
+  }
 }
 
 @media screen and (max-width: 1800px) {
-    .main__slider__wrap {
-        width: 62%;
-    }
+  .main__slider__wrap {
+    width: 62%;
+  }
 }
-

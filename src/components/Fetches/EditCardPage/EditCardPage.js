@@ -5,6 +5,9 @@ import { setData } from "../../../redux/AddEdit/actions";
 
 const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, token, photoForServer) => {
     // console.log(isData)
+
+    const part = sessionStorage.getItem('part');
+
     const file = new FormData();
 
     photoForServer.forEach((item) => {
@@ -42,7 +45,8 @@ const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, token
             });
             if (responseFile) {
                 localStorage.setItem('update', id);
-                AllPersonAdverts(setData, dispatch, token);
+                console.log(part)
+                AllPersonAdverts(setData, dispatch, token, part);
             }
         } else {
             console.log("error edit photo");

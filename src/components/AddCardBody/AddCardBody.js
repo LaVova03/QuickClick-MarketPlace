@@ -34,7 +34,7 @@ const AddCardBody = () => {
     const indexCard = localStorage.getItem('indexCard');
     const isUpdateId = localStorage.getItem('update');
     const isDelete = localStorage.getItem('delete');
-    const isArchive = localStorage.getItem('archive');
+    const isArchive = sessionStorage.getItem('archive');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -186,7 +186,7 @@ const AddCardBody = () => {
             dispatch(setEditWindow());
         }
 
-        if (isArchive) {
+        if (isArchive && isSuccessfulWindow) {
             localStorage.removeItem('archive');
             notifyError('Оголошення відправлено в архів');
             dispatch(showSuccessfulModal());
@@ -311,6 +311,10 @@ const AddCardBody = () => {
             position: "top-right",
         });
     };
+
+    // useEffect(() => {
+    //     console.log(photoUrl)
+    // }, [photoUrl])
 
     return (
         <div className='AddCardBody__wrap'>
@@ -693,7 +697,7 @@ const AddCardBody = () => {
                 {isOptions || !isOptions ?
                     <div className='add__options__wrap'>
                         <button
-                            className={!isOptions? 'add__select_none':'add__select'}
+                            className={!isOptions ? 'add__select_none' : 'add__select'}
                             onClick={() => {
                                 setOptions(false);
                                 setProductNameEmpty((prevState) => ({ ...prevState, currency: false }))
@@ -705,7 +709,7 @@ const AddCardBody = () => {
                         >грн
                         </button>
                         <button
-                                className={!isOptions? 'add__select_none':'add__select'}
+                            className={!isOptions ? 'add__select_none' : 'add__select'}
                             onClick={() => {
                                 setOptions(false);
                                 setProductNameEmpty((prevState) => ({ ...prevState, currency: false }))
@@ -717,7 +721,7 @@ const AddCardBody = () => {
                         >usd
                         </button>
                         <button
-                          className={!isOptions? 'add__select_none':'add__select'}
+                            className={!isOptions ? 'add__select_none' : 'add__select'}
                             onClick={() => {
                                 setOptions(false);
                                 setProductNameEmpty((prevState) => ({ ...prevState, currency: false }))

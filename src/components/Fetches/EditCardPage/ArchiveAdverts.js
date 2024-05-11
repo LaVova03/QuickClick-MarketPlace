@@ -12,7 +12,7 @@ const ArchiveAdverts = async (id, token, dispatch, showSuccessfulModal) => {
     try {
         const response = await axios.put(`${API_MAIN_URL}adverts/archive/${id}`, null, config);
         if (response.status === 200) {
-            localStorage.setItem('archive', true)
+            sessionStorage.setItem('archive', true)
             dispatch(showSuccessfulModal());
         }
     } catch (error) {

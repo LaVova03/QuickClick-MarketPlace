@@ -1,4 +1,4 @@
-import './MainRecommendations.scss';
+import styles from './MainRecommendations.module.scss';
 import React from 'react';
 // import AllAdverts from '../Fetches/Stunneds/AllAdverts';
 import Img1 from '../../assets/main__сards/newcar.png';
@@ -7,7 +7,7 @@ import Img3 from '../../assets/main__сards/sofa.png';
 import Img4 from '../../assets/main__сards/flat.png';
 import Img5 from '../../assets/main__сards/nut.png';
 
-const MainRecommendations = () => {
+const MainRecommendations = ({ isCard }) => {
 
     const arr = [
         {
@@ -63,29 +63,46 @@ const MainRecommendations = () => {
     ];
 
     const randomItems = arr.sort(() => 0.5 - Math.random()).slice(0, 10);
+    const randomItemsCard = arr.sort(() => 0.5 - Math.random()).slice(0, 7);
 
     // useEffect(()=>{
     //     AllAdverts();
     // })
 
     return (
-        <div className='main__recommendations__wrap'>
+        <div className={styles.main__recommendations__wrap}>
             <label>Рекомендації</label><br />
             <div>
-                {randomItems.map((el, i) => (
+                {!isCard ? randomItems.map((el, i) => (
                     <ul key={i}>
                         <li>
                             <img src={el.img} alt='logo' />
                         </li>
                         <li>
-                            <span id='main__recommendations__span1'>{el.chapter}</span>
+                            <span id={styles.main__recommendations__span1}>{el.chapter}</span>
                         </li>
-                        <li className='main__recommendations__prices'>
-                            <div id='main__recommendations__span2'>{el.price}</div>
+                        <li className={styles.main__recommendations__prices}>
+                            <div id={styles.main__recommendations__span2}>{el.price}</div>
                         </li>
                         <button>Дивитися</button>
                     </ul>
-                ))}
+                ))
+                    :
+                    randomItemsCard.map((el, i) => (
+                        <ul key={i}>
+                            <li>
+                                <img src={el.img} alt='logo' />
+                            </li>
+                            <li>
+                                <span id={styles.main__recommendations__span1}>{el.chapter}</span>
+                            </li>
+                            <li className={styles.main__recommendations__prices}>
+                                <div id={styles.main__recommendations__span2}>{el.price}</div>
+                            </li>
+                            <button>Дивитися</button>
+                        </ul>
+                    ))
+                }
             </div>
         </div>
     )

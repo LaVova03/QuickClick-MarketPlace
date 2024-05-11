@@ -1,21 +1,28 @@
-import './ViewBody.scss';
+import styles from './ViewBody.module.scss';
 import React, { useEffect, useState, useRef } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setData } from '../../redux/AddEdit/actions';
 import Person from '../../assets/mainHeader/person.png';
+import MainRecommendations from '../MainRecommendations/MainRecommendations';
+import AllPersonAdverts from '../Fetches/Stunneds/AllPersonAdverts';
 
 const ViewBody = () => {
 
     const sliderRef = useRef(null);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const isData = useSelector(state => state.myReducer2.isData);
+    const isArchiveData = useSelector(state => state.myReducer2.isArchiveData);
     const isImages = useSelector(state => state.myReducer2.isImages);
 
     const isIdCard = localStorage.getItem('setIdCard');
     const indexCard = localStorage.getItem('indexCard');
+    const token = sessionStorage.getItem('login');
+    const part = sessionStorage.getItem('part');
 
     const [photoUrl, addPhotoUrl] = useState([]);
     let [itemSlider, setItemSlider] = useState(0);
@@ -59,21 +66,23 @@ const ViewBody = () => {
         }
     };
 
-    // useEffect(() => {
-    //   if(!isData && )
-    // }, [isData])
+    useEffect(() => {
+        if (!isData && isIdCard) {
+            AllPersonAdverts(setData, dispatch, token, part)
+        }
+    }, [isData, isIdCard, dispatch, token, isImages, part])
 
     return (
-        <div className='view_body_wrap'>
+        <div className={styles.view_body_wrap}>
             <header>
                 <button
-                    id='view_btn_back'
+                    id={styles.view_btn_back}
                     onClick={() => navigate('/personal_area')}
                 >
                 </button>
             </header>
 
-            {isData?.map(el => {
+            {(part === "active" ? isData : isArchiveData).map(el => {
                 if (el.id === +isIdCard) {
                     const jsonString = el.address;
                     const address = JSON.parse(jsonString);
@@ -82,13 +91,13 @@ const ViewBody = () => {
                             <header>
                                 <label>{el.title}</label>
                             </header>
-                            <div>
+                            <div id={styles.wrap_slider}>
                                 {/* <div>Loading...</div> */}
                                 <Slider ref={sliderRef} {...settings}>
                                     {photoUrl.map((el, index) => {
                                         if (el) {
                                             return (
-                                                <div className='main__first__slide' key={index}>
+                                                <div className={styles.main__first__slide} key={index}>
                                                     <img src={el} alt={`slide-${index}`} />
                                                 </div>
                                             )
@@ -97,21 +106,23 @@ const ViewBody = () => {
                                         }
                                     })}
                                 </Slider>
-                                <button id='mainslider__btn__left' onClick={() => {
+                                <button id={styles.mainslider__btn__left} onClick={() => {
                                     if (itemSlider > 0) {
                                         setItemSlider(--itemSlider);
                                     }
+                                    console.log('back')
                                     handlePrevSlide();
                                 }}></button>
-                                <button id='mainslider__btn__right' onClick={() => {
+                                <button id={styles.mainslider__btn__right} onClick={() => {
                                     if (itemSlider + 1 < photoUrl.length) {
                                         setItemSlider(++itemSlider);
                                     }
+                                    console.log('next')
                                     handleNextSlide();
                                 }}></button>
                             </div>
-                            <div id='view_card_wrap'>
-                                <ul className='view_description_wrap'>
+                            <div id={styles.view_card_wrap}>
+                                <ul className={styles.view_description_wrap}>
                                     <li>
                                         {`${el.currency === "UAH" ? '₴' :
                                             el.currency === "EUR" ? '€' :
@@ -119,13 +130,13 @@ const ViewBody = () => {
                                     </li>
                                     <li>{el.category}</li>
                                     <li>н.п. {address.city}</li>
-                                    <li id='view_personal_data'>
+                                    <li id={styles.view_personal_data}>
                                         <ul>
                                             <li>
                                                 <img src={Person} alt='logo' />
-                                                <div id='viev_salles'>
+                                                <div id={styles.viev_salles}>
                                                     <label>{el.user.firstName}</label>
-                                                    <div id='view_sallesperon'>Продавець</div>
+                                                    <div id={styles.view_sallesperon}>Продавець</div>
                                                 </div>
                                             </li>
                                             <li>н.п. {address.city}</li>
@@ -135,12 +146,15 @@ const ViewBody = () => {
                                     </li>
                                 </ul>
                             </div>
-                            <div id='view_description'>{el.description}</div>
+                            <div id={styles.view_description}>{el.description}</div>
                         </main>
                     );
                 }
                 return null;
             })}
+            <div className={styles.view_recommend_wrap}>
+                <MainRecommendations isCard />
+            </div>
         </div >
     )
 }

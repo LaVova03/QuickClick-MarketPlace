@@ -45,8 +45,11 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard, isArchive }) 
                                         alt='logo'
                                     />
                                 </li>
-
-                                <li>{el.description}</li>
+                                <li className="scrollable-li">
+                                    <div className="description-scroll-container">
+                                        {el.description}
+                                    </div>
+                                </li>
                                 <li>{el.currency}</li>
                                 <li>{el.firstPrice}</li>
                                 <li>

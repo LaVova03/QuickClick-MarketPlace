@@ -1,6 +1,5 @@
 import {
-    SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, ADD_CATEGORY_CARD, SET_EDIT_WINDOW,
-    SET_LOGO_PERSON
+    SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, ADD_CATEGORY_CARD, SET_EDIT_WINDOW
 } from './actionTypes';
 
 export const setBurgerMenu = () => ({
@@ -22,8 +21,4 @@ export const addCategory = (isCategoryRedux) => ({
 
 export const setEditWindow = () => ({
     type: SET_EDIT_WINDOW,
-});
-
-export const setPerson = () => ({
-    type: SET_LOGO_PERSON,
 });

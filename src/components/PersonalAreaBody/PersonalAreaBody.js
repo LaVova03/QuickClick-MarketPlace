@@ -12,7 +12,6 @@ import fetchActiveStunneds from '../Fetches/Stunneds/FetchActive';
 import AllPersonAdverts from '../Fetches/Stunneds/AllPersonAdverts';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData, showSuccessfulModal } from '../../redux/AddEdit/actions';
-import { setPerson } from '../../redux/Main/actions';
 import { useNavigate } from 'react-router-dom';
 import FetchLogout from '../Fetches/LoginPage/FetchLogOut';
 
@@ -198,7 +197,6 @@ const PersonalAreaBody = () => {
   const LogOut = () => {
     FetchLogout();
     navigate("/");
-    dispatch(setPerson(false));
   }
 
   return (
@@ -236,6 +234,8 @@ const PersonalAreaBody = () => {
             <li>
               <button
                 onClick={() => {
+                  sessionStorage.removeItem('part');
+                  sessionStorage.setItem('part', 'active');
                   setCategory("one");
                   fetchGetGoods("active");
                 }}
@@ -263,6 +263,8 @@ const PersonalAreaBody = () => {
             <li>
               <button
                 onClick={() => {
+                  sessionStorage.removeItem('part');
+                  sessionStorage.setItem('part', 'archive');
                   setCategory("four");
                   fetchGetGoods("archive");
                 }}

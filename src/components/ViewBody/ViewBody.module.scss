@@ -1,4 +1,5 @@
 .view_body_wrap {
+  margin: 0 auto;
   li {
     list-style: none;
   }
@@ -42,7 +43,6 @@
       display: flex;
       position: relative;
       width: 800px;
-      min-height: 478px;
       float: left;
     }
     img {
@@ -50,6 +50,24 @@
       height: 478px;
       border-radius: 40px;
     }
+  }
+}
+
+#wrap_slider {
+  width: 800px;
+  height: 478px;
+}
+
+.view_recommend_wrap {
+  width: 90%;
+  height: max-content;
+  flex-shrink: 0;
+  border-radius: 40px;
+  margin: 54px auto 60px;
+  img {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
   }
 }
 
@@ -199,13 +217,14 @@ main {
   #view_description {
     clear: left;
     width: 100%;
+    height: max-content;
     color: var(--Dark-deep, #001004);
     font-family: Montserrat;
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
     line-height: 150%;
-    margin-top: 54px;
+    margin: 54px 0;
   }
 }
 

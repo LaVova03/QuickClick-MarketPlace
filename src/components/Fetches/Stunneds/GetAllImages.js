@@ -3,7 +3,6 @@ import { API_MAIN_URL } from '../../../constants/Constants';
 import { setImages, resetImages, setAllIdImages } from '../../../redux/AddEdit/actions';
 
 const GetAllImages = async (data, dispatch, token) => {
-
     const localId = localStorage.getItem('setIdCard');
 
     const config = {

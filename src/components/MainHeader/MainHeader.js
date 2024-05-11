@@ -1,9 +1,9 @@
 import 'react-toastify/dist/ReactToastify.css';
 import './MainHeader.scss';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setBurgerMenu, setLanguage, setAddCard, setEditWindow, setPerson } from '../../redux/Main/actions';
+import { setBurgerMenu, setLanguage, setAddCard, setEditWindow } from '../../redux/Main/actions';
 import MainBurgerMenu from '../../components/MainBurgerMenu/MainBurgerMenu';
 import Logo from '../../assets/mainHeader/logo.png';
 
@@ -11,18 +11,19 @@ const MainHeader = () => {
     const isFlagSet = useSelector(state => state.myReducer?.isFlagSet);
     const isLanguage = useSelector(state => state.myReducer?.isLanguage);
     const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
-    const isPerson = useSelector(state => state.myReducer?.isPerson);
-    const login = sessionStorage.getItem('login');
+    let isLocalLogin = sessionStorage.getItem('login');
 
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
+    const [login, setLogin] = useState(false);
+
     useEffect(() => {
-        if (login) {
-            dispatch(setPerson(true));
+        if (isLocalLogin) {
+            setLogin(true)
         }
-    }, [login, dispatch]);
+    }, [isLocalLogin]);
 
     const handleButtonClick = () => {
         dispatch(setBurgerMenu());
@@ -77,7 +78,7 @@ const MainHeader = () => {
                 <div className='main__headre__right'>
                     <button id='main__header__heart'><div></div></button>
                     <button
-                        id={!isPerson ? 'main__header__person' : 'main__header__user'}
+                        id={login ? 'main__header__person' : 'main__header__user'}
                         onClick={!login ? handleNavigateLogin : handleNavigatePersonalPlace}>
                         <div></div>
                     </button>
@@ -98,7 +99,7 @@ const MainHeader = () => {
                     }>Додати оголошення</button>
                 </div>
             </div>
-            < MainBurgerMenu isFlagSet={isFlagSet} handleButtonClick={handleButtonClick} />
+            < MainBurgerMenu isFlagSet={isFlagSet} handleButtonClick={handleButtonClick} setLogin={setLogin} />
         </div >
     )
 }
