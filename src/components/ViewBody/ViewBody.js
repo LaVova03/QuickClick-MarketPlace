@@ -16,13 +16,14 @@ const ViewBody = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isData = useSelector(state => state.myReducer2.isData);
+    const isAllAdverts = useSelector(state => state.myReducer.isAllAdverts);
     const isArchiveData = useSelector(state => state.myReducer2.isArchiveData);
     const isImages = useSelector(state => state.myReducer2.isImages);
 
     const isIdCard = localStorage.getItem('setIdCard');
     const indexCard = localStorage.getItem('indexCard');
     const token = sessionStorage.getItem('login');
-    const part = sessionStorage.getItem('part');
+    const part = localStorage.getItem('part');
 
     const [photoUrl, addPhotoUrl] = useState([]);
     let [itemSlider, setItemSlider] = useState(0);
@@ -67,25 +68,33 @@ const ViewBody = () => {
     };
 
     useEffect(() => {
-        if (!isData && isIdCard) {
+        if (!isData && isIdCard && part !== 'main') {
             AllPersonAdverts(setData, dispatch, token, part)
         }
     }, [isData, isIdCard, dispatch, token, isImages, part])
+
+    useEffect(() => {
+        console.log('isIdCard', isIdCard, "isImages", isImages);
+    }, [isIdCard, isImages])
 
     return (
         <div className={styles.view_body_wrap}>
             <header>
                 <button
                     id={styles.view_btn_back}
-                    onClick={() => navigate('/personal_area')}
+                    onClick={() => navigate(token ? '/personal_area' : '/')}
                 >
                 </button>
             </header>
 
-            {(part === "active" ? isData : isArchiveData).map(el => {
+            {(part === "active" ? isData : part === "main" ? isAllAdverts : isArchiveData)?.map(el => {
                 if (el.id === +isIdCard) {
-                    const jsonString = el.address;
-                    const address = JSON.parse(jsonString);
+                    let jsonString;
+                    let address;
+                    if (part !== 'main') {
+                        jsonString = el.address;
+                        address = JSON.parse(jsonString);
+                    }
                     return (
                         <main key={el.id}>
                             <header>
@@ -110,14 +119,12 @@ const ViewBody = () => {
                                     if (itemSlider > 0) {
                                         setItemSlider(--itemSlider);
                                     }
-                                    console.log('back')
                                     handlePrevSlide();
                                 }}></button>
                                 <button id={styles.mainslider__btn__right} onClick={() => {
                                     if (itemSlider + 1 < photoUrl.length) {
                                         setItemSlider(++itemSlider);
                                     }
-                                    console.log('next')
                                     handleNextSlide();
                                 }}></button>
                             </div>
@@ -129,7 +136,7 @@ const ViewBody = () => {
                                                 '$'} ${el.price}`}
                                     </li>
                                     <li>{el.category}</li>
-                                    <li>н.п. {address.city}</li>
+                                    <li>н.п. {part === 'main' ? el.address : address.city}</li>
                                     <li id={styles.view_personal_data}>
                                         <ul>
                                             <li>
@@ -139,7 +146,7 @@ const ViewBody = () => {
                                                     <div id={styles.view_sallesperon}>Продавець</div>
                                                 </div>
                                             </li>
-                                            <li>н.п. {address.city}</li>
+                                            <li>н.п. {part === 'main' ? el.address : address.city}</li>
                                             <li>Був на сайті 10 хв назад</li>
                                             <li>{el.phone}</li>
                                         </ul>

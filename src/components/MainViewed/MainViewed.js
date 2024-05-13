@@ -1,4 +1,4 @@
-import './MainViewed.scss';
+import styles from './MainViewed.module.scss';
 import React from 'react';
 import Img1 from '../../assets/main__сards/newcar.png';
 import Img2 from '../../assets/main__сards/armchair.png';
@@ -65,19 +65,19 @@ const MainViewed = () => {
     const randomItems = arr.sort(() => 0.5 - Math.random()).slice(0, 10);
 
     return (
-        <div className='main__viewed__wrap'>
+        <div className={styles.main__viewed__wrap}>
             <label>Переглянуті товари</label><br />
             <div>
                 {randomItems.map((el, i) => (
                     <ul key={i}>
                         <li>
-                            <img src={el.img} alt='logo' />
+                            <img className={styles.recom_img} src={el.img} alt='logo' />
                         </li>
                         <li>
-                            <span id='main__viewed__span1'>{el.chapter}</span>
+                            <span id={styles.main__viewed__span1}>{el.chapter}</span>
                         </li>
-                        <li className='main__viewed__prices'>
-                            <div id='main__viewed__span2'>{el.price}</div>
+                        <li className={styles.main__viewed__prices}>
+                            <div id={styles.main__viewed__span2}>{el.price}</div>
                         </li>
                         <button>Дивитися</button>
                     </ul>

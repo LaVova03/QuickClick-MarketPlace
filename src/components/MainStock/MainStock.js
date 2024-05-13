@@ -1,4 +1,4 @@
-import './MainStock.scss';
+import styles from './MainStock.module.scss';
 import React from 'react';
 import Img1 from '../../assets/main__сards/newcar.png';
 import Img2 from '../../assets/main__сards/armchair.png';
@@ -44,20 +44,20 @@ const MainStock = () => {
     const randomItems = arr.sort(() => 0.5 - Math.random()).slice(0, 5);
 
     return (
-        <div className='main__stock__wrap'>
+        <div className={styles.main__stock__wrap}>
             <label>Ціну знижено</label><br />
             <div>
                 {randomItems.map((el, i) => (
                     <ul key={i}>
                         <li>
-                            <img src={el.img} alt='logo' />
+                            <img className={styles.recom_img} src={el.img} alt='logo' />
                         </li>
                         <li>
-                            <span id='main__stock__span1'>{el.chapter}</span>
+                            <span id={styles.main__stock__span1}>{el.chapter}</span>
                         </li>
-                        <li className='main__wrap__prices'>
-                            <div id='main__stock__span2'>{el.price}</div>
-                            <div id='main__stock__span3'>{el.priceRed}</div>
+                        <li className={styles.main__wrap__prices}>
+                            <div id={styles.main__stock__span2}>{el.price}</div>
+                            <div id={styles.main__stock__span3}>{el.priceRed}</div>
                         </li>
                         <button>Дивитися</button>
                     </ul>

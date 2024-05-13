@@ -1,5 +1,6 @@
 import {
-    SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, ADD_CATEGORY_CARD, SET_EDIT_WINDOW
+    SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, ADD_CATEGORY_CARD, SET_EDIT_WINDOW,
+    SET_ALL_ADVERTS
 } from './actionTypes';
 
 export const setBurgerMenu = () => ({
@@ -21,4 +22,9 @@ export const addCategory = (isCategoryRedux) => ({
 
 export const setEditWindow = () => ({
     type: SET_EDIT_WINDOW,
+});
+
+export const setAllAdverts = (data) => ({
+    type: SET_ALL_ADVERTS,
+    payload: data
 });

@@ -10,7 +10,9 @@ $main-color: #00380d;
   border-radius: 40px;
   margin: 40px 2vw 60px;
   float: left;
-  img {
+  .main__third__slide > img,
+  .main__second__slide > img,
+  .main__first__slide > img {
     width: 100%;
     height: auto;
     overflow: hidden;

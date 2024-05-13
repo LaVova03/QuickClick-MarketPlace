@@ -16,9 +16,9 @@ const GetAllImages = async (data, dispatch, token) => {
         for (const item of data) {
             const id = item.id;
 
-            const response = await axios.get(`${API_MAIN_URL}images/${id}`, config);
+            const response = await axios.get(`${API_MAIN_URL}images/${id}`);
 
-            if (response.data) {
+            if (response.status === 200) {
                 imagesFilesArray.push(response.data);
             }
         }

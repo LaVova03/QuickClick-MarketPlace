@@ -1,5 +1,6 @@
 import {
-    SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, ADD_CATEGORY_CARD, SET_EDIT_WINDOW
+    SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, ADD_CATEGORY_CARD, SET_EDIT_WINDOW,
+    SET_ALL_ADVERTS
 } from './actionTypes';
 
 const initialState = {
@@ -8,6 +9,7 @@ const initialState = {
     isAddModal: false,
     isCategoryRedux: '',
     isEditWindow: false,
+    isAllAdverts: null,
 };
 
 const myReducer = (state = initialState, action) => {
@@ -36,6 +38,11 @@ const myReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isEditWindow: !state.isEditWindow,
+            };
+        case SET_ALL_ADVERTS:
+            return {
+                ...state,
+                isAllAdverts: action.payload,
             };
         default:
             return state;
