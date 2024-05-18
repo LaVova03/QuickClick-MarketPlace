@@ -56,7 +56,8 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard, isArchive }) 
                                     <button
                                         onClick={() => {
                                             addLocalstorage(el.id, index);
-                                            navigate('/view_product')
+                                            localStorage.setItem('whoIsIt', 'admin');
+                                            navigate('/view_product');
                                         }}
                                     >Переглянути
                                     </button>

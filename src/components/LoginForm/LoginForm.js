@@ -141,9 +141,9 @@ const LoginForm = () => {
 
   const handleSubmit = (email, password) => {
     if (registration && resRegex.isRepeatPassword === true) {
-      FetchRegistration(email, password, setIsShowExit, dispatch, isTokenBearer, navigate)
+      FetchRegistration(email, password, setIsShowExit, dispatch, isTokenBearer, navigate, notifyError, isAddCardModal)
     } else if (!registration) {
-      FetchLogin(email, password, setIsShowExit, dispatch, isTokenBearer, navigate, notifyError);
+      FetchLogin(email, password, setIsShowExit, navigate, notifyError, isAddCardModal);
     } else {
       notifyError('Паролі не співпадають, спробуйте ще раз')
     }

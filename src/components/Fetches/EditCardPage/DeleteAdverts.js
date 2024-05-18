@@ -1,7 +1,8 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
+import { showSuccessfulModal } from '../../../redux/AddEdit/actions';
 
-const DeleteAdverts = async (id, showSuccessfulModal, dispatch, token) => {
+const DeleteAdverts = async (id, dispatch, token, navigate) => {
 
     const config = {
         headers: {
@@ -11,9 +12,12 @@ const DeleteAdverts = async (id, showSuccessfulModal, dispatch, token) => {
 
     try {
         const response = await axios.delete(`${API_MAIN_URL}adverts/${id}`, config);
-        if (response) {
+        if (response.status === 200) {
             localStorage.setItem('delete', id);
+            localStorage.removeItem('setIdCard');
+            console.log(1)
             dispatch(showSuccessfulModal());
+            navigate('/personal_area');
         }
     } catch (error) {
         console.log("fetch data DELETE cards error:", error);

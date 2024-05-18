@@ -1,9 +1,14 @@
 import './MainBurgerMenu.scss';
 import { useNavigate } from 'react-router-dom';
 import FetchLogout from '../Fetches/LoginPage/FetchLogOut';
+import { useSelector, useDispatch } from 'react-redux';
+import { setBurgerMenu, setLanguage, setAddCard, setEditWindow } from '../../redux/Main/actions';
 
 const MainBurgerMenu = ({ isFlagSet, handleButtonClick, setLogin }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const login = sessionStorage.getItem('login');
 
     const deleteToken = () => {
         FetchLogout();
@@ -30,7 +35,13 @@ const MainBurgerMenu = ({ isFlagSet, handleButtonClick, setLogin }) => {
                     Умови використання
                 </button></li>
                 <li><button onClick={() => {
-                    navigate("/personal_area");
+                    if (login) {
+                        navigate("/personal_area");
+                    } else {
+                        dispatch(setAddCard());
+                        sessionStorage.setItem('personal', 'true');
+                        navigate("/login");
+                    }
                     handleButtonClick();
                 }}>
                     Особистий кабінет

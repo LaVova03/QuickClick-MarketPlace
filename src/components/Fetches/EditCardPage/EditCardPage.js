@@ -45,7 +45,6 @@ const fetchPutGoods = async (isNewCard, id, showSuccessfulModal, dispatch, token
             });
             if (responseFile) {
                 localStorage.setItem('update', id);
-                console.log(part)
                 AllPersonAdverts(setData, dispatch, token, part);
             }
         } else {

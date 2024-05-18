@@ -23,6 +23,7 @@ const PersonalAreaBody = () => {
   const tokenBearer = sessionStorage.getItem('login');
   const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
   const localStorageDelete = localStorage.getItem('delete');
+  const isDeletee = localStorage.getItem('isDelete');
 
   const [isList, setIsList] = useState({
     isOpen1: false,
@@ -98,6 +99,7 @@ const PersonalAreaBody = () => {
   }, [isList]);
 
   useEffect(() => {
+    console.log(isSuccessfulWindow, localStorageDelete)
     if (isSuccessfulWindow && localStorageDelete) {
       notifyError('Оголошення видалено.')
       setTimeout(() => {
@@ -105,7 +107,7 @@ const PersonalAreaBody = () => {
       }, 0)
       localStorage.removeItem('delete');
     }
-  }, [isSuccessfulWindow, localStorageDelete, dispatch])
+  }, [isSuccessfulWindow, localStorageDelete, dispatch, isDeletee])
 
   const fetchGetGoods = async (part) => {
     localStorage.setItem('part', part)

@@ -1,3 +1,5 @@
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import styles from './ViewBody.module.scss';
 import React, { useEffect, useState, useRef } from 'react';
 import Slider from 'react-slick';
@@ -6,9 +8,12 @@ import 'slick-carousel/slick/slick-theme.css';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData } from '../../redux/AddEdit/actions';
+import { showSuccessfulModal } from '../../redux/AddEdit/actions';
 import Person from '../../assets/mainHeader/person.png';
 import MainRecommendations from '../MainRecommendations/MainRecommendations';
 import AllPersonAdverts from '../Fetches/Stunneds/AllPersonAdverts';
+import ArchiveAdverts from '../Fetches/EditCardPage/ArchiveAdverts';
+import DeleteAdverts from "../Fetches/EditCardPage/DeleteAdverts";
 
 const ViewBody = () => {
 
@@ -19,18 +24,20 @@ const ViewBody = () => {
     const isAllAdverts = useSelector(state => state.myReducer.isAllAdverts);
     const isArchiveData = useSelector(state => state.myReducer2.isArchiveData);
     const isImages = useSelector(state => state.myReducer2.isImages);
+    const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
 
     const isIdCard = localStorage.getItem('setIdCard');
     const indexCard = localStorage.getItem('indexCard');
     const token = sessionStorage.getItem('login');
     const part = localStorage.getItem('part');
+    const admin = localStorage.getItem('whoIsIt');
+    const archive = sessionStorage.getItem('archive');
 
     const [photoUrl, addPhotoUrl] = useState([]);
     let [itemSlider, setItemSlider] = useState(0);
 
     useEffect(() => {
         const newPhotoUrls = [];
-
         isImages[indexCard]?.forEach((base64String, index) => {
             const byteCharacters = atob(base64String);
             const byteNumbers = new Array(byteCharacters.length);
@@ -74,8 +81,22 @@ const ViewBody = () => {
     }, [isData, isIdCard, dispatch, token, isImages, part])
 
     useEffect(() => {
-        console.log('isIdCard', isIdCard, "isImages", isImages);
-    }, [isIdCard, isImages])
+        if (isSuccessfulWindow && archive) {
+            dispatch(showSuccessfulModal());
+            notifyError('Оголошення відправлено у архів');
+            localStorage.removeItem('archive');
+        }
+        // if (isSuccessfulWindow && isDeletee) {
+        //     dispatch(showSuccessfulModal());
+        //     notifyError('Оголошення видалено');
+        // }
+    }, [admin, dispatch, archive, isSuccessfulWindow]);
+
+    const notifyError = (message) => {
+        toast.error(message, {
+            position: "top-right",
+        });
+    };
 
     return (
         <div className={styles.view_body_wrap}>
@@ -120,13 +141,15 @@ const ViewBody = () => {
                                         setItemSlider(--itemSlider);
                                     }
                                     handlePrevSlide();
-                                }}></button>
+                                }}>
+                                </button>
                                 <button id={styles.mainslider__btn__right} onClick={() => {
                                     if (itemSlider + 1 < photoUrl.length) {
                                         setItemSlider(++itemSlider);
                                     }
                                     handleNextSlide();
-                                }}></button>
+                                }}>
+                                </button>
                             </div>
                             <div id={styles.view_card_wrap}>
                                 <ul className={styles.view_description_wrap}>
@@ -154,6 +177,28 @@ const ViewBody = () => {
                                 </ul>
                             </div>
                             <div id={styles.view_description}>{el.description}</div>
+                            {admin === 'admin' ?
+                                <div id={styles.view_edit_btns}>
+                                    <button
+                                        id={styles.edit__archive}
+                                        onClick={() => {
+                                            ArchiveAdverts(isIdCard, token, dispatch, showSuccessfulModal);
+                                        }}
+                                    >Архівувати
+                                    </button>
+                                    <button
+                                        id={styles.edit__delete}
+                                        onClick={() => {
+                                            DeleteAdverts(isIdCard, dispatch, token, navigate);
+                                        }}
+                                    >Видалити
+                                    </button>
+                                    <button
+                                        id={styles.edit__put}
+                                    >Редагувати
+                                    </button>
+                                </div>
+                                : null}
                         </main>
                     );
                 }
@@ -162,6 +207,7 @@ const ViewBody = () => {
             <div className={styles.view_recommend_wrap}>
                 <MainRecommendations isCard />
             </div>
+            <ToastContainer />
         </div >
     )
 }

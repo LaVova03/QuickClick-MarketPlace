@@ -1,7 +1,9 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 
-const fetchLogin = async (email, password, setIsShowExit, dispatch, isTokenBearer, navigate, notifyError) => {
+const fetchLogin = async (email, password, setIsShowExit, navigate, notifyError, isAddCardModal) => {
+
+    const personal = sessionStorage.getItem('personal');
 
     try {
         const response = await axios.post(`${API_MAIN_URL}auth/login`,
@@ -13,8 +15,12 @@ const fetchLogin = async (email, password, setIsShowExit, dispatch, isTokenBeare
             setIsShowExit(true);
             sessionStorage.setItem('login', response.data.accessToken);
             const local = sessionStorage.getItem('login')
-            if (local) {
+            if (local && isAddCardModal && !personal) {
+                navigate("/add_card");
+            } else if (local && !isAddCardModal && !personal) {
                 navigate("/");
+            } else if (local && personal) {
+                navigate("/personal_area");
             }
         }
     } catch (error) {

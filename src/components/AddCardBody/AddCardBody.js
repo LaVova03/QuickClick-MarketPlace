@@ -187,7 +187,7 @@ const AddCardBody = () => {
         }
 
         if (isArchive && isSuccessfulWindow) {
-            localStorage.removeItem('archive');
+            sessionStorage.removeItem('archive');
             notifyError('Оголошення відправлено в архів');
             dispatch(showSuccessfulModal());
         }
@@ -196,9 +196,9 @@ const AddCardBody = () => {
             notifyError(isEditWindow ? 'Оголошення відредактовано' : 'Оголошення створено.')
             dispatch(showSuccessfulModal());
         }
-        if (isLocalHostiId || isUpdateId) {
-            fetchActiveStunneds(dispatch, isLocalHostiId, tokenBearer);
+        if ((isLocalHostiId || isUpdateId) && isEditWindow) {
             localStorage.removeItem('update');
+            fetchActiveStunneds(dispatch, isLocalHostiId, tokenBearer);
         }
         if (!isLocalHostiId && isEditWindow) {
             navigate('/personal_area');
@@ -227,6 +227,7 @@ const AddCardBody = () => {
     }
 
     const resetCard = () => {
+        console.log(3)
         setNewCard({
             title: '',
             category: '',
@@ -313,8 +314,8 @@ const AddCardBody = () => {
     };
 
     // useEffect(() => {
-    //     console.log(photoUrl)
-    // }, [photoUrl])
+    //     console.log(isNewCard)
+    // }, [isNewCard])
 
     return (
         <div className='AddCardBody__wrap'>
@@ -338,7 +339,7 @@ const AddCardBody = () => {
                     type="text"
                     name="category"
                     placeholder='Оберіть категорію'
-                    value={isInputCategory || ''}
+                    value={isInputCategory ? isInputCategory : ''}
                     onClick={() => {
                         showCategorys()
                         setProductNameEmpty((prevState) => ({ ...prevState, category: false }))
@@ -768,8 +769,7 @@ const AddCardBody = () => {
                             <button
                                 id={'edit__delete'}
                                 onClick={() => {
-                                    DeleteAdverts(isLocalHostiId, showSuccessfulModal, dispatch, tokenBearer);
-                                    navigate('/personal_area')
+                                    DeleteAdverts(isLocalHostiId, dispatch, tokenBearer, navigate);
                                 }}>Видалити
                             </button>
                             <button

@@ -28,6 +28,7 @@ const GetAllImages = async (data, dispatch, token) => {
                 dispatch(setAllIdImages(responstId.data));
             }
         }
+
     } catch (error) {
         console.log("Ошибка при выполнении GET-запроса всех картинок объявления:", error);
     } finally {
