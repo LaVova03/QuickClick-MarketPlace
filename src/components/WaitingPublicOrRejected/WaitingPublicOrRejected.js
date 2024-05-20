@@ -62,12 +62,13 @@ const WaitingPublicOrRejected = ({ isWaiting, isActive, setIdCard, isArchive }) 
                                     >Переглянути
                                     </button>
                                 </li>
-                                <li><button onClick={() => {
-                                    setIdCard(el.id);
-                                    addLocalstorage(el.id, index)
-                                    dispatch(setEditWindow());
-                                    navigate("/edit_card");
-                                }}>
+                                <li><button
+                                    onClick={() => {
+                                        setIdCard(el.id);
+                                        addLocalstorage(el.id, index)
+                                        dispatch(setEditWindow());
+                                        navigate("/edit_card");
+                                    }}>
                                     Редагувати</button></li>
                             </ul>
                         )

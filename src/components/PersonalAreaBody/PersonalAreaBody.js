@@ -99,7 +99,7 @@ const PersonalAreaBody = () => {
   }, [isList]);
 
   useEffect(() => {
-    console.log(isSuccessfulWindow, localStorageDelete)
+    // console.log(isSuccessfulWindow, localStorageDelete)
     if (isSuccessfulWindow && localStorageDelete) {
       notifyError('Оголошення видалено.')
       setTimeout(() => {

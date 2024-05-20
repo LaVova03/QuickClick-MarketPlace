@@ -110,7 +110,7 @@ const AddCardBody = () => {
     useEffect(() => {
         if (isEditWindow) {
             const newPhotoUrls = [];
-
+            console.log(indexCard)
             // Обработка файлов, полученных из чаркодов
             isFullImages[indexCard]?.forEach((base64String, index) => {
                 const byteCharacters = atob(base64String);
@@ -313,9 +313,9 @@ const AddCardBody = () => {
         });
     };
 
-    // useEffect(() => {
-    //     console.log(isNewCard)
-    // }, [isNewCard])
+    useEffect(() => {
+        console.log(photoUrl)
+    }, [photoUrl])
 
     return (
         <div className='AddCardBody__wrap'>

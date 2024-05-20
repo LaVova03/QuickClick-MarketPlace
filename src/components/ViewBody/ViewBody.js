@@ -9,11 +9,13 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData } from '../../redux/AddEdit/actions';
 import { showSuccessfulModal } from '../../redux/AddEdit/actions';
+import { setEditWindow } from '../../redux/Main/actions';
 import Person from '../../assets/mainHeader/person.png';
 import MainRecommendations from '../MainRecommendations/MainRecommendations';
 import AllPersonAdverts from '../Fetches/Stunneds/AllPersonAdverts';
 import ArchiveAdverts from '../Fetches/EditCardPage/ArchiveAdverts';
 import DeleteAdverts from "../Fetches/EditCardPage/DeleteAdverts";
+import FetchActive from '../Fetches/Stunneds/FetchActive';
 
 const ViewBody = () => {
 
@@ -25,6 +27,7 @@ const ViewBody = () => {
     const isArchiveData = useSelector(state => state.myReducer2.isArchiveData);
     const isImages = useSelector(state => state.myReducer2.isImages);
     const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
+    const isFullImages = useSelector(state => state.myReducer2?.isImages);
 
     const isIdCard = localStorage.getItem('setIdCard');
     const indexCard = localStorage.getItem('indexCard');
@@ -35,10 +38,15 @@ const ViewBody = () => {
 
     const [photoUrl, addPhotoUrl] = useState([]);
     let [itemSlider, setItemSlider] = useState(0);
+    const [localIdCard, setLocalIdCard] = useState('')
+    const [allPhoto, setAllPhoto] = useState([]);
 
     useEffect(() => {
+        if (allPhoto.length === 0 && isImages) {
+            setAllPhoto(isImages);
+        }
         const newPhotoUrls = [];
-        isImages[indexCard]?.forEach((base64String, index) => {
+        allPhoto[indexCard]?.forEach((base64String, index) => {
             const byteCharacters = atob(base64String);
             const byteNumbers = new Array(byteCharacters.length);
             for (let i = 0; i < byteCharacters.length; i++) {
@@ -52,7 +60,7 @@ const ViewBody = () => {
 
         addPhotoUrl(newPhotoUrls);
 
-    }, [isImages, indexCard]);
+    }, [isImages, indexCard, allPhoto]);
 
     const settings = {
         dots: false,
@@ -86,10 +94,6 @@ const ViewBody = () => {
             notifyError('Оголошення відправлено у архів');
             localStorage.removeItem('archive');
         }
-        // if (isSuccessfulWindow && isDeletee) {
-        //     dispatch(showSuccessfulModal());
-        //     notifyError('Оголошення видалено');
-        // }
     }, [admin, dispatch, archive, isSuccessfulWindow]);
 
     const notifyError = (message) => {
@@ -97,6 +101,28 @@ const ViewBody = () => {
             position: "top-right",
         });
     };
+
+    const addLocalstorage = (id, index) => {
+        localStorage.removeItem('setIdCard');
+        localStorage.removeItem('indexCard');
+        localStorage.setItem('setIdCard', id);
+        localStorage.setItem('indexCard', index);
+    }
+
+    const changeData = async (id) => {
+        try {
+            await FetchActive(id);
+        } catch {
+            console.log("fetch data PUT cards error");
+        }
+    };
+
+    useEffect(() => {
+        if (localIdCard) {
+            changeData(localIdCard);
+            setLocalIdCard("");
+        }
+    }, [localIdCard])
 
     return (
         <div className={styles.view_body_wrap}>
@@ -122,7 +148,6 @@ const ViewBody = () => {
                                 <label>{el.title}</label>
                             </header>
                             <div id={styles.wrap_slider}>
-                                {/* <div>Loading...</div> */}
                                 <Slider ref={sliderRef} {...settings}>
                                     {photoUrl.map((el, index) => {
                                         if (el) {
@@ -193,10 +218,20 @@ const ViewBody = () => {
                                         }}
                                     >Видалити
                                     </button>
+                                    {/* {isFullImages && (part === 'active' ? isData : isArchiveData)?.[0] && ( */}
                                     <button
                                         id={styles.edit__put}
-                                    >Редагувати
+                                        onClick={() => {
+                                            // const el = (part === 'active' ? isData : isArchiveData)[0];
+                                            // setLocalIdCard(el.id);
+                                            // addLocalstorage(isIdCard, indexCard);
+                                            dispatch(setEditWindow());
+                                            navigate("/edit_card");
+                                        }}
+                                    >
+                                        Редагувати
                                     </button>
+                                    {/* )} */}
                                 </div>
                                 : null}
                         </main>
