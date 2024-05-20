@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import AllAdverts from '../Fetches/Stunneds/AllAdverts';
 import Camera from '../../assets/main__сards/camera.jpg';
 import { useNavigate } from 'react-router-dom';
+import RecomendationAdverts from '../Fetches/Stunneds/RecomendationAdverts';
+import GetIdImages from '../Fetches/Stunneds/GetIdImages';
 
-const MainRecommendations = ({ isCard }) => {
+const MainRecommendations = ({ isCard, isMain }) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -17,27 +19,35 @@ const MainRecommendations = ({ isCard }) => {
     const [allIndexCard, setAllIndexCard] = useState([]);
     const [data, setData] = useState(null);
     const [allIdCardRandom, setAllIdCardRandom] = useState([]);
+    const [recomendation, setRecomendation] = useState([]);
 
-    const randomItems = isAllAdverts?.sort(() => 0.5 - Math.random()).slice(0, 10);
-    const randomItemsCard = isAllAdverts?.sort(() => 0.5 - Math.random()).slice(0, 6);
+    useEffect(() => {
+        if (recomendation.length === 0) {
+            RecomendationAdverts({ setRecomendation });
+        }
+        if (recomendation.length > 0 && allIdCardRandom.length > 0) {
+            GetIdImages({ setPhoto, allIdCardRandom })
+        }
+    }, [recomendation, dispatch, isFullImages, allIdCardRandom])
+
+    const randomItemsCard = recomendation?.sort(() => 0.5 - Math.random()).slice(0, 6);
 
     useEffect(() => {
         AllAdverts({ dispatch });
     }, [dispatch])
 
     useEffect(() => {
-        if (!isCard && randomItems && !data) {
-            setData(randomItems);
-        }
         if (isCard && randomItemsCard && !data) {
             setData(randomItemsCard);
         }
-        if (data && allIdCardRandom.length === 0) {
-            data.forEach((el, i) => {
-                setAllIdCardRandom(prevIds => [...prevIds, el.id]);
-            });
+        if (recomendation?.length > 0 && allIdCardRandom?.length === 0) {
+            const allId = recomendation.map(el => el.id);
+            // Проверяем, изменилось ли состояние перед установкой нового значения
+            if (JSON.stringify(allIdCardRandom) !== JSON.stringify(allId)) {
+                setAllIdCardRandom(allId);
+            }
         }
-    }, [data, randomItems, randomItemsCard, isCard, allIdCardRandom]);
+    }, [data, recomendation, randomItemsCard, isCard, isMain, allIdCardRandom]);
 
     useEffect(() => {
         const newPhotoUrls = [];
@@ -91,20 +101,28 @@ const MainRecommendations = ({ isCard }) => {
         navigate('/view_product');
     }
 
+    useEffect(() => {
+        console.log(data)
+    })
+
     return (
         <div className={styles.main__recommendations__wrap}>
             <label>Рекомендації</label><br />
             <div>
-                {data?.map((el, i) => {
-                    {/* console.log(data, isPhoto) */}
-                    const indexCard = isAllAdverts.findIndex((item) => item.id === el.id);
+                {recomendation?.map((el, i) => {
+                    {/* const indexCard = isAllAdverts.findIndex((item) => item.id === el.id); */ }
+                    const findPhoto = isPhoto?.find(item => item && item[0] === el.id);
+                    console.log(el, isPhoto)
                     const curr = el.currency === "EUR" ? '€'
                         : el.currency === "USD" ? "$"
                             : "₴"
                     return (
                         <ul key={i} id={isCard ? styles.main__recommendations__view : null}>
                             <li>
-                                <img className={styles.recom_img} src={isPhoto[indexCard] === null ? Camera : isPhoto[indexCard]} alt='logo' />
+                                <img className={styles.recom_img}
+                                    src={findPhoto && isMain ?
+                                        isPhoto
+                                        : Camera} alt='logo' />
                             </li>
                             <li>
                                 <span id={styles.main__recommendations__span1}>{el.description}</span>

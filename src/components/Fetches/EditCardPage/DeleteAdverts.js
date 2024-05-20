@@ -15,7 +15,6 @@ const DeleteAdverts = async (id, dispatch, token, navigate) => {
         if (response.status === 200) {
             localStorage.setItem('delete', id);
             localStorage.removeItem('setIdCard');
-            console.log(1)
             dispatch(showSuccessfulModal());
             navigate('/personal_area');
         }

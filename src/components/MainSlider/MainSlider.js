@@ -63,7 +63,7 @@ const MainSlider = () => {
                 <button id={styles.mainslider__btn__right} onClick={handleNextSlide}></button>
             </div>
             <MainStock />
-            <MainRecommendations />
+            <MainRecommendations isMain/>
             <MainViewed />
         </div>
     );

@@ -27,7 +27,6 @@ const ViewBody = () => {
     const isArchiveData = useSelector(state => state.myReducer2.isArchiveData);
     const isImages = useSelector(state => state.myReducer2.isImages);
     const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
-    const isFullImages = useSelector(state => state.myReducer2?.isImages);
 
     const isIdCard = localStorage.getItem('setIdCard');
     const indexCard = localStorage.getItem('indexCard');
@@ -101,13 +100,6 @@ const ViewBody = () => {
             position: "top-right",
         });
     };
-
-    const addLocalstorage = (id, index) => {
-        localStorage.removeItem('setIdCard');
-        localStorage.removeItem('indexCard');
-        localStorage.setItem('setIdCard', id);
-        localStorage.setItem('indexCard', index);
-    }
 
     const changeData = async (id) => {
         try {
@@ -218,20 +210,15 @@ const ViewBody = () => {
                                         }}
                                     >Видалити
                                     </button>
-                                    {/* {isFullImages && (part === 'active' ? isData : isArchiveData)?.[0] && ( */}
                                     <button
                                         id={styles.edit__put}
                                         onClick={() => {
-                                            // const el = (part === 'active' ? isData : isArchiveData)[0];
-                                            // setLocalIdCard(el.id);
-                                            // addLocalstorage(isIdCard, indexCard);
                                             dispatch(setEditWindow());
                                             navigate("/edit_card");
                                         }}
                                     >
                                         Редагувати
                                     </button>
-                                    {/* )} */}
                                 </div>
                                 : null}
                         </main>
