@@ -2,6 +2,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./PersonalAreaBody.scss";
 import React, { useState, useEffect } from "react";
+import { Outlet, Link } from 'react-router-dom';
 import Plus from "../../assets/personal__area/Plus.png";
 import Minus from "../../assets/personal__area/Minus.png";
 import Msg from "../../assets/personal__area/msg.png";
@@ -305,7 +306,7 @@ const PersonalAreaBody = () => {
                 onClick={() => setCategory("five")}
                 className={`personal__part${isPart.five ? "__green" : ""}`}
               >
-                Вхідні
+                <Link className="link_none" to="chat">Вхідні</Link>
               </button>
             </li>
             <li>
@@ -379,7 +380,7 @@ const PersonalAreaBody = () => {
         ) : isCategory === "six" && isList.isOpen2 ? (
           <PersonalMessages isExit />
         ) : isCategory === "seven" && isList.isOpen2 ? (
-          <PersonalMessages />
+          <PersonalMessages isArchive />
         ) : isList.isOpen3 ? (
           <PersonalData />
         ) : (
@@ -389,6 +390,7 @@ const PersonalAreaBody = () => {
       <ToastContainer
         style={{ position: 'fixed', right: '0 !important', width: 'max-content' }}
       />
+      <Outlet />
     </div >
   );
 };

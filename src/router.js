@@ -9,6 +9,7 @@ import ForgotPasswordModal from "./components/ForgotPasswordModal/ForgotPassword
 import PageIsNotFound from './containers/PageIsNotFound/PageIsNotFound';
 import ViewProduct from "./containers/ViewProduct/ViewProduct";
 import StaticContainer from "./containers/StaticContainer/StaticContainer";
+import ChatWrap from "./containers/ChatWrap/ChatWrap";
 import { useSelector } from 'react-redux';
 
 const AppRouter = () => {
@@ -30,7 +31,9 @@ const AppRouter = () => {
                         </Route>
 
                         <Route element={<PrivateRoute />}>
-                            <Route path="/personal_area" element={<PersonalArea />} />
+                            <Route path="/personal_area" element={<PersonalArea />}>
+                                <Route path="chat" element={<ChatWrap />} />
+                            </Route>
                             <Route path={path} element={<AddCard />} />
                         </Route>
 

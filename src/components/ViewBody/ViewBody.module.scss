@@ -335,3 +335,35 @@ main {
     display: none;
   }
 }
+
+.view_btn_chat {
+  display: flex;
+  width: 224px;
+  height: 64px;
+  padding: 19px 26px 19px 27px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
+  background: $backgroud-form-btn;
+  border: 0;
+  margin-bottom: 16px;
+  color: $li-color;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  cursor: pointer;
+  transition: 300ms;
+}
+
+.view_btn_chat:hover {
+  background: $li-color;
+  color: $backgroud-form-btn;
+}
+
+.view_btn_chat:active {
+  color: $backgroud-form-color;
+  background: $backgroud-form-btn;
+}

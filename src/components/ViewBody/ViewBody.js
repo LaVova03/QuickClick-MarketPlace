@@ -16,6 +16,7 @@ import AllPersonAdverts from '../Fetches/Stunneds/AllPersonAdverts';
 import ArchiveAdverts from '../Fetches/EditCardPage/ArchiveAdverts';
 import DeleteAdverts from "../Fetches/EditCardPage/DeleteAdverts";
 import FetchActive from '../Fetches/Stunneds/FetchActive';
+import Camera from '../../assets/main__сards/camera.jpg';
 
 const ViewBody = () => {
 
@@ -128,11 +129,23 @@ const ViewBody = () => {
 
             {(part === "active" ? isData : part === "main" ? isAllAdverts : isArchiveData)?.map(el => {
                 if (el.id === +isIdCard) {
-                    let jsonString;
+                    let jsonString = el.address;
                     let address;
-                    if (part !== 'main') {
-                        jsonString = el.address;
-                        address = JSON.parse(jsonString);
+                    if (part) {
+                        try {
+                            const parsed = JSON.parse(jsonString);
+                            // Проверка, что parsed это объект (включая массивы)
+                            if (parsed && typeof parsed === 'object') {
+                                address = parsed;
+                            } else {
+                                address = null;
+                            }
+                        } catch (e) {
+                            // Если строка не является валидным JSON, оставляем как строку
+                            address = null;
+                        }
+                    } else {
+                        address = null; // Обработка для случая, когда part === 'main'
                     }
                     return (
                         <main key={el.id}>
@@ -141,17 +154,17 @@ const ViewBody = () => {
                             </header>
                             <div id={styles.wrap_slider}>
                                 <Slider ref={sliderRef} {...settings}>
-                                    {photoUrl.map((el, index) => {
-                                        if (el) {
-                                            return (
-                                                <div className={styles.main__first__slide} key={index}>
-                                                    <img src={el} alt={`slide-${index}`} />
-                                                </div>
-                                            )
-                                        } else {
-                                            return null;
-                                        }
-                                    })}
+                                    {photoUrl.length > 0 ? (
+                                        photoUrl.map((el, index) => (
+                                            <div className={styles.main__first__slide} key={index}>
+                                                <img src={el || Camera} alt={`slide-${index}`} />
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className={styles.main__first__slide} key="default">
+                                            <img src={Camera} alt="default-slide" />
+                                        </div>
+                                    )}
                                 </Slider>
                                 <button id={styles.mainslider__btn__left} onClick={() => {
                                     if (itemSlider > 0) {
@@ -176,7 +189,20 @@ const ViewBody = () => {
                                                 '$'} ${el.price}`}
                                     </li>
                                     <li>{el.category}</li>
-                                    <li>н.п. {part === 'main' ? el.address : address.city}</li>
+                                    <li>н.п. {address ? address.city : el.address}</li>
+                                    <li>
+                                        <button
+                                            className={styles.view_btn_chat}
+                                            onClick={() => {
+                                                if (!token) {
+                                                    navigate('/login');
+                                                } else {
+                                                    navigate('/chat');
+                                                }
+                                            }}
+                                        >Зв’язатися
+                                        </button>
+                                    </li>
                                     <li id={styles.view_personal_data}>
                                         <ul>
                                             <li>
@@ -186,7 +212,7 @@ const ViewBody = () => {
                                                     <div id={styles.view_sallesperon}>Продавець</div>
                                                 </div>
                                             </li>
-                                            <li>н.п. {part === 'main' ? el.address : address.city}</li>
+                                            <li>н.п. {address ? address.city : el.address}</li>
                                             <li>Був на сайті 10 хв назад</li>
                                             <li>{el.phone}</li>
                                         </ul>

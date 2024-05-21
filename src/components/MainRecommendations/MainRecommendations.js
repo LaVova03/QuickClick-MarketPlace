@@ -30,7 +30,7 @@ const MainRecommendations = ({ isCard, isMain }) => {
         }
     }, [recomendation, dispatch, isFullImages, allIdCardRandom])
 
-    const randomItemsCard = recomendation?.sort(() => 0.5 - Math.random()).slice(0, 6);
+    const randomItemsCard = recomendation.slice(0, 6);
 
     useEffect(() => {
         AllAdverts({ dispatch });
@@ -48,33 +48,6 @@ const MainRecommendations = ({ isCard, isMain }) => {
             }
         }
     }, [data, recomendation, randomItemsCard, isCard, isMain, allIdCardRandom]);
-
-    useEffect(() => {
-        const newPhotoUrls = [];
-        // Проверяем, существует ли массив isFullImages и есть ли в нем хотя бы один элемент
-        if (isFullImages) {
-            // Перебираем все элементы массива isFullImages
-            for (const imageData of isFullImages) {
-                // Проверяем, есть ли в текущем элементе изображение под индексом 0
-                if (imageData && imageData.length > 0 && imageData[0]) {
-                    const base64String = imageData[0];
-                    const byteCharacters = atob(base64String);
-                    const byteNumbers = new Array(byteCharacters.length);
-                    for (let i = 0; i < byteCharacters.length; i++) {
-                        byteNumbers[i] = byteCharacters.charCodeAt(i);
-                    }
-                    const byteArray = new Uint8Array(byteNumbers);
-                    const blob = new Blob([byteArray], { type: 'image/jpeg' });
-                    const url = URL.createObjectURL(blob);
-                    newPhotoUrls.push(url);
-                } else {
-                    newPhotoUrls.push(null);
-                }
-            }
-            // Устанавливаем новые URL в состояние photo
-            setPhoto(newPhotoUrls);
-        }
-    }, []);
 
     useEffect(() => {
         if (allIdCardRandom && isAllAdverts) {
@@ -101,28 +74,29 @@ const MainRecommendations = ({ isCard, isMain }) => {
         navigate('/view_product');
     }
 
-    useEffect(() => {
-        console.log(data)
-    })
-
     return (
         <div className={styles.main__recommendations__wrap}>
             <label>Рекомендації</label><br />
             <div>
-                {recomendation?.map((el, i) => {
-                    {/* const indexCard = isAllAdverts.findIndex((item) => item.id === el.id); */ }
-                    const findPhoto = isPhoto?.find(item => item && item[0] === el.id);
-                    console.log(el, isPhoto)
+                {(isCard ? randomItemsCard : recomendation)?.map((el, i) => {
+                    const searchPhoto = (id) => {
+                        const found = isPhoto.length > 0 ? isPhoto.find(item => item[0] === id) : null;
+                        if (found && found[1] !== null) {
+                            const blob = found[1];
+                            return URL.createObjectURL(blob);
+                        }
+                        return Camera;
+                    }
+
                     const curr = el.currency === "EUR" ? '€'
                         : el.currency === "USD" ? "$"
-                            : "₴"
+                            : "₴";
+
                     return (
                         <ul key={i} id={isCard ? styles.main__recommendations__view : null}>
                             <li>
                                 <img className={styles.recom_img}
-                                    src={findPhoto && isMain ?
-                                        isPhoto
-                                        : Camera} alt='logo' />
+                                    src={isPhoto.length > 0 ? searchPhoto(el.id) : Camera} alt='logo' />
                             </li>
                             <li>
                                 <span id={styles.main__recommendations__span1}>{el.description}</span>
@@ -130,13 +104,17 @@ const MainRecommendations = ({ isCard, isMain }) => {
                             <li className={styles.main__recommendations__prices}>
                                 <div id={styles.main__recommendations__span2}>{curr} {el.price}</div>
                             </li>
-                            <button onClick={() => showCard(el.id)}>Дивитися</button>
+                            <button onClick={() => {
+                                localStorage.removeItem('whoIsIt');
+                                localStorage.setItem('whoIsIt', 'user');
+                                showCard(el.id);
+                            }}>Дивитися</button>
                         </ul>
-                    )
+                    );
                 })}
             </div>
         </div>
-    )
+    );
 }
 
 export default MainRecommendations;
