@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setAddCard, setEditWindow } from "../../redux/Main/actions";
 import FetchLogin from '../Fetches/LoginPage/FetchLogin';
 import FetchRegistration from '../Fetches/LoginPage/FetchRegistration';
+import { setToats } from '../../redux/Chat/actions';
 
 const LoginForm = () => {
   const [isRepeatPassword, setRepeatPassword] = useState("");
@@ -30,13 +31,19 @@ const LoginForm = () => {
   const isAddCardModal = useSelector((state) => state.myReducer?.isAddModal);
   const isEditWindow = useSelector((state) => state.myReducer?.isEditWindow);
   const isTokenBearer = useSelector(state => state.myReducer?.isTokenBearer);
+  const isToast = useSelector(state => state.myReducer3?.isToast);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isAddCardModal) {
       notifyError("Для створення оголошення потрібно зареєструватися");
     }
-  }, [isAddCardModal, dispatch]);
+    if (isToast) {
+      dispatch(setToats());
+      notifyError("Для написання повідомлення потрібно зареєструватися");
+    }
+  }, [isAddCardModal, isToast, dispatch]);
 
   const notifyError = (message) => {
     toast.error(message, {

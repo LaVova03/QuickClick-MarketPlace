@@ -17,6 +17,7 @@ import ArchiveAdverts from '../Fetches/EditCardPage/ArchiveAdverts';
 import DeleteAdverts from "../Fetches/EditCardPage/DeleteAdverts";
 import FetchActive from '../Fetches/Stunneds/FetchActive';
 import Camera from '../../assets/main__сards/camera.jpg';
+import { setToats } from '../../redux/Chat/actions';
 
 const ViewBody = () => {
 
@@ -195,9 +196,11 @@ const ViewBody = () => {
                                             className={styles.view_btn_chat}
                                             onClick={() => {
                                                 if (!token) {
+                                                    dispatch(setToats());
                                                     navigate('/login');
                                                 } else {
-                                                    navigate('/chat');
+                                                    localStorage.setItem('chapter', 'chat');
+                                                    navigate('/personal_area/chat');
                                                 }
                                             }}
                                         >Зв’язатися

@@ -25,6 +25,7 @@ const PersonalAreaBody = () => {
   const isSuccessfulWindow = useSelector(state => state.myReducer2?.isSuccessfulWindow);
   const localStorageDelete = localStorage.getItem('delete');
   const isDeletee = localStorage.getItem('isDelete');
+  const chapter = localStorage.getItem('chapter');
 
   const [isList, setIsList] = useState({
     isOpen1: false,
@@ -90,6 +91,7 @@ const PersonalAreaBody = () => {
       }));
     }
     if (list2) {
+      localStorage.removeItem('chapter');
       setPart((prev) => ({
         ...prev,
         five: false,
@@ -182,6 +184,16 @@ const PersonalAreaBody = () => {
       [num]: !prevState[num],
     }));
   };
+
+  useEffect(() => {
+    if (chapter === 'chat') {
+      setCategory("five");
+      setIsList(prev => ({
+        ...prev,
+        isOpen2: true,
+      }));
+    }
+  }, [chapter])
 
   const setPersonalData = () => {
     addCategory("");

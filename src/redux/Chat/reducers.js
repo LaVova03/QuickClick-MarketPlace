@@ -1,7 +1,8 @@
-import { SET_ALL_CHATS } from './actionTypes';
+import { SET_ALL_CHATS, SET_TOATS } from './actionTypes';
 
 const initialState = {
     isAllChats: [],
+    isToast: false,
 };
 
 const myReducer3 = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const myReducer3 = (state = initialState, action) => {
             return {
                 ...state,
                 isAllChats: action.payload,
+            };
+        case SET_TOATS:
+            return {
+                ...state,
+                isToast: !state.isToast,
             };
         default:
             return state;
