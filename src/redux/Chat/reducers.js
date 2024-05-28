@@ -1,9 +1,8 @@
-import { SET_ALL_CHATS, SET_TOATS, SET_USER_NAME } from './actionTypes';
+import { SET_ALL_CHATS, SET_TOATS } from './actionTypes';
 
 const initialState = {
     isAllChats: null,
     isToast: false,
-    isUserName: '',
 };
 
 const myReducer3 = (state = initialState, action) => {
@@ -17,11 +16,6 @@ const myReducer3 = (state = initialState, action) => {
             return {
                 ...state,
                 isToast: !state.isToast,
-            };
-        case SET_USER_NAME:
-            return {
-                ...state,
-                isUserName: action.payload,
             };
         default:
             return state;

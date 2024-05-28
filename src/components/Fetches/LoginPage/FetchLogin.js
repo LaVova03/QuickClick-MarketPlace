@@ -4,6 +4,7 @@ import { API_MAIN_URL } from '../../../constants/Constants';
 const fetchLogin = async (email, password, setIsShowExit, navigate, notifyError, isAddCardModal) => {
 
     const personal = sessionStorage.getItem('personal');
+    localStorage.setItem('email', email);
 
     try {
         const response = await axios.post(`${API_MAIN_URL}auth/login`,

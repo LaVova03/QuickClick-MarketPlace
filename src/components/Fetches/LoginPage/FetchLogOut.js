@@ -15,6 +15,7 @@ const FetchLogout = async () => {
             localStorage.removeItem('part');
             localStorage.removeItem('delete');
             localStorage.removeItem('chapter');
+            localStorage.removeItem('email');
         }
     } catch (error) {
         console.log("Ошибка при выполнении POST-запроса для выхода из аккаунта:", error);

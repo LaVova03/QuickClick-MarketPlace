@@ -3,14 +3,39 @@ $user-color: #00a224;
 $text-color: #001004;
 $input-color: #06611a;
 $placeholder-color: #b4b4b4;
+$white-color: #fff;
 
 .chat_all_wrap {
   width: 80%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.chat_all_wrap.visible {
+  opacity: 1;
+}
+
+.chat_all_wrap {
+  opacity: 0;
+  animation: fadeInOut 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 .chat_wrap_messages {
   width: 100%;
   min-width: max-content;
   padding: 0;
+  height: 280px;
+  overflow-y: auto;
+  scrollbar-width: 10px;
+  scrollbar-color: $admin-color $white-color;
 }
 
 .chat_mess_left {

@@ -26,6 +26,7 @@ const PersonalAreaBody = () => {
   const localStorageDelete = localStorage.getItem('delete');
   const isDeletee = localStorage.getItem('isDelete');
   const chapter = localStorage.getItem('chapter');
+  const part = sessionStorage.getItem('part');
 
   const [isList, setIsList] = useState({
     isOpen1: false,
@@ -113,7 +114,6 @@ const PersonalAreaBody = () => {
   }, [isSuccessfulWindow, localStorageDelete, dispatch, isDeletee])
 
   const fetchGetGoods = async (part) => {
-    localStorage.setItem('part', part)
     setLoading((prev) => ({
       ...prev,
       active: !prev.active,
@@ -186,14 +186,14 @@ const PersonalAreaBody = () => {
   };
 
   useEffect(() => {
-    if (chapter === 'chat') {
+    if (part === 'inbox_messages') {
       setCategory("five");
       setIsList(prev => ({
         ...prev,
         isOpen2: true,
       }));
     }
-  }, [chapter])
+  }, [chapter, part])
 
   const setPersonalData = () => {
     addCategory("");
@@ -234,7 +234,16 @@ const PersonalAreaBody = () => {
             Оголошення
             <button
               className="personal__bnt__plus"
-              onClick={() => changeList("1")}
+              onClick={() => {
+                if (isList.isOpen1) {
+                  sessionStorage.removeItem('part');
+                  localStorage.removeItem('chapter');
+                  localStorage.setItem('chapter', 'adverts');
+                } else {
+                  navigate('/personal_area');
+                }
+                changeList("1");
+              }}
             >
               <img src={!isList.isOpen1 ? Plus : Minus} alt="logo" />
             </button>
@@ -261,7 +270,11 @@ const PersonalAreaBody = () => {
             </li>
             <li>
               <button
-                onClick={() => setCategory("two")}
+                onClick={() => {
+                  sessionStorage.removeItem('part');
+                  sessionStorage.setItem('part', 'waiting_public');
+                  setCategory("two");
+                }}
                 className={`personal__part${isPart.two ? "__green" : ""}`}
               >
                 Очікують публікації
@@ -269,7 +282,11 @@ const PersonalAreaBody = () => {
             </li>
             <li>
               <button
-                onClick={() => setCategory("three")}
+                onClick={() => {
+                  sessionStorage.removeItem('part');
+                  sessionStorage.setItem('part', 'cancelled');
+                  setCategory("three");
+                }}
                 className={`personal__part${isPart.three ? "__green" : ""}`}
               >
                 Відхилені
@@ -301,7 +318,16 @@ const PersonalAreaBody = () => {
             Повідомлення
             <button
               className="personal__bnt__plus"
-              onClick={() => changeList("2")}
+              onClick={() => {
+                if (isList.isOpen2) {
+                  sessionStorage.removeItem('part');
+                  localStorage.removeItem('chapter');
+                  localStorage.setItem('chapter', 'messages');
+                } else {
+                  navigate('/personal_area');
+                }
+                changeList("2");
+              }}
             >
               <img src={!isList.isOpen2 ? Plus : Minus} alt="logo" />
             </button>
@@ -315,7 +341,11 @@ const PersonalAreaBody = () => {
           >
             <li>
               <button
-                onClick={() => setCategory("five")}
+                onClick={() => {
+                  sessionStorage.removeItem('part');
+                  sessionStorage.setItem('part', 'inbox_messages');
+                  setCategory("five");
+                }}
                 className={`personal__part${isPart.five ? "__green" : ""}`}
               >
                 <Link className="link_none" to="chat">Вхідні</Link>
@@ -323,7 +353,11 @@ const PersonalAreaBody = () => {
             </li>
             <li>
               <button
-                onClick={() => setCategory("six")}
+                onClick={() => {
+                  sessionStorage.removeItem('part');
+                  sessionStorage.setItem('part', 'outgoing_messages');
+                  setCategory("six");
+                }}
                 className={`personal__part${isPart.six ? "__green" : ""}`}
               >
                 Вихідні
@@ -331,7 +365,11 @@ const PersonalAreaBody = () => {
             </li>
             <li>
               <button
-                onClick={() => setCategory("seven")}
+                onClick={() => {
+                  sessionStorage.removeItem('part');
+                  sessionStorage.setItem('part', 'archive_messages');
+                  setCategory("seven");
+                }}
                 className={`personal__part${isPart.seven ? "__green" : ""}`}
               >
                 Архів
@@ -350,7 +388,16 @@ const PersonalAreaBody = () => {
             Особисті дані
             <button
               className="personal__bnt__plus"
-              onClick={() => setPersonalData()}
+              onClick={() => {
+                if (isList.isOpen3) {
+                  localStorage.removeItem('chapter');
+                  localStorage.setItem('chapter', 'personal_data');
+                } else {
+                  sessionStorage.removeItem('part');
+                  navigate('/personal_area');
+                }
+                setPersonalData();
+              }}
             >
               <img src={!isList.isOpen3 ? Plus : Minus} alt="logo" />
             </button>
@@ -402,7 +449,7 @@ const PersonalAreaBody = () => {
       <ToastContainer
         style={{ position: 'fixed', right: '0 !important', width: 'max-content' }}
       />
-      <Outlet />
+      <Outlet isActive setIdCard={setIdCard} isWaiting isArchive />
     </div >
   );
 };

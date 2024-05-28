@@ -199,7 +199,7 @@ const ViewBody = () => {
                                                     dispatch(setToats());
                                                     navigate('/login');
                                                 } else {
-                                                    localStorage.setItem('chapter', 'chat');
+                                                    sessionStorage.setItem('part', 'inbox_messages');
                                                     navigate('/personal_area/chat');
                                                 }
                                             }}
