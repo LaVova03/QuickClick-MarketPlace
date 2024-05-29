@@ -36,6 +36,7 @@ const MainBurgerMenu = ({ isFlagSet, handleButtonClick, setLogin }) => {
                 </button></li>
                 <li><button onClick={() => {
                     if (login) {
+                        sessionStorage.removeItem('part');
                         navigate("/personal_area");
                     } else {
                         dispatch(setAddCard());

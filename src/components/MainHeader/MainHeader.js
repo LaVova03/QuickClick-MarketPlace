@@ -79,7 +79,10 @@ const MainHeader = () => {
                     <button id='main__header__heart'><div></div></button>
                     <button
                         id={login ? 'main__header__person' : 'main__header__user'}
-                        onClick={!login ? handleNavigateLogin : handleNavigatePersonalPlace}>
+                        onClick={() => {
+                            sessionStorage.removeItem('part');
+                            !login ? handleNavigateLogin() : handleNavigatePersonalPlace()
+                        }}>
                         <div></div>
                     </button>
                     <div className='main__wrap__lang'>

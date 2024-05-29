@@ -4,11 +4,16 @@ $text-color: #001004;
 $input-color: #06611a;
 $placeholder-color: #b4b4b4;
 $white-color: #fff;
+$price-color: #ff5858;
 
 .chat_all_wrap {
-  width: 80%;
+  width: 100%;
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
+  main {
+    width: 80%;
+    margin: 25px auto 0;
+  }
 }
 
 .chat_all_wrap.visible {
@@ -142,5 +147,115 @@ $white-color: #fff;
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     -o-transform: translateY(-50%);
+  }
+}
+
+.chat_all_wrap > header > ul {
+  display: flex;
+  align-items: center;
+}
+
+.chat_all_wrap > header > ul > li {
+  list-style: none;
+}
+
+.chat_all_wrap > header > ul > li:first-child {
+  display: flex;
+  width: 80px;
+  height: 80px;
+  padding: 5px;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: $admin-color;
+  img {
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+  }
+}
+
+.chat_all_wrap > header > ul > li:nth-of-type(2) {
+  display: flex;
+  width: 288px;
+  height: 30px;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  color: $text-color;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%;
+}
+
+.chat_all_wrap > header > ul > li:nth-of-type(3) {
+  display: flex;
+  width: 160px;
+  height: 60px;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  color: $price-color;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 160%;
+}
+
+.chat_all_wrap > header > ul > li:nth-of-type(4) {
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin: 0 16px;
+    background-color: inherit;
+    border: 0;
+    cursor: pointer;
+    img {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      object-fit: cover;
+      cursor: pointer;
+    }
+  }
+}
+
+.chat_all_wrap > header > ul > li:nth-of-type(5) {
+  button {
+    display: flex;
+    padding: 28px 34px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 40px;
+    border: 0;
+    background: $admin-color;
+    cursor: pointer;
+    color: $input-color;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 0%;
+    transition: 300ms;
+    -webkit-transition: 300ms;
+    -moz-transition: 300ms;
+    -ms-transition: 300ms;
+    -o-transition: 300ms;
+  }
+  button:hover {
+    background: $user-color;
+    color: $admin-color;
+  }
+  button:active {
+    color: $input-color;
   }
 }

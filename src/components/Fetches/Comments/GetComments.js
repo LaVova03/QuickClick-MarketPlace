@@ -16,7 +16,8 @@ const GetComments = async (id, dispatch) => {
     try {
         const response = await axios.get(`${API_MAIN_URL}comments/${id}`, config);
         if (response.status === 200) {
-            dispatch(setAllChats(response.data))
+            dispatch(setAllChats(response.data));
+            // console.log(response.data)
         }
     } catch (error) {
         console.log("Ошибка при выполнении GET-запроса для комментария:", error);

@@ -123,7 +123,9 @@ const ViewBody = () => {
             <header>
                 <button
                     id={styles.view_btn_back}
-                    onClick={() => navigate(token ? '/personal_area' : '/')}
+                    onClick={() => {
+                        navigate(-1);
+                    }}
                 >
                 </button>
             </header>
