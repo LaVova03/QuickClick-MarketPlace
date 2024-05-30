@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import PostComments from '../Fetches/Comments/PostComments';
 import GetComments from '../Fetches/Comments/GetComments';
 import AllAdverts from '../Fetches/Stunneds/AllAdverts';
-import GetIdImages from '../Fetches/Stunneds/GetIdImages';
+import GetIdImages from '../Fetches/Images/GetIdImages';
 // import DeleteComments from '../Fetches/Comments/DeleteComments';
 import Trash from '../../assets/chat/trash.png';
 

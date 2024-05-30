@@ -6,7 +6,7 @@ $hover-color: #06611a;
 .main__stock__wrap {
   width: 100%;
   margin-top: 30px;
-  height: 26vw;
+  height: max-content;
   label {
     color: $font-color;
     font-family: Montserrat Bolt;
@@ -24,12 +24,13 @@ $hover-color: #06611a;
       display: flex;
       height: max-content;
       width: 11vw;
-      height: 19vw;
+      min-height: 25vw;
       flex-direction: column;
+      justify-content: space-between;
       align-items: flex-start;
       gap: 8px;
       padding: 0;
-      margin: 32px 0 0 0;
+      margin: 30px 0 0 0;
       li {
         list-style: none;
       }

@@ -5,7 +5,7 @@ import AllAdverts from '../Fetches/Stunneds/AllAdverts';
 import Camera from '../../assets/main__сards/camera.jpg';
 import { useNavigate } from 'react-router-dom';
 import RecomendationAdverts from '../Fetches/Stunneds/RecomendationAdverts';
-import GetIdImages from '../Fetches/Stunneds/GetIdImages';
+import GetIdImages from '../Fetches/Images/GetIdImages';
 
 const MainRecommendations = ({ isCard, isMain }) => {
 

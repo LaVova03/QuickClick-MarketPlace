@@ -10,7 +10,7 @@ $backgroun-personal-color: rgba(205, 255, 216, 0.25);
 .view_body_wrap {
   margin: 0 auto;
   display: block;
-  width: 90%;
+  width: 95%;
   align-items: center;
   li {
     list-style: none;
@@ -150,7 +150,8 @@ $backgroun-personal-color: rgba(205, 255, 216, 0.25);
 
 #view_personal_data {
   padding: 36px 33px;
-  width: 360px;
+  width: max-content;
+  max-width: 380px;
   height: 275px;
   border-radius: 40px;
   background: $backgroun-personal-color;

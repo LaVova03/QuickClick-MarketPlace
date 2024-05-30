@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
-import GetAllImages from './GetAllImages';
+import GetAllImages from '../Images/GetAllImages';
 import { setDataForDelete, setArchiveData } from '../../../redux/AddEdit/actions'
 import { setAllChats } from '../../../redux/Chat/actions';
 

@@ -96,6 +96,8 @@ $text-btn-active: #06611a;
 }
 
 .PersonalAreaBody__wrap > div {
+  position: relative;
+  z-index: -1;
   display: block;
   justify-content: space-between;
   align-items: center;

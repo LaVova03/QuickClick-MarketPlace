@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
-import GetAllImages from "../Stunneds/GetAllImages";
+import GetAllImages from "../Images/GetAllImages";
 
 const DeletePhoto = async (idPhoto, showSuccessfulModal, dispatch, token, isDataforDelete) => {
 

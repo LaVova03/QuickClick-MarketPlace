@@ -14,16 +14,27 @@ import Rent from '../../assets/mainLeftSide/rent.png';
 import Shirt from '../../assets/mainLeftSide/shirt.png';
 import Techn from '../../assets/mainLeftSide/techn.png';
 import Toy from '../../assets/mainLeftSide/toy.png';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addCategory } from '../../redux/Main/actions';
+import CategoryAdverts from '../Fetches/Stunneds/CategoryAdverts';
 
 const MainLeftSide = ({ isCategory, setInputCategory }) => {
 
     const [isOnFormPage, setIsOnFormPage] = useState(false);
+    const [categoryAdverts, setcategoryAdverts] = useState([]);
+
+    const isCategoryRedux = useSelector(state => state.myReducer.isCategoryRedux)
 
     useEffect(() => {
         setIsOnFormPage(window.location.pathname === '/add_card' || window.location.pathname === '/edit_card');
     }, [isCategory])
+
+    useEffect(() => {
+        if (categoryAdverts.length === 0 && isCategoryRedux) {
+            CategoryAdverts({ isCategoryRedux, setcategoryAdverts })
+        }
+        console.log(categoryAdverts)
+    }, [isCategoryRedux, categoryAdverts])
 
     const dispatch = useDispatch();
 
@@ -131,7 +142,9 @@ const MainLeftSide = ({ isCategory, setInputCategory }) => {
                                                 checkCategory(el.chapter);
                                                 setInputCategory(el.chapter);
                                             }
-                                                : null}
+                                                : () => {
+                                                    checkCategory(el.chapter);
+                                                }}
                                             className='main__leftside__logo'
                                         >
                                             <img src={el[key]}

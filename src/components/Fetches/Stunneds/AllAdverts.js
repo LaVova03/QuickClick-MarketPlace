@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 import { setAllAdverts } from '../../../redux/Main/actions';
-import GetAllImages from '../../Fetches/Stunneds/GetAllImages';
+import GetAllImages from '../../Fetches/Images/GetAllImages';
 
 const AllAdverts = async ({ dispatch }) => {
 
