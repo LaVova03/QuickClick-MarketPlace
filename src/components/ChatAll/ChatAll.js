@@ -6,6 +6,7 @@ import PostComments from '../Fetches/Comments/PostComments';
 import GetComments from '../Fetches/Comments/GetComments';
 import AllAdverts from '../Fetches/Stunneds/AllAdverts';
 import GetIdImages from '../Fetches/Images/GetIdImages';
+import Camera from '../../assets/main__сards/camera.jpg';
 // import DeleteComments from '../Fetches/Comments/DeleteComments';
 import Trash from '../../assets/chat/trash.png';
 
@@ -54,7 +55,7 @@ const ChatAll = () => {
     useEffect(() => {
         if (photo.length > 0) {
             const blob = photo[0][1];
-            const url = URL.createObjectURL(blob);
+            const url = blob !== null ? URL.createObjectURL(blob) : null;
             setImageUrl(url);
 
             // Очистка URL при размонтировании компонента
@@ -65,7 +66,9 @@ const ChatAll = () => {
     }, [photo]);
 
     useEffect(() => {
-        GetComments(idCard, dispatch);
+        if (idCard) {
+            GetComments(idCard, dispatch);
+        }
     }, [idCard, dispatch]);
 
     useEffect(() => {
@@ -84,12 +87,16 @@ const ChatAll = () => {
     //     console.log(dataId)
     // }, [dataId])
 
+    if (dataId.length === 0) {
+        return null;
+    }
+
     return (
         <div className={styles.chat_all_wrap}>
             <header>
                 <ul>
                     <li>
-                        <img src={imageUrl} alt='logo' />
+                        <img src={imageUrl ? imageUrl : Camera} alt='logo' />
                     </li>
                     <li>{dataId[0]?.title}</li>
                     <li>{dataId[0]?.currency} {dataId[0]?.firstPrice}</li>

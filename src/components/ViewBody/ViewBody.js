@@ -36,11 +36,13 @@ const ViewBody = () => {
     const part = localStorage.getItem('part');
     const admin = localStorage.getItem('whoIsIt');
     const archive = sessionStorage.getItem('archive');
+    const isUserName = localStorage.getItem('email');
 
     const [photoUrl, addPhotoUrl] = useState([]);
     let [itemSlider, setItemSlider] = useState(0);
     const [localIdCard, setLocalIdCard] = useState('')
     const [allPhoto, setAllPhoto] = useState([]);
+    const [person, setPerson] = useState(false);
 
     useEffect(() => {
         if (allPhoto.length === 0 && isImages) {
@@ -132,6 +134,7 @@ const ViewBody = () => {
 
             {(part === "active" ? isData : part === "main" ? isAllAdverts : isArchiveData)?.map(el => {
                 if (el.id === +isIdCard) {
+                    const person = el.user.email.includes(isUserName);
                     let jsonString = el.address;
                     let address;
                     if (part) {
@@ -205,7 +208,7 @@ const ViewBody = () => {
                                                     navigate('/personal_area/chat');
                                                 }
                                             }}
-                                        >Зв’язатися
+                                        >{person ? "Повідомлення" : "Зв’язатися"}
                                         </button>
                                     </li>
                                     <li id={styles.view_personal_data}>

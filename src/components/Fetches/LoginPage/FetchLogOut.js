@@ -4,7 +4,7 @@ import { API_MAIN_URL } from '../../../constants/Constants';
 const FetchLogout = async () => {
     try {
         const response = await axios.post(`${API_MAIN_URL}auth/logout`);
-        if (response.data) {
+        if (response.status === 200) {
             sessionStorage.removeItem('login');
             sessionStorage.removeItem('personal');
             sessionStorage.removeItem('archive');
