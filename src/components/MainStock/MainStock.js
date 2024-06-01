@@ -44,7 +44,7 @@ const MainStock = () => {
     }, [lowPrice, allIdCardRandom]);
 
     useEffect(() => {
-        if (allIdCardRandom && isAllAdverts) {
+        if (allIdCardRandom && isAllAdverts && !allIndexCard) {
             allIdCardRandom.forEach(j => {
                 const index = isAllAdverts.findIndex(el => el.id === j);
                 if (index !== -1) {
@@ -52,7 +52,7 @@ const MainStock = () => {
                 }
             });
         }
-    }, [allIndexCard]);
+    }, [allIndexCard, allIdCardRandom, isAllAdverts]);
 
     const showCard = (idCard) => {
         let index = null;

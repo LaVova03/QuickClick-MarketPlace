@@ -1,7 +1,7 @@
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./PersonalAreaBody.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Outlet, Link } from 'react-router-dom';
 import Plus from "../../assets/personal__area/Plus.png";
 import Minus from "../../assets/personal__area/Minus.png";
@@ -162,8 +162,7 @@ const PersonalAreaBody = () => {
     }
   };
 
-  //открыть или закрыть подкатегорию
-  const setCategory = (num) => {
+  const setCategory = useCallback((num) => {
     if (num && isList.isOpen3) {
       //закрыть последнюю главу, если открыта какая-то подкатегория выше
       setPersonalData();
@@ -183,17 +182,17 @@ const PersonalAreaBody = () => {
       ...prevState,
       [num]: !prevState[num],
     }));
-  };
+  }, [isList, isPart]);
 
   useEffect(() => {
-    if (part === 'inbox_messages') {
+    if (part === 'inbox_messages' && isCategory !== 'five') {
       setCategory("five");
       setIsList(prev => ({
         ...prev,
         isOpen2: true,
       }));
     }
-  }, [chapter, part])
+  }, [chapter, part, setCategory, isCategory])
 
   const setPersonalData = () => {
     addCategory("");
