@@ -1,8 +1,8 @@
 import './MainBurgerMenu.scss';
 import { useNavigate } from 'react-router-dom';
 import FetchLogout from '../Fetches/LoginPage/FetchLogOut';
-import { useSelector, useDispatch } from 'react-redux';
-import { setBurgerMenu, setLanguage, setAddCard, setEditWindow } from '../../redux/Main/actions';
+import { useDispatch } from 'react-redux';
+import { setAddCard } from '../../redux/Main/actions';
 
 const MainBurgerMenu = ({ isFlagSet, handleButtonClick, setLogin }) => {
     const navigate = useNavigate();
