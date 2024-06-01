@@ -42,7 +42,6 @@ const ViewBody = () => {
     let [itemSlider, setItemSlider] = useState(0);
     const [localIdCard, setLocalIdCard] = useState('')
     const [allPhoto, setAllPhoto] = useState([]);
-    const [person, setPerson] = useState(false);
 
     useEffect(() => {
         if (allPhoto.length === 0 && isImages) {
