@@ -33,7 +33,6 @@ const MainLeftSide = ({ isCategory, setInputCategory }) => {
         if (categoryAdverts.length === 0 && isCategoryRedux) {
             CategoryAdverts({ isCategoryRedux, setcategoryAdverts })
         }
-        console.log(categoryAdverts)
     }, [isCategoryRedux, categoryAdverts])
 
     const dispatch = useDispatch();
