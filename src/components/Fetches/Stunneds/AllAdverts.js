@@ -10,6 +10,8 @@ const AllAdverts = async ({ dispatch }) => {
         if (response.status === 200) {
             dispatch(setAllAdverts(response.data));
             GetAllImages(response.data, dispatch);
+        } else {
+            console.log(`Ошибка: получен неожиданный статус-код ${response.status}`);
         }
     } catch (error) {
         console.log("Ошибка при выполнении GET-запроса всех объявлений:", error);
