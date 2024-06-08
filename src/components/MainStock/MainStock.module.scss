@@ -2,6 +2,7 @@ $background-color: #cdffd8;
 $text-color: #ff5858;
 $font-color: #00a224;
 $hover-color: #06611a;
+$price-color: #001004;
 
 .main__stock__wrap {
   width: 100%;
@@ -84,7 +85,7 @@ $hover-color: #06611a;
 }
 
 #main__stock__span2 {
-  color: $font-color;
+  color: $price-color;
   font-family: Montserrat;
   font-size: 14px;
   font-style: normal;

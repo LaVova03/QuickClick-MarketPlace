@@ -1,6 +1,7 @@
 $background-color: #cdffd8;
 $font-color: #00a224;
 $hover-color: #06611a;
+$price-color: #001004;
 
 .main__recommendations__wrap {
   width: 100%;
@@ -97,7 +98,7 @@ $hover-color: #06611a;
 }
 
 #main__recommendations__span2 {
-  color: $font-color;
+  color: $price-color;
   font-family: Montserrat;
   font-size: 14px;
   font-style: normal;

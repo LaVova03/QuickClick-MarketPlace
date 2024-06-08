@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_MAIN_URL } from '../../../constants/Constants';
 
 const addCard = async (obj, isPhoto, showSuccessfulModal, dispatch, token) => {
-    const jsonAddress = {
+    const jsonObj = {
         ...obj,
         address: JSON.stringify(obj.address)
     }
@@ -14,12 +14,14 @@ const addCard = async (obj, isPhoto, showSuccessfulModal, dispatch, token) => {
 
     const config = {
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
         }
     };
 
     try {
-        const response = await axios.post(`${API_MAIN_URL}adverts`, jsonAddress, config);
+        console.log(jsonObj);
+        const response = await axios.post(`${API_MAIN_URL}adverts`, jsonObj, config);
         if (response.data) {
             const responsePhoto = await axios.post(`${API_MAIN_URL}images/${response.data.id}`, file, {
                 headers: {

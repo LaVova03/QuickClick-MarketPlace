@@ -14,28 +14,20 @@ import Rent from '../../assets/mainLeftSide/rent.png';
 import Shirt from '../../assets/mainLeftSide/shirt.png';
 import Techn from '../../assets/mainLeftSide/techn.png';
 import Toy from '../../assets/mainLeftSide/toy.png';
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { addCategory } from '../../redux/Main/actions';
-import CategoryAdverts from '../Fetches/Stunneds/CategoryAdverts';
 
 const MainLeftSide = ({ isCategory, setInputCategory }) => {
 
-    const [isOnFormPage, setIsOnFormPage] = useState(false);
-    const [categoryAdverts, setcategoryAdverts] = useState([]);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const isCategoryRedux = useSelector(state => state.myReducer.isCategoryRedux)
+    const [isOnFormPage, setIsOnFormPage] = useState(false);
 
     useEffect(() => {
         setIsOnFormPage(window.location.pathname === '/add_card' || window.location.pathname === '/edit_card');
     }, [isCategory])
-
-    useEffect(() => {
-        if (categoryAdverts.length === 0 && isCategoryRedux) {
-            CategoryAdverts({ isCategoryRedux, setcategoryAdverts })
-        }
-    }, [isCategoryRedux, categoryAdverts])
-
-    const dispatch = useDispatch();
 
     const arr = [
         {
@@ -114,6 +106,7 @@ const MainLeftSide = ({ isCategory, setInputCategory }) => {
     };
 
     const checkCategory = (item) => {
+        sessionStorage.setItem('ruCategory', item);
         Object.keys(categoryMap).filter((el) => {
             if (el === item) {
                 const latinCategory = categoryMap[el];
@@ -123,8 +116,13 @@ const MainLeftSide = ({ isCategory, setInputCategory }) => {
         });
     }
 
-    const handleCategoryClick = (isCategoryRedux) => {
-        dispatch(addCategory(isCategoryRedux));
+    const handleCategoryClick = (latinCategory) => {
+        sessionStorage.setItem('category_page', latinCategory);
+        if (!isCategory) {
+            navigate('/show_category');
+        } else {
+            dispatch(addCategory(latinCategory))
+        }
     };
 
     return (

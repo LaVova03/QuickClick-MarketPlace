@@ -13,7 +13,7 @@ const MainRecommendations = ({ isCard, isMain }) => {
     const navigate = useNavigate();
 
     const isAllAdverts = useSelector(state => state.myReducer.isAllAdverts);
-    const isFullImages = useSelector(state => state.myReducer2?.isImages);
+    // const isFullImages = useSelector(state => state.myReducer2?.isImages);
 
     const [isPhoto, setPhoto] = useState([]);
     const [allIndexCard, setAllIndexCard] = useState([]);
@@ -28,7 +28,7 @@ const MainRecommendations = ({ isCard, isMain }) => {
         if (recomendation.length > 0 && allIdCardRandom.length > 0) {
             GetIdImages({ setPhoto, allIdCardRandom })
         }
-    }, [recomendation, dispatch, isFullImages, allIdCardRandom])
+    }, [recomendation, dispatch, allIdCardRandom])
 
     const randomItemsCard = recomendation.slice(0, 6);
 

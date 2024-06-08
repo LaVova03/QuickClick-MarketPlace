@@ -161,6 +161,10 @@ const AddCardBody = () => {
 
     }, [isData, isEditWindow, isFullImages, dispatch]);
 
+    // useEffect(() => {
+    //     console.log(isNewCard);
+    // }, [isNewCard])
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (!event.target.closest('.add__input__category')) {
@@ -291,6 +295,7 @@ const AddCardBody = () => {
                     dispatch(setEditWindow());
                     navigate("/personal_area");
                 } else {
+                    console.log(isNewCard);
                     AddCard(isNewCard, isPhoto, showSuccessfulModal, dispatch, tokenBearer);
                     resetCard();
                 }
@@ -310,10 +315,6 @@ const AddCardBody = () => {
             position: "top-right",
         });
     };
-
-    // useEffect(() => {
-    //     console.log(photoUrl)
-    // }, [photoUrl])
 
     return (
         <div className='AddCardBody__wrap'>
@@ -363,7 +364,7 @@ const AddCardBody = () => {
             <div className='add__center__side'>
                 <label >Додати фото*</label><br />
                 <div className={isCategory ? 'add__categorys' : 'add__categorys__none'}>
-                    <Categorys isCategory={isCategory} setInputCategory={setInputCategory} isEditWindow={isEditWindow} />
+                    <Categorys isCategory={isCategory} setInputCategory={setInputCategory} />
                 </div>
                 <div className={isAddress ? 'add__address' : 'add__address__none'}>
                     <PlacingAnOrder setIsAddress={setIsAddress} isNewCard={isNewCard} setNewCard={setNewCard} />

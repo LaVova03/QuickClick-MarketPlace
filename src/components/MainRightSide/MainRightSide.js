@@ -50,9 +50,9 @@ const MainRightSide = () => {
         navigate('/view_product');
     }
 
-    useEffect(() => {
-        console.log(promotion)
-    }, [promotion])
+    // useEffect(() => {
+    //     console.log(promotion)
+    // }, [promotion])
 
     // const arr = [
     //     {
