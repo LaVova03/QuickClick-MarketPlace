@@ -4,17 +4,19 @@ import { Provider } from 'react-redux';
 import './index.scss';
 import AppRouter from './router';
 import store from './store';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Logo from './assets/main/logo.png';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Helmet>
-        <link rel="icon" href={Logo} />
-      </Helmet>
-      <AppRouter />
+      <HelmetProvider>
+        <Helmet>
+          <link rel="icon" href={Logo} />
+        </Helmet>
+        <AppRouter />
+      </HelmetProvider>
     </Provider>
   </React.StrictMode>
 );

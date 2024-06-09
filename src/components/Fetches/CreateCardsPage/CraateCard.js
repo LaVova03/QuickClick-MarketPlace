@@ -4,7 +4,8 @@ import { API_MAIN_URL } from '../../../constants/Constants';
 const addCard = async (obj, isPhoto, showSuccessfulModal, dispatch, token) => {
     const jsonObj = {
         ...obj,
-        address: JSON.stringify(obj.address)
+        address: JSON.stringify(obj.address),
+        firstPriceDisplayed: JSON.stringify(obj.firstPriceDisplayed),
     }
 
     const file = new FormData();
@@ -20,7 +21,7 @@ const addCard = async (obj, isPhoto, showSuccessfulModal, dispatch, token) => {
     };
 
     try {
-        console.log(token)
+        console.log(jsonObj)
         const response = await axios.post(`${API_MAIN_URL}adverts`, jsonObj, config);
         if (response.data) {
             console.log(response.data);
