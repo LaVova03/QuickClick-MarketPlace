@@ -317,6 +317,12 @@ const AddCardBody = () => {
     };
 
     const checkRegex = (value, item) => {
+        if (item === 'title') {
+            const titleRegex = /^.{0,25}$/;
+            if (titleRegex.test(value) || value === '') {
+                setNewCard({ ...isNewCard, title: value });
+            }
+        }
         if (item === 'description') {
             const descriptionRegex = /^.{0,200}$/;
             if (descriptionRegex.test(value) || value === '') {
@@ -349,8 +355,8 @@ const AddCardBody = () => {
                     placeholder='Назва товару'
                     value={isNewCard.title || ''}
                     onChange={(e) => {
+                        checkRegex(e.target.value, "title");
                         setProductNameEmpty((prevState) => ({ ...prevState, title: false }))
-                        setNewCard({ ...isNewCard, title: e.target.value });
                     }}
                 />
                 <br />
