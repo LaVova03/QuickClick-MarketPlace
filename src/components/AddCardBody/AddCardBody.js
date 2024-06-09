@@ -316,6 +316,27 @@ const AddCardBody = () => {
         });
     };
 
+    const checkRegex = (value, item) => {
+        if (item === 'description') {
+            const descriptionRegex = /^.{0,200}$/;
+            if (descriptionRegex.test(value) || value === '') {
+                setNewCard({ ...isNewCard, description: value });
+            }
+        }
+        if (item === 'phone') {
+            const phoneRegex = /^\+?\d{0,12}$/;
+            if (phoneRegex.test(value) || value === '') {
+                setNewCard({ ...isNewCard, phone: value });
+            }
+        }
+        if (item === 'price') {
+            const priceRegex = /^\d{1,10}$/;
+            if (priceRegex.test(value) || value === '') {
+                setNewCard({ ...isNewCard, price: value });
+            }
+        }
+    };
+
     return (
         <div className='AddCardBody__wrap'>
             <div className='add__left__side'>
@@ -356,8 +377,8 @@ const AddCardBody = () => {
                     name="description"
                     value={isNewCard.description || ''}
                     onChange={(e) => {
+                        checkRegex(e.target.value, "description");
                         setProductNameEmpty((prevState) => ({ ...prevState, description: false }))
-                        setNewCard({ ...isNewCard, description: e.target.value });
                     }}
                 />
             </div>
@@ -661,8 +682,8 @@ const AddCardBody = () => {
                     placeholder='Ваш номер телефону'
                     value={isNewCard.phone || ''}
                     onChange={(e) => {
+                        checkRegex(e.target.value, "phone");
                         setProductNameEmpty((prevState) => ({ ...prevState, phone: false }))
-                        setNewCard({ ...isNewCard, phone: e.target.value });
                     }}
                 />
                 <br />
@@ -674,8 +695,8 @@ const AddCardBody = () => {
                     placeholder='Ціна'
                     value={isNewCard.price || ''}
                     onChange={(e) => {
+                        checkRegex(e.target.value, "price");
                         setProductNameEmpty((prevState) => ({ ...prevState, price: false }))
-                        setNewCard({ ...isNewCard, price: e.target.value });
                     }}
                 />
                 <button
