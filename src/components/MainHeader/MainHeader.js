@@ -1,15 +1,14 @@
 import 'react-toastify/dist/ReactToastify.css';
 import './MainHeader.scss';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setBurgerMenu, setLanguage, setAddCard, setEditWindow } from '../../redux/Main/actions';
+import { setLanguage, setAddCard, setEditWindow } from '../../redux/Main/actions';
 import MainBurgerMenu from '../../components/MainBurgerMenu/MainBurgerMenu';
 import Logo from '../../assets/mainHeader/logo.png';
 import FetchLogout from '../Fetches/LoginPage/FetchLogOut';
 
 const MainHeader = () => {
-    const isFlagSet = useSelector(state => state.myReducer?.isFlagSet);
     const isLanguage = useSelector(state => state.myReducer?.isLanguage);
     const isEditWindow = useSelector(state => state.myReducer?.isEditWindow);
 
@@ -17,10 +16,11 @@ const MainHeader = () => {
     let isLocalLogin = sessionStorage.getItem('login');
 
     const dispatch = useDispatch();
-
+    const location = useLocation();
     const navigate = useNavigate();
 
     const [login, setLogin] = useState(false);
+    const [isBurger, setBurger] = useState(false);
 
     useEffect(() => {
 
@@ -32,7 +32,9 @@ const MainHeader = () => {
     }, [isLocalLogin]);
 
     const handleButtonClick = () => {
-        dispatch(setBurgerMenu());
+        const locationBurger = location.pathname;
+        sessionStorage.setItem('location', locationBurger);
+        setBurger(prev => !prev);
     };
 
     const changeLanguage = () => {
@@ -69,7 +71,7 @@ const MainHeader = () => {
                         onClick={() => {
                             handleButtonClick();
                         }}
-                        className={`burger-icon${isFlagSet ? 'active' : ''}`}>
+                        className={`burger-icon${isBurger ? 'active' : ''}`}>
                         <div className="bar"></div>
                         <div className="bar"></div>
                         <div className="bar"></div>
@@ -123,7 +125,8 @@ const MainHeader = () => {
                     }>Додати оголошення</button>
                 </div>
             </div>
-            < MainBurgerMenu isFlagSet={isFlagSet} handleButtonClick={handleButtonClick} setLogin={setLogin} />
+            < MainBurgerMenu isBurger={isBurger} handleButtonClick={handleButtonClick}
+                setLogin={setLogin} setBurger={setBurger} />
         </div >
     )
 }

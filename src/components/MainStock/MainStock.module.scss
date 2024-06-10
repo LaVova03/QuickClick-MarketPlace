@@ -25,15 +25,17 @@ $price-color: #001004;
       display: flex;
       height: max-content;
       width: 11vw;
-      min-height: 25vw;
+      height: 25vw;
       flex-direction: column;
-      justify-content: space-between;
       align-items: flex-start;
       gap: 8px;
       padding: 0;
       margin: 30px 0 0 0;
       li {
         list-style: none;
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
       }
       button {
         display: flex;

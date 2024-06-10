@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -12,6 +12,11 @@ import MainViewed from '../../components/MainViewed/MainViewed';
 
 const MainSlider = () => {
     const sliderRef = useRef(null);
+    const [isFirstImageLoaded, setIsFirstImageLoaded] = useState(false);
+
+    const handleFirstImageLoad = () => {
+        setIsFirstImageLoaded(true);
+    };
 
     const settings = {
         dots: false,
@@ -35,10 +40,16 @@ const MainSlider = () => {
 
     return (
         <div className={styles.main__slider__wrap}>
-            <div className={styles.main__wrap__slider}>
+            {!isFirstImageLoaded && (
+                <div className={styles.main_onload}>
+                    <div className={styles.spinner}></div>
+                    Loading...
+                </div>
+            )}
+            <div className={styles.main__wrap__slider} style={{ display: isFirstImageLoaded ? 'block' : 'none' }}>
                 <Slider ref={sliderRef} {...settings}>
                     <div className={styles.main__first__slide}>
-                        <img src={FirstSlide} alt="slide 1" />
+                        <img src={FirstSlide} alt="slide 1" onLoad={handleFirstImageLoad} />
                         <div className={styles.mainslider__div__onslider}>
                             <span>Щастя для малечі</span><br />
                             <button>Дивитися умови</button>
@@ -63,7 +74,7 @@ const MainSlider = () => {
                 <button id={styles.mainslider__btn__right} onClick={handleNextSlide}></button>
             </div>
             <MainStock />
-            <MainRecommendations isMain/>
+            <MainRecommendations isMain />
             <MainViewed />
         </div>
     );

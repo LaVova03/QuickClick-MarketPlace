@@ -1,14 +1,17 @@
 import './MainBurgerMenu.scss';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import FetchLogout from '../Fetches/LoginPage/FetchLogOut';
 import { useDispatch } from 'react-redux';
 import { setAddCard } from '../../redux/Main/actions';
 
-const MainBurgerMenu = ({ isFlagSet, handleButtonClick, setLogin }) => {
+const MainBurgerMenu = ({ isBurger, handleButtonClick, setLogin, setBurger }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const login = sessionStorage.getItem('login');
+    const locationStorage = sessionStorage.getItem('location');
 
     const deleteToken = () => {
         FetchLogout();
@@ -16,8 +19,16 @@ const MainBurgerMenu = ({ isFlagSet, handleButtonClick, setLogin }) => {
         setLogin(false);
     };
 
+    useEffect(() => {
+        const locationBurger = location.pathname;
+        if (locationStorage !== locationBurger && isBurger) {
+            sessionStorage.removeItem('location');
+            setBurger();
+        }
+    }, [isBurger, location.pathname, locationStorage, setBurger]);
+
     return (
-        <div className={!isFlagSet ? 'main__burgermenu__close' : 'main__burgermenu__wrap'}>
+        <div className={!isBurger ? 'main__burgermenu__close' : 'main__burgermenu__wrap'}>
             <ul>
                 <li><button onClick={handleButtonClick}>
                     Про нас

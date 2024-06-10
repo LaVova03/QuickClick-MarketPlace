@@ -136,3 +136,27 @@ $price-color: #001004;
   background-image: url("../../assets/personal__area/msg.png");
   background-repeat: no-repeat;
 }
+
+.category_page_wrap {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.category_page_wrap.visible {
+  opacity: 1;
+}
+
+.category_page_wrap {
+  opacity: 0;
+  animation: fadeInOut 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+

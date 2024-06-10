@@ -1,11 +1,7 @@
 import {
-    SET_BURGER_MENU, SET_LANGUAGE, SET_MODAL_ADD_CARD, ADD_CATEGORY_CARD, SET_EDIT_WINDOW,
+    SET_LANGUAGE, SET_MODAL_ADD_CARD, ADD_CATEGORY_CARD, SET_EDIT_WINDOW,
     SET_ALL_ADVERTS
 } from './actionTypes';
-
-export const setBurgerMenu = () => ({
-    type: SET_BURGER_MENU,
-});
 
 export const setLanguage = () => ({
     type: SET_LANGUAGE,

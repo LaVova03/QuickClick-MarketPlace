@@ -1,4 +1,3 @@
-export const SET_BURGER_MENU = 'SET_BURGER_MENU';
 export const SET_LANGUAGE = 'SET_LANGUAGE';
 export const SET_MODAL_ADD_CARD = 'SET_MODAL_ADD_CARD';
 export const ADD_CATEGORY_CARD = 'ADD_CATEGORY_CARD';

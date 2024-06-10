@@ -37,7 +37,7 @@ $price-color: #001004;
         list-style: none;
         height: 100%;
         display: flex;
-        align-items: stretch;
+        align-items: flex-end;
         img {
           width: 150px;
           height: 160px;
@@ -118,6 +118,6 @@ $price-color: #001004;
   margin: 30px 0 0 16px !important;
 }
 
-.main__recommendations__wrap>div>#main__recommendations__view:first-child{
+.main__recommendations__wrap > div > #main__recommendations__view:first-child {
   margin: 30px 0 0 0 !important;
 }

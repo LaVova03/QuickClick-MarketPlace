@@ -70,6 +70,7 @@ $main-color: #00380d;
 .main__first__slide,
 .main__second__slide,
 .main__third__slide {
+  min-height: 403.422px;
   position: relative;
 }
 
@@ -125,4 +126,30 @@ $main-color: #00380d;
   .main__slider__wrap {
     width: 62%;
   }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.main_onload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 403.422px;
+  font-size: 2rem;
+}
+
+.spinner {
+  border: 8px solid rgba(0, 0, 0, 0.1);
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
 }

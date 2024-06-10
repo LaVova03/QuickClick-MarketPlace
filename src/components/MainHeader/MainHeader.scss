@@ -108,12 +108,12 @@ $white-color: #ffffff;
     img {
       width: 9em;
       min-width: 240px;
-      transition: 0.1s;
-    }
-    img:hover {
-      width: 9.2em;
-      height: 102%;
-    }
+      transition: 0.2s;
+}
+    // img:hover {
+    //   width: 9.1em;
+    //   height: 100%;
+    // }
   }
   button:active {
     box-shadow: 0px 0px 5px 5px $second-color;
