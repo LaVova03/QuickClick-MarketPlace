@@ -295,7 +295,6 @@ const AddCardBody = () => {
                     dispatch(setEditWindow());
                     navigate("/personal_area");
                 } else {
-                    console.log(isNewCard);
                     AddCard(isNewCard, isPhoto, showSuccessfulModal, dispatch, tokenBearer);
                     resetCard();
                 }

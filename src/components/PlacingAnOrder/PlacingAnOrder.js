@@ -1,39 +1,16 @@
 import './PlacingAnOrder.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { API_URL, API_KEY } from '../../constants/Constants';
 
 const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
 
     const [region, setRegion] = useState([]);
-    const [itemRegion, setItemRegion] = useState([]);
+    const [itemRegion, setItemRegion] = useState('');
     const [city, setCity] = useState([]);
 
-    const sendRequestRegion = async () => {
-        try {
-            const response = await fetch(`${API_URL}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    apiKey: `${API_KEY}`,
-                    modelName: 'Address',
-                    calledMethod: 'getAreas',
-                    methodProperties: {},
-                }),
-            });
-            const data = await response.json();
-
-            if (response.ok) {
-                setRegion(data.data)
-            }
-        } catch {
-            console.log('Error with fetch setRegion')
-        }
-    }
-
-    const sendRequestCity = async () => {
-        if (region) {
+    useEffect(() => {
+        // Загружаем регионы при монтировании компонента
+        const sendRequestRegion = async () => {
             try {
                 const response = await fetch(`${API_URL}`, {
                     method: 'POST',
@@ -43,20 +20,59 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
                     body: JSON.stringify({
                         apiKey: `${API_KEY}`,
                         modelName: 'Address',
-                        calledMethod: 'getCities',
-                        methodProperties: { AreaRef: itemRegion },
+                        calledMethod: 'getAreas',
+                        methodProperties: {},
                     }),
                 });
                 const data = await response.json();
 
                 if (response.ok) {
-                    setCity(data.data)
+                    setRegion(data.data);
+                } else {
+                    console.log('Error with fetch setRegion:', data);
                 }
-            } catch {
-                console.log('Error with fetch setRegion')
+            } catch (error) {
+                console.error('Error with fetch setRegion:', error);
             }
+        };
+
+        sendRequestRegion();
+    }, []);
+
+    useEffect(() => {
+        if (itemRegion) {
+            // Загружаем города при изменении выбранного региона
+            const sendRequestCity = async () => {
+                try {
+                    const response = await fetch(`${API_URL}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            apiKey: `${API_KEY}`,
+                            modelName: 'Address',
+                            calledMethod: 'getCities',
+                            methodProperties: { AreaRef: itemRegion },
+                        }),
+                    });
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        setCity(data.data);
+                    } else {
+                        console.log('Error with fetch setCity:', data);
+                    }
+                } catch (error) {
+                    console.error('Error with fetch setCity:', error);
+                }
+            };
+
+            sendRequestCity();
+        } else {
+            setCity([]);
         }
-    }
+    }, [itemRegion]);
 
     const handleChangeRegion = (event) => {
         const newValue = event.target.value;
@@ -68,7 +84,7 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
                 ...prevState.address,
                 region: `${description}, `,
             },
-        }))
+        }));
     };
 
     const handleChangeCity = (event) => {
@@ -79,15 +95,15 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
                 ...prevState.address,
                 city: `${description}.`,
             },
-        }))
+        }));
     };
 
     const setDateAddress = () => {
-        setIsAddress(false)
+        setIsAddress(false);
         setRegion([]);
-        setItemRegion([]);
+        setItemRegion('');
         setCity([]);
-    }
+    };
 
     return (
         <div>
@@ -96,11 +112,11 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
                     <div id='header-placing'>Адреса</div>
                     <div className='parents-placing'>
                         <div>
-                            <br /><label className='register-lable'>Оберіть регін: </label>
+                            <br /><label className='register-lable'>Оберіть регіон: </label>
                             <br /><br /><label className='register-lable'>Оберіть населений пункт: </label>
                         </div>
                         <div>
-                            <br /><select name="select" defaultChecked='Region' className='select' onClick={sendRequestRegion} onChange={handleChangeRegion} >
+                            <br /><select name="select" className='select' onChange={handleChangeRegion}>
                                 <option value="">Область</option>
                                 {region.map((item) => (
                                     <option key={item.Ref} value={item.Ref}>
@@ -108,8 +124,8 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
                                     </option>
                                 ))}
                             </select>
-                            <br /><br /><select name="select" className='select' defaultChecked='City' onClick={sendRequestCity} onChange={handleChangeCity}>
-                                <option value="">Населенный пункт</option>
+                            <br /><br /><select name="select" className='select' onChange={handleChangeCity}>
+                                <option value="">Населений пункт</option>
                                 {city.map((item) => (
                                     <option key={item.Ref} value={item.Ref}>
                                         {item.Description}
@@ -126,8 +142,7 @@ const PlacingAnOrder = ({ setIsAddress, setNewCard }) => {
                 </div>
             </div>
         </div>
-    )
-}
-
+    );
+};
 
 export default PlacingAnOrder;
