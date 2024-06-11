@@ -1,8 +1,18 @@
 import './MainFooter.scss';
 import Logo from '../../assets/mainFooter/logo.png';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const MainFooter = () => {
+
+    const navigate = useNavigate();
+
+    const handleClick = (item) => {
+        sessionStorage.removeItem('infoPage');
+        sessionStorage.setItem('infoPage', item);
+        navigate('/info');
+    }
+
     return (
         <div className='main__footer__wrap'>
             <div className='main__footer__logo'>
@@ -19,11 +29,22 @@ const MainFooter = () => {
                 </ul>
                 <ul>
                     <li>Розділи:</li>
-                    <li><button>Про нас</button></li>
-                    <li><button>Контакти</button></li>
-                    <li><button>Оплата і доставка</button></li>
-                    <li><button>Питання та відповіді</button></li>
-                    <li><button>Умови використання</button></li>
+                    <li>
+                        <button
+                            onClick={() => handleClick('aboutUs')}>
+                            Про нас
+                        </button>
+                    </li>
+                    <li>
+                        <button onClick={() => handleClick('questions')}>
+                            Питання та відповіді
+                        </button>
+                    </li>
+                    <li>
+                        <button onClick={() => handleClick('conditions')}>
+                            Умови використання
+                        </button>
+                    </li>
                 </ul>
             </div>
             <div className='main__footer__right'>

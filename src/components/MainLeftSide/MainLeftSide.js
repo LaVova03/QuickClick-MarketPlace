@@ -24,9 +24,13 @@ const MainLeftSide = ({ isCategory, setInputCategory }) => {
     const dispatch = useDispatch();
 
     const [isOnFormPage, setIsOnFormPage] = useState(false);
+    const [isOnInfiPage, setIsOninfoPage] = useState(false);
+    const [isOnMainPage, setIsOnMainPage] = useState(false);
 
     useEffect(() => {
         setIsOnFormPage(window.location.pathname === '/add_card' || window.location.pathname === '/edit_card');
+        setIsOninfoPage(window.location.pathname === '/info');
+        setIsOnMainPage(window.location.pathname === '/');
     }, [isCategory])
 
     const arr = [
@@ -126,15 +130,17 @@ const MainLeftSide = ({ isCategory, setInputCategory }) => {
     };
 
     return (
-        <div className={isOnFormPage ? 'add__categorys__wrap' : 'main__leftside__wrap'}>
-            <div className={isOnFormPage ? 'add__categorys__card' : 'main__leftside__border'}>
+        <div className={isOnFormPage ? 'add__categorys__wrap' : isOnInfiPage ? 'add__cat_info__wrap'
+            : isOnMainPage ? 'main__leftside__wrap' : null}>
+            <div className={isOnFormPage ? 'add__categorys__card' : isOnInfiPage ? 'add__cat_info__card'
+                : 'main__leftside__border'}>
                 {arr.map((el, i) => {
                     return (
                         <ul key={i}>
                             {Object.keys(el).map((key, j) => (
                                 <li key={j}>
-                                    {key === 'chapter' ? <div className='main__leftside__text'>{el[key]}</div> :
-                                        <button
+                                    {key === 'chapter' ? <div className='main__leftside__text'>{el[key]}</div>
+                                        : <button
                                             onClick={isCategory ? () => {
                                                 checkCategory(el.chapter);
                                                 setInputCategory(el.chapter);

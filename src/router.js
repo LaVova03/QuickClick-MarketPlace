@@ -11,6 +11,7 @@ import ViewProduct from "./containers/ViewProduct/ViewProduct";
 import StaticContainer from "./containers/StaticContainer/StaticContainer";
 import ChatWrap from "./containers/ChatWrap/ChatWrap";
 import CategoryPage from "./containers/CategoryPage/CategoryPage";
+import Information from "./containers/Information/Information";
 import { useSelector } from 'react-redux';
 
 const AppRouter = () => {
@@ -30,6 +31,7 @@ const AppRouter = () => {
                             <Route path="/forgot_password" element={<ForgotPasswordModal />} />
                             <Route path="/view_product" element={<ViewProduct />} />
                             <Route path="/show_category" element={<CategoryPage />} />
+                            <Route path="/info" element={<Information />} />
                         </Route>
 
                         <Route element={<PrivateRoute />}>

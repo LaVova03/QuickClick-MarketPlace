@@ -1,0 +1,22 @@
+.information_wrap {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.information_wrap.visible {
+  opacity: 1;
+}
+
+.information_wrap {
+  opacity: 0;
+  animation: fadeInOut 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
