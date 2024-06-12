@@ -27,22 +27,23 @@ const MainBurgerMenu = ({ isBurger, handleButtonClick, setLogin, setBurger }) =>
         }
     }, [isBurger, location.pathname, locationStorage, setBurger]);
 
+    const handleClick = (item) => {
+        sessionStorage.removeItem('infoPage');
+        sessionStorage.setItem('infoPage', item);
+        handleButtonClick();
+        navigate('/info');
+    }
+
     return (
         <div className={!isBurger ? 'main__burgermenu__close' : 'main__burgermenu__wrap'}>
             <ul>
-                <li><button onClick={handleButtonClick}>
+                <li><button onClick={() => handleClick('aboutUs')}>
                     Про нас
                 </button></li>
-                <li><button onClick={handleButtonClick}>
-                    Контакти
-                </button></li>
-                <li><button onClick={handleButtonClick}>
-                    Оплата та доставка
-                </button></li>
-                <li><button onClick={handleButtonClick}>
+                <li><button onClick={() => handleClick('questions')}>
                     Питання та відповіді
                 </button></li>
-                <li><button onClick={handleButtonClick}>
+                <li><button onClick={() => handleClick('conditions')}>
                     Умови використання
                 </button></li>
                 <li><button onClick={() => {
