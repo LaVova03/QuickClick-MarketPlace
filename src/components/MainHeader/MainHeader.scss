@@ -109,11 +109,7 @@ $white-color: #ffffff;
       width: 9em;
       min-width: 240px;
       transition: 0.2s;
-}
-    // img:hover {
-    //   width: 9.1em;
-    //   height: 100%;
-    // }
+    }
   }
   button:active {
     box-shadow: 0px 0px 5px 5px $second-color;
@@ -122,6 +118,7 @@ $white-color: #ffffff;
 
 .main__headre__center__log,
 .main__headre__center {
+  position: relative;
   display: flex;
   width: 47%;
   height: 60px;
@@ -146,7 +143,7 @@ $white-color: #ffffff;
       outline: none;
     }
   }
-  button {
+  #main_header_btn {
     position: relative;
     right: 50px;
     display: flex;
@@ -399,6 +396,29 @@ $white-color: #ffffff;
   }
   button:active {
     background-image: url("../../assets/mainHeader/log-click.png");
+  }
+}
+
+.main_header_list {
+  position: absolute;
+  z-index: 10;
+  padding: 10px 20px;
+  top: 100%;
+  left: 5%;
+  background: #ffffff;
+  height: max-content;
+  width: 60%;
+  border: 1px solid black;
+  li {
+    list-style: none;
+    button {
+      text-align: left;
+      border: 0;
+      height: max-content;
+      width: 100%;
+      cursor: pointer;
+      background-color: inherit;
+    }
   }
 }
 
