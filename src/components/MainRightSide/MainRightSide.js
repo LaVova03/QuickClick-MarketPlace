@@ -1,13 +1,6 @@
 import './MainRightSide.scss';
 import React, { useEffect, useState } from 'react';
 import PromotionsAdverts from '../Fetches/Stunneds/PromotionsAdverts';
-// import Img1 from '../../assets/mainRightSide/image 2.png';
-// import Img2 from '../../assets/mainRightSide/image 2 (1).png';
-// import Img3 from '../../assets/mainRightSide/image 2 (2).png';
-// import Img4 from '../../assets/mainRightSide/image 2 (3).png';
-// import Img5 from '../../assets/mainRightSide/image 2 (4).png';
-// import Img6 from '../../assets/mainRightSide/image 2 (5).png';
-// import Img7 from '../../assets/mainRightSide/image 2 (6).png';
 import GetIdImages from '../Fetches/Images/GetIdImages';
 import Camera from '../../assets/main__сards/camera.jpg';
 import { useNavigate } from 'react-router-dom';

@@ -2,7 +2,6 @@ import styles from './MainViewed.module.scss';
 import React, { useEffect, useState } from 'react';
 import ViewedAdverts from '../Fetches/Stunneds/ViewedAdverts';
 import { useDispatch, useSelector } from 'react-redux';
-import AllAdverts from '../Fetches/Stunneds/AllAdverts';
 import Camera from '../../assets/main__сards/camera.jpg';
 import { useNavigate } from 'react-router-dom';
 import GetIdImages from '../Fetches/Images/GetIdImages';
@@ -28,10 +27,6 @@ const MainViewed = () => {
             GetIdImages({ setPhoto, allIdCardRandom })
         }
     }, [viewed, dispatch, isFullImages, allIdCardRandom])
-
-    useEffect(() => {
-        AllAdverts({ dispatch });
-    }, [dispatch])
 
     useEffect(() => {
         if (viewed?.length > 0 && allIdCardRandom?.length === 0) {

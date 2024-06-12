@@ -1,7 +1,6 @@
 import styles from './MainRecommendations.module.scss';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import AllAdverts from '../Fetches/Stunneds/AllAdverts';
 import Camera from '../../assets/main__сards/camera.jpg';
 import { useNavigate } from 'react-router-dom';
 import RecomendationAdverts from '../Fetches/Stunneds/RecomendationAdverts';
@@ -30,10 +29,6 @@ const MainRecommendations = ({ isCard, isMain }) => {
     }, [recomendation, dispatch, allIdCardRandom])
 
     const randomItemsCard = recomendation.slice(0, 6);
-
-    useEffect(() => {
-        AllAdverts({ dispatch });
-    }, [dispatch])
 
     useEffect(() => {
         if (isCard && randomItemsCard && !data) {
