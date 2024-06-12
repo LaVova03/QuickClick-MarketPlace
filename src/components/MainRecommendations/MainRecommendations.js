@@ -13,7 +13,6 @@ const MainRecommendations = ({ isCard, isMain }) => {
     const navigate = useNavigate();
 
     const isAllAdverts = useSelector(state => state.myReducer.isAllAdverts);
-    // const isFullImages = useSelector(state => state.myReducer2?.isImages);
 
     const [isPhoto, setPhoto] = useState([]);
     const [allIndexCard, setAllIndexCard] = useState([]);

@@ -11,6 +11,9 @@ const FetchLogout = async () => {
             sessionStorage.removeItem('part');
             sessionStorage.removeItem('ruCategory');
             sessionStorage.removeItem('category_page');
+            sessionStorage.removeItem('location');
+            sessionStorage.removeItem('infoPage');
+
             localStorage.removeItem('setIdCard');
             localStorage.removeItem('whoIsIt');
             localStorage.removeItem('indexCard');

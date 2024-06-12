@@ -95,18 +95,7 @@ $price-color: #001004;
   line-height: 140%;
 }
 
-#main__stock__span3 {
-  color: $text-color;
-  font-family: Montserrat;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 140%;
-  text-decoration-line: line-through;
-  -moz-text-decoration-line: line-through;
-}
-
-.recom_img {
+.stock_img {
   width: 150px;
   height: 160px;
   background-color: inherit;

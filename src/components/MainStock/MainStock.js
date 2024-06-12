@@ -88,7 +88,7 @@ const MainStock = () => {
                     return (
                         <ul key={i}>
                             <li>
-                                <img className={styles.recom_img}
+                                <img className={styles.stock_img}
                                     src={isPhoto.length > 0 ? searchPhoto(el.id) : Camera} alt='logo' />
                             </li>
                             <li>
