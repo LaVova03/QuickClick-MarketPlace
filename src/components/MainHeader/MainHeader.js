@@ -34,7 +34,7 @@ const MainHeader = () => {
     }, [isLocalLogin]);
 
     useEffect(() => {
-        if (search && isAllAdverts.length > 0) {
+        if (search && isAllAdverts && isAllAdverts.length > 0) {
             const lowerCaseQuery = search.toLowerCase();
             const filtered = isAllAdverts.filter(advert =>
                 advert.title.toLowerCase().includes(lowerCaseQuery)
@@ -79,6 +79,7 @@ const MainHeader = () => {
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
+        sessionStorage.setItem('title', e.target.value)
     };
 
     const handleClick = (e) => {
@@ -112,7 +113,11 @@ const MainHeader = () => {
                         value={search}
                         onChange={handleSearchChange}
                     />
-                    <button id='main_header_btn'>
+                    <button id='main_header_btn'
+                        onClick={() => {
+                            sessionStorage.setItem('search', search);
+                            navigate('/show_category')
+                        }} >
                         <span>Пошук <div></div></span>
                     </button>
                     {filteredAdverts.length > 0 &&

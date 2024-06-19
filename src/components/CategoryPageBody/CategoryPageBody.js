@@ -5,10 +5,13 @@ import Camera from '../../assets/main__сards/camera.jpg';
 import GetIdImages from '../Fetches/Images/GetIdImages';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import InputFindAdverts from '../Fetches/Stunneds/InputFindAdverts';
 
 const CategoryPageBody = () => {
     const isCategoryLocal = sessionStorage.getItem('category_page');
     const ruCategory = sessionStorage.getItem('ruCategory');
+    const search = sessionStorage.getItem('search');
+
     const isAllAdverts = useSelector(state => state.myReducer.isAllAdverts);
 
     const navigate = useNavigate();
@@ -17,6 +20,10 @@ const CategoryPageBody = () => {
     const [category, setCategory] = useState('');
     const [isPhoto, setPhoto] = useState([]);
     const [allIdCardRandom, setAllIdCardRandom] = useState([]);
+
+    useEffect(() => {
+        InputFindAdverts()
+    }, [])
 
     useEffect(() => {
         if (isCategoryLocal && !category) {
@@ -59,7 +66,14 @@ const CategoryPageBody = () => {
 
     return (
         <div className={styles.category_page_wrap}>
-            <label>{ruCategory}</label><br />
+            <label>
+                {search ?
+                    <>
+                        <button onClick={() => navigate(-1)}></button>Результати пошуку
+                    </>
+                    : ruCategory}
+            </label>
+            <br />
             {categoryAdverts.length === 0 ?
                 <div className={styles.category_page_empty}>
                     <label>Тут поки що не має оголошень</label>

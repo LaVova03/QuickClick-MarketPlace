@@ -13,6 +13,7 @@ const FetchLogout = async () => {
             sessionStorage.removeItem('category_page');
             sessionStorage.removeItem('location');
             sessionStorage.removeItem('infoPage');
+            sessionStorage.removeItem('search');
 
             localStorage.removeItem('setIdCard');
             localStorage.removeItem('whoIsIt');

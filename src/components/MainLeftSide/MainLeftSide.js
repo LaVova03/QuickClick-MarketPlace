@@ -121,6 +121,7 @@ const MainLeftSide = ({ isCategory, setInputCategory }) => {
     }
 
     const handleCategoryClick = (latinCategory) => {
+        sessionStorage.removeItem('search');
         sessionStorage.setItem('category_page', latinCategory);
         if (!isCategory) {
             navigate('/show_category');
